@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Shield, CheckCircle, Bird, Home, Sparkles, Clock } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
+import { services as serviceImages } from '../assets/images';
+import HeroCarousel from '../components/HeroCarousel';
 
 export default function PigeonPage() {
   useEffect(() => {
@@ -150,8 +152,17 @@ export default function PigeonPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-green-600 to-green-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <section className="relative bg-gradient-to-br from-green-600 to-green-800 text-white overflow-hidden">
+        {/* Hero Carousel */}
+        <HeroCarousel
+          images={[serviceImages.pigeon.main, ...serviceImages.pigeon.gallery]}
+          altText="Pigeon Safety Nets Installation"
+          autoPlayInterval={5000}
+          overlayOpacity={0.2}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600/90 to-green-800/90"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Best Pigeon Safety Nets in Bangalore
@@ -274,6 +285,44 @@ export default function PigeonPage() {
                 <p className="text-gray-600 text-sm leading-relaxed">{tip.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Our Pigeon Net Installations
+            </h2>
+            <p className="text-xl text-gray-600">
+              Professional installations keeping balconies bird-free
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {serviceImages.pigeon.gallery && serviceImages.pigeon.gallery.length > 0 ? (
+              serviceImages.pigeon.gallery.map((image, index) => (
+                <div key={index} className="relative overflow-hidden rounded-xl shadow-lg group">
+                  <img 
+                    src={image} 
+                    alt={`Pigeon Safety Net Installation ${index + 1}`} 
+                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                    <p className="text-white font-semibold p-4">Bird-Free Installation #{index + 1}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full">
+                <img 
+                  src={serviceImages.pigeon.main} 
+                  alt="Pigeon Safety Net Installation" 
+                  className="w-full h-96 object-cover rounded-xl shadow-lg"
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>

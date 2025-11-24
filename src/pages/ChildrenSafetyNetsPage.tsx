@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Shield, CheckCircle, Heart, Home, Baby, Lock } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
+import { services as serviceImages } from '../assets/images';
+import HeroCarousel from '../components/HeroCarousel';
 
 export default function ChildrenSafetyNetsPage() {
   useEffect(() => {
@@ -127,8 +129,17 @@ export default function ChildrenSafetyNetsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-pink-600 to-purple-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <section className="relative bg-gradient-to-br from-pink-600 to-purple-800 text-white overflow-hidden">
+        {/* Hero Carousel */}
+        <HeroCarousel
+          images={[serviceImages.children.main, ...serviceImages.children.gallery]}
+          altText="Children Safety Nets Installation"
+          autoPlayInterval={5000}
+          overlayOpacity={0.2}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-600/90 to-purple-800/90"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Children Safety Nets in Bangalore

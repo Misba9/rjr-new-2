@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { Shield, Award, Users, Clock, CheckCircle, Phone, MapPin, Star } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
+import { about } from '../assets/images';
+import HeroCarousel from '../components/HeroCarousel';
 
 export default function AboutUsPage() {
   useEffect(() => {
@@ -93,8 +95,17 @@ export default function AboutUsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20 overflow-hidden">
+        {/* Hero Carousel */}
+        <HeroCarousel
+          images={[about.main, about.alternative]}
+          altText="RJR Safety Nets Company"
+          autoPlayInterval={6000}
+          overlayOpacity={0.15}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-blue-800/90"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               About RJR Safety Nets
@@ -123,18 +134,27 @@ export default function AboutUsPage() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
-            <div className="text-lg text-gray-700 leading-relaxed space-y-4">
-              <p>
-                RJR Safety Nets was founded with a simple mission: to provide the highest quality safety solutions to homes and businesses across Bangalore. What started as a small operation has grown into one of the most trusted names in safety net installations.
-              </p>
-              <p>
-                We understand that safety is not just about installing nets - it's about peace of mind. That's why we go the extra mile to ensure every installation is perfect, every customer is satisfied, and every product meets our rigorous quality standards.
-              </p>
-              <p>
-                Today, with over 1000 happy customers and countless successful installations, we continue to set the standard for safety net solutions in Bangalore. Our commitment to quality, professionalism, and customer satisfaction remains unwavering.
-              </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
+              <div className="text-lg text-gray-700 leading-relaxed space-y-4">
+                <p>
+                  RJR Safety Nets was founded with a simple mission: to provide the highest quality safety solutions to homes and businesses across Bangalore. What started as a small operation has grown into one of the most trusted names in safety net installations.
+                </p>
+                <p>
+                  We understand that safety is not just about installing nets - it's about peace of mind. That's why we go the extra mile to ensure every installation is perfect, every customer is satisfied, and every product meets our rigorous quality standards.
+                </p>
+                <p>
+                  Today, with over 1000 happy customers and countless successful installations, we continue to set the standard for safety net solutions in Bangalore. Our commitment to quality, professionalism, and customer satisfaction remains unwavering.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-xl overflow-hidden shadow-2xl">
+              <img 
+                src={about.alternative || about.main} 
+                alt="RJR Safety Nets Team and Services" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>

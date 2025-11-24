@@ -3,6 +3,7 @@ import { Shield, Award, Clock, Users, Star, ChevronRight } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
 import { services as serviceImages } from '../assets/images';
+import HeroCarousel from '../components/HeroCarousel';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -184,8 +185,25 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white overflow-hidden">
+        {/* Hero Carousel */}
+        <HeroCarousel
+          images={[
+            serviceImages.balcony.main,
+            serviceImages.pigeon.main,
+            serviceImages.children.main,
+            serviceImages.monkey.main,
+            serviceImages.construction.main,
+            serviceImages.sports.main,
+          ]}
+          altText="Safety Nets Installation"
+          autoPlayInterval={4000}
+          overlayOpacity={0.2}
+        />
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-blue-800/90"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Welcome to RJR Safety Nets in Bangalore

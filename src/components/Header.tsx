@@ -1,5 +1,6 @@
 import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { logos } from '../assets/images';
 
 interface HeaderProps {
   currentPage: string;
@@ -38,9 +39,16 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
-            <h1 className="text-xl sm:text-2xl font-bold text-blue-600">RJR Safety Nets</h1>
-            <p className="text-xs text-gray-600">Bangalore</p>
+          <div className="flex-shrink-0 cursor-pointer flex items-center gap-3" onClick={() => onNavigate('home')}>
+            <img 
+              src={logos.navbar} 
+              alt="RJR Safety Nets Logo" 
+              className="h-10 w-auto"
+            />
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-blue-600">RJR Safety Nets</h1>
+              <p className="text-xs text-gray-600">Bangalore</p>
+            </div>
           </div>
 
           <div className="hidden md:flex items-center space-x-8">

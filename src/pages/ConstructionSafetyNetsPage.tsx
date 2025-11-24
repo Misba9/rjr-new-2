@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
-import { Shield, CheckCircle, HardHat, Building, AlertTriangle, Users } from 'lucide-react';
+import { Shield, CheckCircle, HardHat, Building2, Users, AlertTriangle } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
+import { services as serviceImages } from '../assets/images';
+import HeroCarousel from '../components/HeroCarousel';
 
 export default function ConstructionSafetyNetsPage() {
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function ConstructionSafetyNetsPage() {
       description: 'Prevents fatal falls and protects workers at height',
     },
     {
-      icon: Building,
+      icon: Building2,
       title: 'Site Compliance',
       description: 'Meets OSHA and local safety regulations',
     },
@@ -154,8 +156,17 @@ export default function ConstructionSafetyNetsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-orange-600 to-red-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <section className="relative bg-gradient-to-br from-gray-700 to-gray-900 text-white overflow-hidden">
+        {/* Hero Carousel */}
+        <HeroCarousel
+          images={[serviceImages.construction.main, ...serviceImages.construction.gallery]}
+          altText="Construction Safety Nets Installation"
+          autoPlayInterval={5000}
+          overlayOpacity={0.2}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-700/90 to-gray-900/90"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Construction Safety Nets in Bangalore
