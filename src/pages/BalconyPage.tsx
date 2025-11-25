@@ -8,22 +8,49 @@ import HeroCarousel from '../components/HeroCarousel';
 export default function BalconyPage() {
   useEffect(() => {
     updatePageMeta({
-      title: 'Best Balcony Safety Nets in Bangalore | RJR Safety Nets Expert',
-      description: 'Protect and keep your family with strong balcony safety nets in Bangalore. RJR Safety Nets ensures safe, long-lasting solutions for apartments and homes. Call us today.',
-      keywords: 'Balcony Safety Nets Bangalore, Balcony Protection Net, Balcony Netting, Balcony Safety Nets Price, Balcony Nets Bangalore',
+      title: 'Balcony Safety Nets in Bangalore | Expert Installation - RJR Safety Nets',
+      description: 'Professional balcony safety net installation in Bangalore. UV-stabilized, weather-resistant, invisible design. 5+ years warranty. Free inspection. Call +91 7075051812 for quote.',
+      keywords: 'Balcony Safety Nets Bangalore, Balcony Protection Net, Balcony Netting, Balcony Safety Nets Price, Balcony Nets Installation Bangalore, Invisible Balcony Nets, Apartment Safety Nets',
+      canonical: 'https://rjrsafetynets.com/balcony',
+      ogTitle: 'Balcony Safety Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Professional balcony safety net installation. UV-stabilized, invisible design. 5+ years warranty.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': 'https://rjrsafetynets.com/balcony#service',
       serviceType: 'Balcony Safety Nets Installation',
+      name: 'Balcony Safety Nets Installation Service',
+      description: 'Professional balcony safety net installation services in Bangalore. UV-stabilized, weather-resistant HDPE nets with invisible design.',
       provider: {
         '@type': 'LocalBusiness',
+        '@id': 'https://rjrsafetynets.com/#organization',
         name: 'RJR Safety Nets',
-        telephone: '+91-7075051812',
-        areaServed: 'Bangalore',
+        telephone: '+917075051812',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Bengaluru',
+          addressRegion: 'Karnataka',
+          addressCountry: 'IN',
+        },
+        areaServed: {
+          '@type': 'City',
+          name: 'Bangalore',
+        },
       },
-      description: 'Professional balcony safety net installation services in Bangalore',
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/InStock',
+        priceRange: '$$',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: '500',
+      },
     });
   }, []);
 
@@ -110,15 +137,14 @@ export default function BalconyPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white overflow-hidden">
+      <section className="relative text-white overflow-hidden">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.balcony.main, ...serviceImages.balcony.gallery]}
           altText="Balcony Safety Nets Installation"
           autoPlayInterval={5000}
-          overlayOpacity={0.2}
+          overlayOpacity={0.3}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-blue-800/90"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">

@@ -156,15 +156,14 @@ export default function ConstructionSafetyNetsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-gray-700 to-gray-900 text-white overflow-hidden">
+      <section className="relative text-white overflow-hidden">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.construction.main, ...serviceImages.construction.gallery]}
           altText="Construction Safety Nets Installation"
           autoPlayInterval={5000}
-          overlayOpacity={0.2}
+          overlayOpacity={0.3}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-700/90 to-gray-900/90"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">

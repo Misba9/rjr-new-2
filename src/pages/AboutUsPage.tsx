@@ -95,15 +95,14 @@ export default function AboutUsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20 overflow-hidden">
+      <section className="relative text-white py-20 overflow-hidden">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[about.main, about.alternative]}
           altText="RJR Safety Nets Company"
           autoPlayInterval={6000}
-          overlayOpacity={0.15}
+          overlayOpacity={0.3}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-blue-800/90"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">

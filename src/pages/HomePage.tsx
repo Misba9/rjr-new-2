@@ -3,7 +3,7 @@ import { Shield, Award, Clock, Users, Star, ChevronRight } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
 import { services as serviceImages } from '../assets/images';
-import HeroCarousel from '../components/HeroCarousel';
+import HeroSlider from '../components/HeroSlider';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -12,25 +12,63 @@ interface HomePageProps {
 export default function HomePage({ onNavigate }: HomePageProps) {
   useEffect(() => {
     updatePageMeta({
-      title: 'Best Safety Nets in Bangalore | RJR Safety Nets Services',
-      description: 'Looking for the best safety nets in Bangalore? RJR Safety Nets offers quality nets for balconies, birds, children, and more. Reliable service at affordable rates. Call now +91 7075051812.',
-      keywords: 'Safety Nets Bangalore, Safety Catch Net Bangalore, Safety Nets Price Bangalore, Safety Net Protection in Bangalore, Safety Net Dealers in Bangalore, Safety Net Suppliers, Safety Nets for Sale',
+      title: 'Best Safety Nets in Bangalore | RJR Safety Nets - 5+ Years Warranty',
+      description: 'Professional safety net installation in Bangalore. Balcony, pigeon, children, construction safety nets. 1000+ happy customers. Free inspection. Call +91 7075051812 for expert service.',
+      keywords: 'Safety Nets Bangalore, Balcony Safety Nets Bangalore, Pigeon Safety Nets, Children Safety Nets, Construction Safety Nets, Safety Net Installation, Best Safety Nets Bangalore, Safety Net Price',
+      canonical: 'https://rjrsafetynets.com/',
+      ogTitle: 'Best Safety Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Professional safety net installation services in Bangalore. 1000+ satisfied customers. 5+ years warranty. Expert installation.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
+      '@id': 'https://rjrsafetynets.com/#organization',
       name: 'RJR Safety Nets',
-      description: 'Professional safety net installation services in Bangalore',
-      telephone: '+91-7075051812',
+      image: 'https://rjrsafetynets.com/logo.png',
+      description: 'Professional safety net installation services in Bangalore for balconies, pigeon control, children safety, construction sites, and sports facilities.',
+      url: 'https://rjrsafetynets.com',
+      telephone: '+917075051812',
+      priceRange: '$$',
       address: {
         '@type': 'PostalAddress',
+        streetAddress: 'Bangalore',
         addressLocality: 'Bengaluru',
         addressRegion: 'Karnataka',
+        postalCode: '560001',
         addressCountry: 'IN',
       },
-      areaServed: 'Bangalore',
-      priceRange: '$$',
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 12.9716,
+        longitude: 77.5946,
+      },
+      areaServed: [
+        {
+          '@type': 'City',
+          name: 'Bangalore',
+        },
+      ],
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '08:00',
+          closes: '20:00',
+        },
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: '1000',
+      },
+      sameAs: [
+        'https://www.facebook.com/rjrsafetynets',
+        'https://www.instagram.com/rjrsafetynets',
+        'https://twitter.com/rjrsafetynets',
+      ],
     });
   }, []);
 
@@ -185,53 +223,78 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white overflow-hidden">
-        {/* Hero Carousel */}
-        <HeroCarousel
-          images={[
-            serviceImages.balcony.main,
-            serviceImages.pigeon.main,
-            serviceImages.children.main,
-            serviceImages.monkey.main,
-            serviceImages.construction.main,
-            serviceImages.sports.main,
-          ]}
-          altText="Safety Nets Installation"
-          autoPlayInterval={4000}
-          overlayOpacity={0.2}
-        />
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-blue-800/90"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <HeroSlider
+        slides={[
+          {
+            image: serviceImages.balcony.main,
+            title: 'Balcony Safety Nets in Bangalore',
+            subtitle: 'Premium Protection for Your Balconies',
+            description: 'Protect your family with high-quality, invisible balcony safety nets. Professional installation with 5+ years warranty across all Bangalore areas.',
+          },
+          {
+            image: serviceImages.pigeon.main,
+            title: 'Pigeon Safety Nets in Bangalore',
+            subtitle: 'Keep Your Balconies Clean & Bird-Free',
+            description: 'Effective and humane pigeon control solutions. Say goodbye to bird droppings and nesting with our premium anti-bird nets.',
+          },
+          {
+            image: serviceImages.children.main,
+            title: 'Children Safety Nets in Bangalore',
+            subtitle: 'Complete Protection for Your Little Ones',
+            description: 'Child-proof safety nets designed for balconies, windows, and stairs. Give your children the freedom to play safely at home.',
+          },
+          {
+            image: serviceImages.monkey.main,
+            title: 'Monkey Safety Nets in Bangalore',
+            subtitle: 'Effective Protection from Monkey Menace',
+            description: 'Specialized anti-monkey netting solutions to keep monkeys away while ensuring no harm to animals. Protect your property and food storage areas.',
+          },
+          {
+            image: serviceImages.construction.main,
+            title: 'Construction Safety Nets in Bangalore',
+            subtitle: 'Industrial-Grade Safety for Construction Sites',
+            description: 'OSHA-compliant construction safety nets for builders and contractors. Protect workers and comply with safety regulations.',
+          },
+          {
+            image: serviceImages.sports.main,
+            title: 'Sports Practice Nets in Bangalore',
+            subtitle: 'Professional Netting for Sports Facilities',
+            description: 'High-quality sports practice nets for cricket, tennis, badminton, and more. Create dedicated practice spaces for homes, schools, and clubs.',
+          },
+        ]}
+        autoPlayInterval={5000}
+        overlayOpacity={0.3}
+      >
+        {(currentSlide) => (
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Welcome to RJR Safety Nets in Bangalore
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Premium Safety Net Products & Professional Installation Services
-            </p>
-            <p className="text-lg mb-8 leading-relaxed">
-              Protect your loved ones with our comprehensive range of safety net products including balcony nets, pigeon nets, children safety nets, invisible grills, and more. Expert installation across Bangalore.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="tel:+917075051812"
-                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors text-center"
-              >
-                Call Now: +91 7075051812
-              </a>
-              <button
-                onClick={() => onNavigate('contact')}
-                className="bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-400 transition-colors"
-              >
-                Get Free Quote
-              </button>
+            <div className="animate-fadeIn">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                {currentSlide.title}
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 text-blue-100">
+                {currentSlide.subtitle}
+              </p>
+              <p className="text-lg mb-8 leading-relaxed">
+                {currentSlide.description}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="tel:+917075051812"
+                  className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors text-center"
+                >
+                  Call Now: +91 7075051812
+                </a>
+                <button
+                  onClick={() => onNavigate('contact')}
+                  className="bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-400 transition-colors"
+                >
+                  Get Free Quote
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
-      </section>
+        )}
+      </HeroSlider>
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

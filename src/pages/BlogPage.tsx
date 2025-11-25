@@ -121,14 +121,14 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-blue-600 to-indigo-800 text-white py-20">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <BookOpen className="mx-auto mb-6" size={64} />
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
               RJR Safety Nets Blog
             </h1>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl text-gray-600">
               Expert advice, installation guides, and safety tips from Bangalore's leading safety net specialists
             </p>
           </div>

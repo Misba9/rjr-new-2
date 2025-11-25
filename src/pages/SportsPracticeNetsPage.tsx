@@ -156,15 +156,14 @@ export default function SportsPracticeNetsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-indigo-600 to-blue-800 text-white overflow-hidden">
+      <section className="relative text-white overflow-hidden">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.sports.main, ...serviceImages.sports.gallery]}
           altText="Sports Practice Nets Installation"
           autoPlayInterval={5000}
-          overlayOpacity={0.2}
+          overlayOpacity={0.3}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/90 to-blue-800/90"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">

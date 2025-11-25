@@ -57,7 +57,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                 {item.dropdown ? (
                   // Attach hover handlers to the wrapper so moving between button & panel doesn't close it
                   <div
-                    className={`flex items-center text-sm font-medium transition-colors ${
+                    className={`flex items-center text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 ${
                       isServicePage ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                     }`}
                     onMouseEnter={() => setDesktopServicesOpen(true)}
@@ -71,14 +71,19 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                       className="cursor-pointer flex items-center"
                     >
                       <span>{item.name}</span>
-                      <ChevronDown size={16} className="ml-1" />
+                      <ChevronDown 
+                        size={16} 
+                        className={`ml-1 transition-transform duration-300 ease-in-out ${
+                          desktopServicesOpen ? 'rotate-180' : ''
+                        }`} 
+                      />
                     </button>
                   </div>
                 ) : (
                   <button
                     type="button"
                     onClick={() => onNavigate(item.href!)}
-                    className={`text-sm font-medium transition-colors ${
+                    className={`text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 ${
                       currentPage === item.href
                         ? 'text-blue-600 border-b-2 border-blue-600'
                         : 'text-gray-700 hover:text-blue-600'
@@ -90,37 +95,44 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
 
                 {item.dropdown && desktopServicesOpen && (
                   <div
-                    className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50"
+                    className="absolute left-0 mt-2 w-64 bg-white shadow-2xl rounded-lg py-3 z-50 opacity-0 translate-y-2 animate-fadeInDown"
                     onMouseEnter={() => setDesktopServicesOpen(true)}
                     onMouseLeave={() => setDesktopServicesOpen(false)}
                     role="menu"
                     aria-label="Services"
                   >
-                    {services.map((service) => (
-                      <button
-                        key={service.name}
-                        type="button"
-                        onClick={() => {
-                          onNavigate(service.href);
-                          setDesktopServicesOpen(false);
-                        }}
-                        className={`block w-full text-left px-4 py-2 text-sm ${
-                          currentPage === service.href ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'
-                        }`}
-                      >
-                        {service.name}
-                      </button>
-                    ))}
+                    <div className="grid grid-cols-1 gap-1 max-h-96 overflow-y-auto">
+                      {services.map((service) => (
+                        <button
+                          key={service.name}
+                          type="button"
+                          onClick={() => {
+                            onNavigate(service.href);
+                            setDesktopServicesOpen(false);
+                          }}
+                          className={`block w-full text-left px-5 py-3 text-sm transition-all duration-200 ease-in-out hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 ${
+                            currentPage === service.href 
+                              ? 'text-blue-600 bg-blue-50 font-medium' 
+                              : 'text-gray-700 hover:text-blue-600'
+                          }`}
+                        >
+                          <span className="flex items-center">
+                            <span className="mr-2">•</span>
+                            {service.name}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
             ))}
             <a
               href="tel:+917075051812"
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl animate-pulse-slow"
             >
-              <Phone size={16} />
-              <span className="text-sm font-medium">Call Now</span>
+              <Phone size={18} className="animate-bounce" />
+              <span className="text-sm font-semibold">Call Now</span>
             </a>
           </div>
 
@@ -136,16 +148,16 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t">
+          <div className="md:hidden py-4 border-t animate-slideDown">
             {navigation.map((item) => (
               <div key={item.name}>
                 {item.dropdown ? (
                   <>
                     <button
                       type="button"
-                      className={`flex items-center justify-between w-full text-left px-4 py-2 text-sm font-medium ${
+                      className={`flex items-center justify-between w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 ease-in-out ${
                         isServicePage 
-                          ? 'text-blue-600' 
+                          ? 'text-blue-600 bg-blue-50' 
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}
                       onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
@@ -153,10 +165,15 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                       aria-expanded={mobileServicesOpen}
                     >
                       <span>{item.name}</span>
-                      <ChevronDown size={16} className={`transform transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown 
+                        size={18} 
+                        className={`transform transition-transform duration-300 ease-in-out ${
+                          mobileServicesOpen ? 'rotate-180' : ''
+                        }`} 
+                      />
                     </button>
                     {mobileServicesOpen && (
-                      <div className="pl-6 py-2 bg-gray-50" role="menu" aria-label="Services">
+                      <div className="pl-6 py-2 bg-gray-50 animate-slideDown" role="menu" aria-label="Services">
                         {services.map((service) => (
                           <button
                             key={service.name}
@@ -166,9 +183,9 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                               setMobileMenuOpen(false);
                               setMobileServicesOpen(false);
                             }}
-                            className={`block w-full text-left px-4 py-2 text-sm ${
+                            className={`block w-full text-left px-4 py-3 text-sm transition-all duration-200 ease-in-out ${
                               currentPage === service.href
-                                ? 'text-blue-600 bg-blue-50'
+                                ? 'text-blue-600 bg-blue-50 font-medium'
                                 : 'text-gray-700 hover:bg-gray-100'
                             }`}
                           >
@@ -185,7 +202,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                       onNavigate(item.href!);
                       setMobileMenuOpen(false);
                     }}
-                    className={`block w-full text-left px-4 py-2 text-sm font-medium ${
+                    className={`block w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 ease-in-out ${
                       currentPage === item.href
                         ? 'text-blue-600 bg-blue-50'
                         : 'text-gray-700 hover:bg-gray-50'
@@ -198,10 +215,10 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             ))}
             <a
               href="tel:+917075051812"
-              className="flex items-center gap-2 mx-4 mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors justify-center"
+              className="flex items-center gap-2 mx-4 mt-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl animate-pulse-slow justify-center"
             >
-              <Phone size={16} />
-              <span className="text-sm font-medium">Call Now</span>
+              <Phone size={18} className="animate-bounce" />
+              <span className="text-base font-semibold">Call Now</span>
             </a>
           </div>
         )}

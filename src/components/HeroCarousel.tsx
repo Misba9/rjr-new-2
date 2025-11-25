@@ -9,6 +9,8 @@ interface HeroCarouselProps {
   showIndicators?: boolean;
   height?: string;
   overlayOpacity?: number;
+  minHeight?: string;
+  priority?: boolean;
 }
 
 export default function HeroCarousel({
@@ -19,6 +21,8 @@ export default function HeroCarousel({
   showIndicators = true,
   height = 'h-full',
   overlayOpacity = 0.2,
+  minHeight = 'min-h-[500px] md:min-h-[600px] lg:min-h-[700px]',
+  priority = true,
 }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -83,11 +87,19 @@ export default function HeroCarousel({
   // Single image - no carousel needed
   if (images.length === 1) {
     return (
-      <div className={`absolute inset-0 opacity-${Math.round(overlayOpacity * 100)}`}>
+      <div className={'absolute inset-0 ' + minHeight} style={{ opacity: overlayOpacity }}>
         <img
           src={images[0]}
           alt={altText}
-          className={`w-full ${height} object-cover`}
+          className={'w-full ' + height + ' object-cover object-center'}
+          style={{
+            imageRendering: 'crisp-edges',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+          } as React.CSSProperties}
+          loading='eager'
+          fetchPriority='high'
+          decoding='async'
         />
       </div>
     );
@@ -95,26 +107,32 @@ export default function HeroCarousel({
 
   return (
     <div
-      className="absolute inset-0 overflow-hidden"
+      className={'absolute inset-0 overflow-hidden ' + minHeight}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       {/* Images */}
-      <div className="relative w-full h-full">
+      <div className='relative w-full h-full'>
         {images.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-              index === currentIndex ? 'opacity-20' : 'opacity-0'
-            }`}
+            className='absolute inset-0 transition-opacity duration-700 ease-in-out'
             style={{ opacity: index === currentIndex ? overlayOpacity : 0 }}
           >
             <img
               src={image}
-              alt={`${altText} ${index + 1}`}
-              className={`w-full ${height} object-cover`}
-              loading={index === 0 ? 'eager' : 'lazy'}
+              alt={' '}
+              className={'w-full ' + height + ' object-cover object-center'}
+              style={{
+                imageRendering: 'auto',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)',
+              } as React.CSSProperties}
+              loading={index === 0 && priority ? 'eager' : 'lazy'}
+              fetchPriority={index === 0 && priority ? 'high' : 'low'}
+              decoding='async'
             />
           </div>
         ))}
@@ -124,18 +142,18 @@ export default function HeroCarousel({
       {showControls && images.length > 1 && (
         <>
           <button
-            type="button"
+            type='button'
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full backdrop-blur-sm transition-all z-10 focus:outline-none focus:ring-2 focus:ring-white"
-            aria-label="Previous image"
+            className='absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full backdrop-blur-sm transition-all z-10 focus:outline-none focus:ring-2 focus:ring-white'
+            aria-label='Previous image'
           >
             <ChevronLeft size={24} />
           </button>
           <button
-            type="button"
+            type='button'
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full backdrop-blur-sm transition-all z-10 focus:outline-none focus:ring-2 focus:ring-white"
-            aria-label="Next image"
+            className='absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full backdrop-blur-sm transition-all z-10 focus:outline-none focus:ring-2 focus:ring-white'
+            aria-label='Next image'
           >
             <ChevronRight size={24} />
           </button>
@@ -144,18 +162,14 @@ export default function HeroCarousel({
 
       {/* Indicators */}
       {showIndicators && images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <div className='absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10'>
           {images.map((_, index) => (
             <button
               key={index}
-              type="button"
+              type='button'
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentIndex
-                  ? 'bg-white w-8'
-                  : 'bg-white/50 hover:bg-white/75'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
+              className={'w-2 h-2 rounded-full transition-all ' + (index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75')}
+              aria-label={'Go to slide '}
             />
           ))}
         </div>

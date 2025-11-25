@@ -127,16 +127,16 @@ export default function ClothHangerPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-teal-600 to-cyan-800 text-white">
+      <section className="py-20 md:py-32 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
               Cloth Hanger Nets in Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-teal-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-teal-600 leading-relaxed">
               Safe and convenient cloth drying solutions for your balcony
             </p>
-            <p className="text-lg mb-8 leading-relaxed">
+            <p className="text-lg mb-8 leading-relaxed text-gray-700">
               RJR Safety Nets provides premium cloth hanger netting systems that prevent clothes from falling while ensuring efficient drying with maximum sun and air exposure.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">

@@ -144,16 +144,16 @@ export default function InvisibleGrillsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-indigo-600 to-purple-800 text-white">
+      <section className="py-20 md:py-32 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
               Invisible Grills in Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-indigo-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-indigo-600 leading-relaxed">
               Modern safety solutions that maintain your view and enhance aesthetics
             </p>
-            <p className="text-lg mb-8 leading-relaxed">
+            <p className="text-lg mb-8 leading-relaxed text-gray-700">
               RJR Safety Nets provides premium invisible grill installations using marine-grade stainless steel. Enjoy complete safety for your family while preserving unobstructed views and natural ventilation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
