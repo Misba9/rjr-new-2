@@ -11,7 +11,7 @@ export default function BalconyPage() {
       title: 'Balcony Safety Nets in Bangalore | Expert Installation - RJR Safety Nets',
       description: 'Professional balcony safety net installation in Bangalore. UV-stabilized, weather-resistant, invisible design. 5+ years warranty. Free inspection. Call +91 7075051812 for quote.',
       keywords: 'Balcony Safety Nets Bangalore, Balcony Protection Net, Balcony Netting, Balcony Safety Nets Price, Balcony Nets Installation Bangalore, Invisible Balcony Nets, Apartment Safety Nets',
-      canonical: 'https://rjrsafetynets.com/balcony',
+      canonical: 'https://www.rjrsafetynets.in/balcony',
       ogTitle: 'Balcony Safety Nets in Bangalore | RJR Safety Nets',
       ogDescription: 'Professional balcony safety net installation. UV-stabilized, invisible design. 5+ years warranty.',
       ogType: 'website',
@@ -21,13 +21,13 @@ export default function BalconyPage() {
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
-      '@id': 'https://rjrsafetynets.com/balcony#service',
+      '@id': 'https://www.rjrsafetynets.in/balcony#service',
       serviceType: 'Balcony Safety Nets Installation',
       name: 'Balcony Safety Nets Installation Service',
       description: 'Professional balcony safety net installation services in Bangalore. UV-stabilized, weather-resistant HDPE nets with invisible design.',
       provider: {
         '@type': 'LocalBusiness',
-        '@id': 'https://rjrsafetynets.com/#organization',
+        '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: '+917075051812',
         address: {
@@ -52,6 +52,14 @@ export default function BalconyPage() {
         reviewCount: '500',
       },
     });
+
+    // Preload LCP hero image for faster first paint
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.balcony.main;
+    (preloadLink as any).fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
   }, []);
 
   const benefits = [
@@ -134,6 +142,18 @@ export default function BalconyPage() {
       answer: 'Yes, we provide balcony safety net installation services across all areas of Bangalore.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -245,8 +265,11 @@ export default function BalconyPage() {
                 <div key={index} className="relative overflow-hidden rounded-xl shadow-lg group">
                   <img 
                     src={image} 
-                    alt={`Balcony Safety Net Installation ${index + 1}`} 
+                    alt={`Balcony Safety Net Installation in Bangalore - Project ${index + 1}`} 
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                    decoding="async"
+                    style={{ aspectRatio: '4/3' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <p className="text-white font-semibold p-4">Professional Installation #{index + 1}</p>
@@ -257,8 +280,11 @@ export default function BalconyPage() {
               <div className="col-span-full">
                 <img 
                   src={serviceImages.balcony.main} 
-                  alt="Balcony Safety Net Installation" 
+                  alt="Professional Balcony Safety Net Installation in Bangalore" 
                   className="w-full h-96 object-cover rounded-xl shadow-lg"
+                  loading="lazy"
+                  decoding="async"
+                  style={{ aspectRatio: '16/9' }}
                 />
               </div>
             )}

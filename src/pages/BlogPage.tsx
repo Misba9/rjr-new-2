@@ -18,6 +18,11 @@ export default function BlogPage() {
       title: 'Safety Nets Blog - Tips, Guides & News | RJR Safety Nets',
       description: 'Read expert articles, installation guides, and safety tips from RJR Safety Nets. Stay informed about safety net solutions in Bangalore.',
       keywords: 'Safety Nets Blog, Safety Tips Bangalore, Installation Guides, Safety Net Articles',
+      canonical: 'https://www.rjrsafetynets.in/blog',
+      ogTitle: 'RJR Safety Nets Blog | Tips, Guides & Updates',
+      ogDescription: 'Expert articles on balcony nets, pigeon control, children safety, sports and construction netting in Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({

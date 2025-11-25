@@ -9,14 +9,21 @@ export default function ClothHangerPage() {
       title: 'Cloth Hanger Nets in Bangalore | Balcony Cloth Drying Nets',
       description: 'Install premium cloth hanger nets in Bangalore for safe and convenient cloth drying. RJR Safety Nets provides durable balcony cloth drying solutions.',
       keywords: 'Cloth Hanger Nets Bangalore, Balcony Cloth Drying Nets, Clothes Drying Nets, Cloth Hanger Safety Nets',
+      canonical: 'https://www.rjrsafetynets.in/cloth-hanger',
+      ogTitle: 'Cloth Hanger Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Safe, convenient balcony cloth drying nets. Custom solutions with quick installation in Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': 'https://www.rjrsafetynets.in/cloth-hanger#service',
       serviceType: 'Cloth Hanger Nets Installation',
       provider: {
         '@type': 'LocalBusiness',
+        '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: '+91-7075051812',
         areaServed: 'Bangalore',
@@ -124,6 +131,18 @@ export default function ClothHangerPage() {
       answer: 'Minimal maintenance is needed. Occasional cleaning with water is sufficient to keep the nets in good condition.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">

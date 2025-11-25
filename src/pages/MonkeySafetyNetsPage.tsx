@@ -11,6 +11,11 @@ export default function MonkeySafetyNetsPage() {
       title: 'Monkey Safety Nets in Bangalore | Anti Monkey Nets',
       description: 'Protect your property from monkey menace with durable monkey safety nets in Bangalore. RJR Safety Nets offers effective anti-monkey netting solutions for homes and businesses.',
       keywords: 'Monkey Safety Nets Bangalore, Anti Monkey Nets, Monkey Protection Nets, Monkey Netting Bangalore, Monkey Proofing',
+      canonical: 'https://www.rjrsafetynets.in/monkey',
+      ogTitle: 'Monkey Safety Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Humane, durable anti-monkey netting solutions for homes and businesses across Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
@@ -25,6 +30,14 @@ export default function MonkeySafetyNetsPage() {
       },
       description: 'Professional monkey protection net installation services in Bangalore',
     });
+
+    // Preload LCP hero image for faster first paint
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.monkey.main;
+    (preloadLink as any).fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
   }, []);
 
   const benefits = [
@@ -126,6 +139,18 @@ export default function MonkeySafetyNetsPage() {
       answer: 'Yes, we provide monkey safety net installation services across all areas of Bangalore, including suburban and rural areas prone to monkey activity.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">

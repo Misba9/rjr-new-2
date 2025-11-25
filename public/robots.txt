@@ -6,7 +6,7 @@ Allow: /
 # Disallow: /admin/
 
 # Sitemap location
-Sitemap: https://rjrsafetynets.com/sitemap.xml
+Sitemap: https://www.rjrsafetynets.in/sitemap.xml
 
 # Crawl delay (optional)
 Crawl-delay: 0

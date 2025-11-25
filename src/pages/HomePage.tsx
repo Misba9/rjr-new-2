@@ -15,7 +15,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       title: 'Best Safety Nets in Bangalore | RJR Safety Nets - 5+ Years Warranty',
       description: 'Professional safety net installation in Bangalore. Balcony, pigeon, children, construction safety nets. 1000+ happy customers. Free inspection. Call +91 7075051812 for expert service.',
       keywords: 'Safety Nets Bangalore, Balcony Safety Nets Bangalore, Pigeon Safety Nets, Children Safety Nets, Construction Safety Nets, Safety Net Installation, Best Safety Nets Bangalore, Safety Net Price',
-      canonical: 'https://rjrsafetynets.com/',
+      canonical: 'https://www.rjrsafetynets.in/',
       ogTitle: 'Best Safety Nets in Bangalore | RJR Safety Nets',
       ogDescription: 'Professional safety net installation services in Bangalore. 1000+ satisfied customers. 5+ years warranty. Expert installation.',
       ogType: 'website',
@@ -25,11 +25,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
-      '@id': 'https://rjrsafetynets.com/#organization',
+      '@id': 'https://www.rjrsafetynets.in/#organization',
       name: 'RJR Safety Nets',
-      image: 'https://rjrsafetynets.com/logo.png',
+      image: 'https://www.rjrsafetynets.in/logo.png',
       description: 'Professional safety net installation services in Bangalore for balconies, pigeon control, children safety, construction sites, and sports facilities.',
-      url: 'https://rjrsafetynets.com',
+      url: 'https://www.rjrsafetynets.in',
       telephone: '+917075051812',
       priceRange: '$$',
       address: {
@@ -70,6 +70,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         'https://twitter.com/rjrsafetynets',
       ],
     });
+
+    // FAQPage schema based on homepage FAQs
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(f => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: f.answer,
+        },
+      })),
+    });
+
+    // Preload first hero image to improve LCP
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.balcony.main;
+    preloadLink.fetchPriority = 'high' as any;
+    document.head.appendChild(preloadLink);
   }, []);
 
   const services = [

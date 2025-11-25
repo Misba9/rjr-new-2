@@ -9,14 +9,21 @@ export default function InvisibleGrillsPage() {
       title: 'Invisible Grills in Bangalore | Transparent Window Safety Grills',
       description: 'Install invisible grills in Bangalore for modern window and balcony safety. RJR Safety Nets offers sleek, transparent grill solutions that maintain your view.',
       keywords: 'Invisible Grills Bangalore, Transparent Grills, Window Safety Grills, Invisible Window Grills, Modern Safety Grills',
+      canonical: 'https://www.rjrsafetynets.in/invisible-grills',
+      ogTitle: 'Invisible Grills in Bangalore | RJR Safety Nets',
+      ogDescription: 'Marine-grade 316 stainless steel invisible grills for windows and balconies with modern aesthetics.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': 'https://www.rjrsafetynets.in/invisible-grills#service',
       serviceType: 'Invisible Grills Installation',
       provider: {
         '@type': 'LocalBusiness',
+        '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: '+91-7075051812',
         areaServed: 'Bangalore',
@@ -141,6 +148,18 @@ export default function InvisibleGrillsPage() {
       answer: 'Minimal maintenance is required. Occasional cleaning with water is sufficient. The stainless steel cables are rust-proof and weather-resistant.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">

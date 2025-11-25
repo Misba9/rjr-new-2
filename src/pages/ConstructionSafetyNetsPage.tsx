@@ -11,20 +11,35 @@ export default function ConstructionSafetyNetsPage() {
       title: 'Construction Safety Nets in Bangalore | Industrial Safety Nets',
       description: 'High-quality construction safety nets in Bangalore for building sites. RJR Safety Nets provides OSHA-compliant industrial safety netting solutions.',
       keywords: 'Construction Safety Nets Bangalore, Industrial Safety Nets, Building Safety Nets, Scaffolding Safety Nets, Fall Protection Nets',
+      canonical: 'https://www.rjrsafetynets.in/construction',
+      ogTitle: 'Construction Safety Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Industrial-grade safety netting for construction sites. Compliant installs with quick turnaround across Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': 'https://www.rjrsafetynets.in/construction#service',
       serviceType: 'Construction Safety Nets Installation',
       provider: {
         '@type': 'LocalBusiness',
+        '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: '+91-7075051812',
         areaServed: 'Bangalore',
       },
       description: 'Professional construction and industrial safety net installation services in Bangalore',
     });
+
+    // Preload LCP hero image for faster first paint
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.construction.main;
+    (preloadLink as any).fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
   }, []);
 
   const benefits = [
@@ -153,6 +168,18 @@ export default function ConstructionSafetyNetsPage() {
       answer: 'With proper care and storage, quality construction safety nets can last 3-5 years, depending on usage intensity and weather exposure.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">

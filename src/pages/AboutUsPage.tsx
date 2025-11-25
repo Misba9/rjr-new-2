@@ -10,11 +10,17 @@ export default function AboutUsPage() {
       title: 'About Us - RJR Safety Nets Bangalore | Expert Safety Solutions',
       description: 'Learn about RJR Safety Nets - Bangalore\'s trusted safety net specialists with 1000+ happy customers. Premium quality, professional installation, 5+ years warranty.',
       keywords: 'About RJR Safety Nets, Safety Net Company Bangalore, Professional Safety Nets, Trusted Safety Solutions',
+      canonical: 'https://www.rjrsafetynets.in/about',
+      ogTitle: 'About RJR Safety Nets | Bangalore\'s Trusted Net Installers',
+      ogDescription: 'Premium safety nets, professional installation, and warranty-backed service across Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
+      '@id': 'https://www.rjrsafetynets.in/#organization',
       name: 'RJR Safety Nets',
       description: 'Professional safety net installation services in Bangalore',
       telephone: '+91-7075051812',

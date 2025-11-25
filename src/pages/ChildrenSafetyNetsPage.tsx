@@ -11,20 +11,35 @@ export default function ChildrenSafetyNetsPage() {
       title: 'Children Safety Nets in Bangalore | Child Protection Nets',
       description: 'Keep your children safe with premium quality children safety nets in Bangalore. RJR Safety Nets offers reliable child protection solutions for balconies, windows, and staircases.',
       keywords: 'Children Safety Nets Bangalore, Child Protection Nets, Kids Safety Nets, Baby Safety Nets Bangalore, Balcony Child Safety',
+      canonical: 'https://www.rjrsafetynets.in/children',
+      ogTitle: 'Children Safety Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Child-proof balcony and window nets with professional installation and warranty across Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': 'https://www.rjrsafetynets.in/children#service',
       serviceType: 'Children Safety Nets Installation',
       provider: {
         '@type': 'LocalBusiness',
+        '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: '+91-7075051812',
         areaServed: 'Bangalore',
       },
       description: 'Professional children safety net installation services in Bangalore',
     });
+
+    // Preload LCP hero image for faster first paint
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.children.main;
+    (preloadLink as any).fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
   }, []);
 
   const benefits = [
@@ -126,6 +141,18 @@ export default function ChildrenSafetyNetsPage() {
       answer: 'Yes, all our safety nets are made from non-toxic, child-safe materials that meet international safety standards. They pose no health risks to children.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">

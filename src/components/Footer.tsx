@@ -106,6 +106,46 @@ export default function Footer({ onNavigate }: FooterProps) {
                 </li>
               </ul>
             </nav>
+            <h4 className="text-white font-semibold mt-8 mb-4">Locations</h4>
+            <nav aria-label="Locations navigation">
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <button onClick={() => onNavigate('whitefield')} className="hover:text-white transition-colors text-left w-full">
+                    Whitefield
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('hsr-layout')} className="hover:text-white transition-colors text-left w-full">
+                    HSR Layout
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('electronic-city')} className="hover:text-white transition-colors text-left w-full">
+                    Electronic City
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('indiranagar')} className="hover:text-white transition-colors text-left w-full">
+                    Indiranagar
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('koramangala')} className="hover:text-white transition-colors text-left w-full">
+                    Koramangala
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('marathahalli')} className="hover:text-white transition-colors text-left w-full">
+                    Marathahalli
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('btm-layout')} className="hover:text-white transition-colors text-left w-full">
+                    BTM Layout
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
 
           <div>

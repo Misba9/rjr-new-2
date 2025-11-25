@@ -11,20 +11,35 @@ export default function SportsPracticeNetsPage() {
       title: 'Sports Practice Nets in Bangalore | Cricket, Tennis & Multi-Sport Nets',
       description: 'Professional sports practice nets in Bangalore for cricket, tennis, badminton, and more. RJR Safety Nets provides durable sports netting solutions.',
       keywords: 'Sports Practice Nets Bangalore, Cricket Practice Nets, Tennis Practice Nets, Badminton Nets, Multi-Sport Nets Bangalore',
+      canonical: 'https://www.rjrsafetynets.in/sports',
+      ogTitle: 'Sports Practice Nets in Bangalore | RJR Safety Nets',
+      ogDescription: 'Cricket, tennis, badminton and multi-sport net installations for homes, schools and clubs in Bengaluru.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
 
     addSchemaMarkup({
       '@context': 'https://schema.org',
       '@type': 'Service',
+      '@id': 'https://www.rjrsafetynets.in/sports#service',
       serviceType: 'Sports Practice Nets Installation',
       provider: {
         '@type': 'LocalBusiness',
+        '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: '+91-7075051812',
         areaServed: 'Bangalore',
       },
       description: 'Professional sports practice net installation services in Bangalore',
     });
+
+    // Preload LCP hero image for faster first paint
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.sports.main;
+    (preloadLink as any).fetchPriority = 'high';
+    document.head.appendChild(preloadLink);
   }, []);
 
   const benefits = [
@@ -153,6 +168,18 @@ export default function SportsPracticeNetsPage() {
       answer: 'Yes, our sports nets can be designed for easy removal and reinstallation if needed. We use appropriate fixing systems based on your requirements.',
     },
   ];
+
+  useEffect(() => {
+    addSchemaMarkup({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    });
+  }, []);
 
   return (
     <div className="min-h-screen">
