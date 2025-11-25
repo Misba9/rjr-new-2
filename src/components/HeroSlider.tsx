@@ -6,6 +6,8 @@ export interface HeroSlide {
   title: string;
   subtitle: string;
   description: string;
+  /** Optional responsive sources for high‑resolution images */
+  sources?: Array<{ src: string; width: number }>;
 }
 
 interface HeroSliderProps {
@@ -13,6 +15,7 @@ interface HeroSliderProps {
   autoPlayInterval?: number;
   overlayOpacity?: number;
   children?: (currentSlide: HeroSlide, currentIndex: number) => React.ReactNode;
+  fullHeight?: boolean; // if true use nearly full viewport height
 }
 
 export default function HeroSlider({
@@ -20,6 +23,7 @@ export default function HeroSlider({
   autoPlayInterval = 5000,
   overlayOpacity = 0.3,
   children,
+  fullHeight = true,
 }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -85,7 +89,13 @@ export default function HeroSlider({
 
   return (
     <section 
-      className="relative text-white overflow-hidden min-h-[500px] md:min-h-[600px] lg:min-h-[700px]"
+      className={
+        `relative text-white overflow-hidden bg-gray-300 ${
+          fullHeight
+            ? 'min-h-[70vh] md:min-h-[80vh] lg:min-h-[85vh]' 
+            : 'min-h-[500px] md:min-h-[600px] lg:min-h-[700px]'
+        }`
+      }
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -107,10 +117,20 @@ export default function HeroSlider({
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
                 transform: 'translateZ(0)',
+                willChange: 'opacity'
               } as React.CSSProperties}
               loading={index === 0 ? 'eager' : 'lazy'}
               fetchPriority={index === 0 ? 'high' : 'low'}
               decoding="async"
+              sizes="(min-width: 1024px) 100vw, (min-width: 640px) 100vw, 100vw"
+              srcSet={
+                slide.sources && slide.sources.length
+                  ? slide.sources
+                      .sort((a,b) => a.width - b.width)
+                      .map(s => `${s.src} ${s.width}w`)
+                      .join(', ')
+                  : undefined
+              }
             />
           </div>
         ))}
@@ -126,13 +146,13 @@ export default function HeroSlider({
               key={currentIndex}
               className="animate-fadeIn"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                 {currentSlide.title}
               </h1>
-              <p className="text-xl md:text-2xl mb-8 text-blue-100">
+              <p className="text-xl md:text-2xl mb-8 text-blue-100 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
                 {currentSlide.subtitle}
               </p>
-              <p className="text-lg mb-8 leading-relaxed">
+              <p className="text-lg mb-8 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
                 {currentSlide.description}
               </p>
             </div>

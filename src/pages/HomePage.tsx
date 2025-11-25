@@ -263,7 +263,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           },
         ]}
         autoPlayInterval={5000}
-        overlayOpacity={0.3}
+        overlayOpacity={0.8}
       >
         {(currentSlide) => (
           <div className="max-w-3xl">
