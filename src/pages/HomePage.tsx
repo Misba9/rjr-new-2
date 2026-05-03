@@ -1,0 +1,530 @@
+import { useEffect, type MouseEvent } from 'react';
+import { Baby, Bird, CalendarClock, CheckCircle, MapPin, MessageCircle, Phone, Shield } from 'lucide-react';
+import { updatePageMeta } from '../utils/seo';
+import HeroSlider from '../components/HeroSlider';
+import OptimizedImage from '../components/OptimizedImage';
+import TrustReviewsSection from '../components/TrustReviewsSection';
+import { services as serviceImages, sliderC as sliderCImages } from '../assets/images';
+import {
+  GOOGLE_RATING,
+  GOOGLE_REVIEW_COUNT,
+  PHONE_PRIMARY_DISPLAY,
+  PHONE_TEL,
+  WARRANTY_YEARS,
+  WHATSAPP_URL,
+} from '../constants/nap';
+
+interface HomePageProps {
+  onNavigate: (page: string) => void;
+}
+
+export default function HomePage({ onNavigate }: HomePageProps) {
+  useEffect(() => {
+    updatePageMeta({
+      title: 'Safety Nets in Bangalore | Balcony, Bird & Children Nets',
+      description:
+        'Best safety nets in Bangalore. Balcony, pigeon, children & construction nets at affordable price. Call now for installation.',
+      keywords:
+        'safety nets in Bangalore, balcony safety nets Bangalore, pigeon safety nets Bangalore, bird net Bangalore, children safety nets Bangalore, safety nets near me, anti bird net Bangalore, balcony net price Bangalore, safety nets installation Bangalore',
+      canonical: 'https://www.rjrsafetynets.in/',
+      ogTitle: 'Safety Nets in Bangalore | Balcony, Bird & Children Nets',
+      ogDescription:
+        'Best safety nets in Bangalore. Balcony, pigeon, children & construction nets at affordable price. Call now for installation.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
+    });
+
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = sliderCImages.balcony;
+    preloadLink.setAttribute('fetchpriority', 'high');
+    document.head.appendChild(preloadLink);
+  }, []);
+
+  const handleInternalLink = (e: MouseEvent<HTMLAnchorElement>, page: string) => {
+    e.preventDefault();
+    onNavigate(page);
+  };
+
+  const primaryH1 = 'Balcony, Pigeon & Children Safety Nets in Bangalore';
+
+  const primaryServices = [
+    {
+      key: 'balcony',
+      href: '/services/balcony-safety-nets-bangalore',
+      icon: Shield,
+      heading: 'Balcony Safety Nets in Bangalore',
+      image: serviceImages.balcony.main,
+      alt: 'Balcony safety nets in Bangalore installation for apartments',
+      description:
+        'Invisible-looking protection for high-rise balconies. Helps prevent falls and keeps the balcony usable without blocking the view.',
+    },
+    {
+      key: 'pigeon',
+      href: '/services/pigeon-safety-nets-bangalore',
+      icon: Bird,
+      heading: 'Pigeon Safety Nets in Bangalore',
+      image: serviceImages.pigeon.main,
+      alt: 'Pigeon safety nets in Bangalore to keep balconies bird-free',
+      description:
+        'Humane anti-bird netting to stop nesting and droppings. Keeps balconies cleaner while maintaining ventilation and light.',
+    },
+    {
+      key: 'children',
+      href: '/services/children-safety-nets-bangalore',
+      icon: Baby,
+      heading: 'Children Safety Nets in Bangalore',
+      image: serviceImages.children.main,
+      alt: 'Children safety nets in Bangalore for child protection on balconies and windows',
+      description:
+        'Child-safe netting for balconies and windows with secure fittings. Built for daily family life with durable materials and neat finishing.',
+    },
+  ] as const;
+
+  const renderCTAButtons = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <a
+        href={PHONE_TEL}
+        className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+      >
+        <Phone size={20} aria-hidden="true" />
+        Call Now
+      </a>
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-6 py-4 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+      >
+        <MessageCircle size={20} aria-hidden="true" />
+        WhatsApp Now
+      </a>
+      <a
+        href="/contact"
+        onClick={(e) => handleInternalLink(e, 'contact')}
+        className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 border border-blue-200 px-6 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+      >
+        <CalendarClock size={20} aria-hidden="true" />
+        Book Free Inspection
+      </a>
+    </div>
+  );
+
+  const serviceAreaHighlights = ['Whitefield', 'HSR Layout', 'Electronic City', 'Marathahalli', 'JP Nagar', 'Bangalore'];
+
+  return (
+    <div>
+      <HeroSlider
+        slides={[
+          {
+            image: sliderCImages.balcony,
+            title: primaryH1,
+            subtitle: 'Professional Installation • Free Inspection • 5 Years Warranty',
+            description:
+              'Get the right net for your balcony, pigeon problem, or child protection—installed neatly by trained experts across Bengaluru.',
+            alt: 'Safety nets in Bangalore for balcony, pigeon and child protection',
+          },
+          {
+            image: sliderCImages.pigeon,
+            title: primaryH1,
+            subtitle: 'Humane Bird Control • Clean Balconies',
+            description:
+              'Stop nesting and droppings with durable anti-bird netting installed without blocking airflow and light.',
+            alt: 'Pigeon safety nets Bangalore installation for bird control',
+          },
+          {
+            image: sliderCImages.children,
+            title: primaryH1,
+            subtitle: 'Child-Safe Netting • Secure Fittings',
+            description:
+              'Add a safer layer for balconies and windows with strong netting and clean finishing.',
+            alt: 'Children safety nets Bangalore installation for balconies and windows',
+          },
+        ]}
+        autoPlayInterval={6000}
+        overlayOpacity={0.75}
+      >
+        {() => (
+          <div className="max-w-3xl">
+            <div className="animate-fadeIn">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{primaryH1}</h1>
+              <p className="text-lg md:text-xl mb-8 text-blue-50 leading-relaxed">
+                Professional safety net installation in Bangalore for balconies, pigeon control and child protection.
+                Get a free inspection and a clear quote.
+              </p>
+              {renderCTAButtons()}
+              <p className="mt-4 text-sm text-blue-100">
+                Call <span className="font-semibold">{PHONE_PRIMARY_DISPLAY}</span> for quick assistance.
+              </p>
+            </div>
+          </div>
+        )}
+      </HeroSlider>
+
+      <section className="py-14 bg-white" aria-labelledby="services-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="text-center mb-10">
+            <h2 id="services-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+              Our Safety Net Services
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
+              Balcony, pigeon and child protection solutions installed across Bengaluru.
+            </p>
+          </header>
+
+          <div className="max-w-5xl mx-auto text-gray-700 leading-relaxed space-y-4 mb-10">
+            <p>
+              RJR Safety Nets provides <strong>safety nets Bangalore</strong> homeowners trust for everyday protection.
+              Whether you need support for a high-rise balcony, a clean bird-free balcony, or added child protection on
+              windows, we help you select the right mesh and fitment for your space. Explore our dedicated pages for{' '}
+              <a
+                href="/balcony-safety-nets-bangalore/"
+                onClick={(e) => handleInternalLink(e, 'balcony')}
+                className="text-blue-700 font-semibold hover:underline"
+              >
+                Balcony Safety Nets
+              </a>
+              ,{' '}
+              <a
+                href="/pigeon-safety-nets-bangalore/"
+                onClick={(e) => handleInternalLink(e, 'pigeon')}
+                className="text-blue-700 font-semibold hover:underline"
+              >
+                Pigeon Safety Nets
+              </a>
+              , and{' '}
+              <a
+                href="/children-safety-nets-bangalore/"
+                onClick={(e) => handleInternalLink(e, 'children')}
+                className="text-blue-700 font-semibold hover:underline"
+              >
+                Children Safety Nets
+              </a>
+              .
+            </p>
+            <p>
+              Customers searching specifically for <strong>balcony safety nets Bangalore</strong>,{' '}
+              <strong>pigeon safety nets Bangalore</strong>, or <strong>children safety nets Bangalore</strong> typically want a
+              solution that is strong, neat, and suitable for apartments. Our focus is to deliver “Safety Nets in
+              Bangalore – Balcony, Pigeon &amp; Child Protection” with correct material selection, safe anchoring and a clean
+              finish.
+            </p>
+            <p>
+              Each solution is installed with attention to safety, neat finishing and long-term durability. If you are
+              not sure which option is best, our team can guide you based on your balcony design, bird activity and family
+              requirements—then help you book a site visit via{' '}
+              <a
+                href="/contact"
+                onClick={(e) => handleInternalLink(e, 'contact')}
+                className="text-blue-700 font-semibold hover:underline"
+              >
+                Contact Us
+              </a>
+              .
+            </p>
+          </div>
+
+          <div className="mb-10 flex flex-wrap justify-center gap-3 text-sm">
+            <button
+              type="button"
+              onClick={() => onNavigate('services')}
+              className="rounded-full bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+            >
+              View all services
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('construction')}
+              className="rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-gray-800 hover:border-blue-300"
+            >
+              Construction safety nets
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('monkey')}
+              className="rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-gray-800 hover:border-blue-300"
+            >
+              Monkey safety nets
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('coconut')}
+              className="rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-gray-800 hover:border-blue-300"
+            >
+              Coconut tree nets
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {primaryServices.map((service) => {
+              const Icon = service.icon;
+              return (
+                <article key={service.key} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                  <div className="relative h-48">
+                    <OptimizedImage
+                      src={service.image}
+                      alt={service.alt}
+                      className="w-full h-full"
+                      loading="lazy"
+                      width={1200}
+                      height={675}
+                      objectFit="cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                        <Icon className="text-blue-600" size={22} aria-hidden="true" />
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        <span className="font-semibold text-gray-900">RJR</span> • Bengaluru
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.heading}</h3>
+                    <p className="text-gray-600 leading-relaxed mb-5">{service.description}</p>
+                    <a
+                      href={service.href}
+                      onClick={(e) => handleInternalLink(e, service.key)}
+                      className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                    >
+                      View Details
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 bg-gray-50" aria-labelledby="why-choose-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="text-center mb-10">
+            <h2 id="why-choose-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+              Why Choose RJR Safety Nets?
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
+              Neat installation, clear communication and dependable materials—trusted by Bengaluru customers.
+            </p>
+          </header>
+
+          <div className="max-w-5xl mx-auto text-gray-700 leading-relaxed space-y-4 mb-10">
+            <p>
+              When you choose RJR, you get a service-first team that focuses on safety and long-term reliability—not just
+              quick fitting. From the first call to final handover, we aim for fast response, clear pricing and a neat
+              finish that blends into your balcony or window setup.
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3" aria-label="Reasons to choose RJR Safety Nets">
+              <li className="bg-white border border-gray-100 rounded-xl p-4">
+                <p className="font-semibold text-gray-900">Warranty</p>
+                <p className="text-gray-700">{WARRANTY_YEARS} years warranty and dependable fitment.</p>
+              </li>
+              <li className="bg-white border border-gray-100 rounded-xl p-4">
+                <p className="font-semibold text-gray-900">Fast installation</p>
+                <p className="text-gray-700">Quick scheduling for most Bangalore locations.</p>
+              </li>
+              <li className="bg-white border border-gray-100 rounded-xl p-4">
+                <p className="font-semibold text-gray-900">Affordable pricing</p>
+                <p className="text-gray-700">Transparent quotes based on real measurements.</p>
+              </li>
+              <li className="bg-white border border-gray-100 rounded-xl p-4">
+                <p className="font-semibold text-gray-900">Expert team</p>
+                <p className="text-gray-700">Trained installers for apartments and high-rise work.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { text: `${WARRANTY_YEARS} years warranty on installations` },
+              { text: 'Fast installation scheduling for most areas' },
+              { text: 'Affordable pricing with transparent quotes' },
+              { text: 'Expert team for apartments and high-rise work' },
+            ].map((item, idx) => (
+              <div key={idx} className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="text-green-600 mt-0.5" size={20} aria-hidden="true" />
+                  <p className="text-gray-800 font-medium leading-relaxed">{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 bg-white" aria-labelledby="inspection-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="text-center mb-10">
+            <h2 id="inspection-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+              Safety Net Installation in Bangalore
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
+              Professional net selection, secure fitment and clean finishing for balcony, pigeon and child protection.
+            </p>
+          </header>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="text-gray-700 leading-relaxed space-y-4">
+              <p>
+                Looking for <strong>Safety Nets in Bangalore</strong> that are installed safely and neatly? RJR specializes in
+                end-to-end <strong>safety net installation</strong> for residential and commercial properties. We help you choose
+                the right net grade, mesh size and fixing method based on your balcony design, bird activity and family
+                needs—especially for balcony, pigeon &amp; child protection.
+              </p>
+              <p>
+                Quality is not just the net—it’s the installation. Our experienced team uses secure anchors, proper
+                tensioning and careful edge finishing to reduce gaps and improve long-term performance in Bangalore’s sun,
+                rain and wind. We also keep the work area clean and aim for minimal disruption to your daily routine.
+              </p>
+              <p>
+                We cover major neighborhoods across the city and can schedule a <strong>free inspection</strong> to measure your
+                space and recommend the best option for your requirement. Installations are backed by{' '}
+                <strong>5 years warranty</strong> (standard terms apply), so you get peace of mind along with reliable protection.
+              </p>
+            </div>
+
+            <ul className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6" aria-label="Inspection and installation steps">
+              <li className="bg-gray-50 border border-gray-100 rounded-xl p-6">
+                <p className="text-sm font-semibold text-blue-700">Step 1</p>
+                <p className="mt-1 font-bold text-gray-900">Free Site Visit</p>
+                <p className="mt-2 text-gray-600">We inspect and measure, then recommend the correct net and mesh.</p>
+              </li>
+              <li className="bg-gray-50 border border-gray-100 rounded-xl p-6">
+                <p className="text-sm font-semibold text-blue-700">Step 2</p>
+                <p className="mt-1 font-bold text-gray-900">Clear Quote</p>
+                <p className="mt-2 text-gray-600">Transparent pricing based on the actual site requirement.</p>
+              </li>
+              <li className="bg-gray-50 border border-gray-100 rounded-xl p-6">
+                <p className="text-sm font-semibold text-blue-700">Step 3</p>
+                <p className="mt-1 font-bold text-gray-900">Neat Installation</p>
+                <p className="mt-2 text-gray-600">Secure fittings, tension checks, and gap checks before handover.</p>
+              </li>
+            </ul>
+
+            <div className="mt-8">{renderCTAButtons()}</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 bg-gray-50" aria-labelledby="areas-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="text-center mb-10">
+            <h2 id="areas-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+              Service Areas in Bangalore
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
+              We provide on-site inspection and installation across Bengaluru—including popular neighborhoods and
+              apartment zones.
+            </p>
+          </header>
+
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+            <div className="flex items-start gap-3">
+              <MapPin className="text-blue-600 mt-1" size={22} aria-hidden="true" />
+              <div>
+                <p className="text-gray-800 font-semibold">Local areas we frequently serve</p>
+                <ul className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2 text-gray-700" aria-label="Service areas list">
+                  {serviceAreaHighlights.map((area) => (
+                    <li key={area} className="bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+                      {area}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-gray-700 leading-relaxed">
+                  If you don’t see your location listed, contact us—our team covers most parts of Bangalore based on
+                  schedule availability.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 bg-white" aria-labelledby="reviews-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="text-center mb-10">
+            <h2 id="reviews-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+              Customer Reviews
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
+              Rated by Bengaluru customers for responsiveness, neat work and long-lasting net quality.
+            </p>
+          </header>
+        </div>
+
+        <TrustReviewsSection
+          rating={GOOGLE_RATING}
+          customerCount={GOOGLE_REVIEW_COUNT}
+          testimonial={{
+            name: 'Ramesh Kumar',
+            location: 'Whitefield, Bangalore',
+            rating: 5,
+            text: 'Excellent service! The team was professional and installed the balcony safety nets quickly. Very satisfied with the quality.',
+          }}
+          variant="blue"
+        />
+      </section>
+
+      <section className="py-14 bg-gray-50" aria-labelledby="contact-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header className="text-center mb-10">
+            <h2 id="contact-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+              Contact Us
+            </h2>
+            <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
+              Call or WhatsApp for quick assistance, or book a free inspection through the contact page.
+            </p>
+          </header>
+
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <p className="text-gray-900 font-semibold">Quick links</p>
+                <nav className="mt-3 space-y-2" aria-label="Internal links">
+                  <a
+                    href="/about"
+                    onClick={(e) => handleInternalLink(e, 'about')}
+                    className="block text-blue-700 hover:underline"
+                  >
+                    /about
+                  </a>
+                  <a
+                    href="/contact"
+                    onClick={(e) => handleInternalLink(e, 'contact')}
+                    className="block text-blue-700 hover:underline"
+                  >
+                    /contact
+                  </a>
+                </nav>
+                <p className="mt-6 text-gray-700 leading-relaxed">
+                  Need help choosing between balcony nets, pigeon nets or child protection nets? Share your location and
+                  requirement—we’ll guide you with the right option.
+                </p>
+              </div>
+
+              <address className="not-italic">
+                <p className="text-gray-900 font-semibold">Call us</p>
+                <a href={PHONE_TEL} className="mt-2 inline-block text-blue-700 font-semibold hover:underline">
+                  {PHONE_PRIMARY_DISPLAY}
+                </a>
+                <p className="mt-4 text-gray-900 font-semibold">WhatsApp</p>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block text-blue-700 font-semibold hover:underline"
+                >
+                  Chat on WhatsApp
+                </a>
+                <p className="mt-4 text-gray-600">Working hours: 8:00 AM – 8:00 PM (All days)</p>
+              </address>
+            </div>
+
+            <div className="mt-8">{renderCTAButtons()}</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

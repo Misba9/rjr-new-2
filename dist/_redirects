@@ -1,0 +1,13 @@
+# Force HTTPS
+http://rjrsafetynets.in/* https://www.rjrsafetynets.in/:splat 301!
+http://www.rjrsafetynets.in/* https://www.rjrsafetynets.in/:splat 301!
+
+# Non-www to www redirect
+https://rjrsafetynets.in/* https://www.rjrsafetynets.in/:splat 301!
+
+# Old .com domain redirect to .in
+https://www.rjrsafetynets.com/* https://www.rjrsafetynets.in/:splat 301!
+https://rjrsafetynets.com/* https://www.rjrsafetynets.in/:splat 301!
+
+# SPA fallback - must be last
+/*    /index.html   200
