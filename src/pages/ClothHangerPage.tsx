@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Shield, CheckCircle, Sun, Wind, Droplet, Sparkles } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
+import HeroCarousel from '../components/HeroCarousel';
+import { services as serviceImages } from '../assets/images';
 
 export default function ClothHangerPage() {
   useEffect(() => {
@@ -30,6 +32,13 @@ export default function ClothHangerPage() {
       },
       description: 'Professional cloth hanger net installation services in Bangalore',
     });
+
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.clothHanger.main;
+    preloadLink.setAttribute('fetchpriority', 'high');
+    document.head.appendChild(preloadLink);
   }, []);
 
   const benefits = [
@@ -146,16 +155,23 @@ export default function ClothHangerPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="py-20 md:py-32 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <section className="relative text-white overflow-hidden bg-gray-900">
+        <HeroCarousel
+          images={[serviceImages.clothHanger.main]}
+          altText="Cloth hanger nets Bangalore balcony drying installation"
+          autoPlayInterval={5000}
+          overlayOpacity={1}
+          minHeight="min-h-[380px] md:min-h-[480px]"
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]">
               Cloth Hanger Nets in Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-teal-600 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-teal-100 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
               Safe and convenient cloth drying solutions for your balcony
             </p>
-            <p className="text-lg mb-8 leading-relaxed text-gray-700">
+            <p className="text-lg mb-8 leading-relaxed text-gray-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
               RJR Safety Nets provides premium cloth hanger netting systems that prevent clothes from falling while ensuring efficient drying with maximum sun and air exposure.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">

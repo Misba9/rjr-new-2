@@ -8,6 +8,10 @@ interface OptimizedImageProps {
   height?: number;
   loading?: 'lazy' | 'eager';
   priority?: boolean;
+  /** Hint for responsive decode (helps the browser pick an appropriate representation) */
+  sizes?: string;
+  /** Overrides default `high` when `priority` is true */
+  fetchPriority?: 'high' | 'low' | 'auto';
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   onLoad?: () => void;
   onError?: () => void;
@@ -24,6 +28,8 @@ export default function OptimizedImage({
   height,
   loading = 'lazy',
   priority = false,
+  sizes,
+  fetchPriority,
   objectFit = 'cover',
   onLoad,
   onError,
@@ -92,6 +98,8 @@ export default function OptimizedImage({
           alt={alt}
           loading={priority ? 'eager' : loading}
           decoding="async"
+          fetchPriority={priority ? fetchPriority ?? 'high' : fetchPriority ?? 'auto'}
+          sizes={sizes}
           onLoad={handleLoad}
           onError={handleError}
           className={`w-full h-full transition-opacity duration-300 ${

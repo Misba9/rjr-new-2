@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
 import { canonicalUrl } from '../constants/routes';
+import { ADDRESS, EMAIL, ADDRESS_DISPLAY } from '../constants/nap';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 
@@ -29,12 +30,14 @@ export default function ContactPage() {
         '@id': 'https://www.rjrsafetynets.in/#organization',
         name: 'RJR Safety Nets',
         telephone: ['+917075051812', '+918074514411'],
-        email: 'info@rjrsafetynets.com',
+        email: EMAIL,
         address: {
           '@type': 'PostalAddress',
-          addressLocality: 'Bengaluru',
-          addressRegion: 'Karnataka',
-          addressCountry: 'IN',
+          streetAddress: ADDRESS.streetAddress,
+          addressLocality: ADDRESS.addressLocality,
+          addressRegion: ADDRESS.addressRegion,
+          postalCode: ADDRESS.postalCode,
+          addressCountry: ADDRESS.addressCountry,
         },
       },
     });
@@ -90,9 +93,9 @@ export default function ContactPage() {
                     <MapPin className="text-blue-600" size={24} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-2">Service Area</h3>
-                    <p className="text-gray-600">Bengaluru, Karnataka</p>
-                    <p className="text-sm text-gray-500 mt-1">We serve all areas of Bangalore</p>
+                    <h3 className="font-semibold text-lg mb-2">Address</h3>
+                    <p className="text-gray-600 leading-relaxed">{ADDRESS_DISPLAY}</p>
+                    <p className="text-sm text-gray-500 mt-2">We also serve on-site across Bangalore.</p>
                   </div>
                 </div>
 
@@ -112,11 +115,11 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-lg mb-2">Email</h3>
                     <a
-                      href="mailto:info@rjrsafetynets.com"
+                      href={`mailto:${EMAIL}`}
                       className="text-blue-600 hover:underline block"
                       itemProp="email"
                     >
-                      info@rjrsafetynets.com
+                      {EMAIL}
                     </a>
                   </div>
                 </div>

@@ -42,14 +42,6 @@ const coreServices: Array<{ key: string; title: string; blurb: string }> = [
   },
 ];
 
-const locationLinks: Array<{ key: string; label: string }> = [
-  { key: 'whitefield', label: 'Whitefield' },
-  { key: 'marathahalli', label: 'Marathahalli' },
-  { key: 'electronic-city', label: 'Electronic City' },
-  { key: 'btm-layout', label: 'BTM Layout' },
-  { key: 'indiranagar', label: 'Indiranagar' },
-];
-
 export default function ServicesPage({ onNavigate }: ServicesPageProps) {
   useEffect(() => {
     updatePageMeta({
@@ -115,20 +107,10 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
               Local areas we serve
             </h2>
             <p className="mb-4 text-gray-600">
-              Local SEO pages for fast scheduling in busy corridors — each page links back to services for easy browsing.
+              We schedule installs across busy corridors including Whitefield, HSR Layout, Electronic City, Indiranagar,
+              Koramangala, Marathahalli, BTM Layout, and the rest of Bengaluru — call or WhatsApp for the next available
+              slot.
             </p>
-            <div className="flex flex-wrap gap-3">
-              {locationLinks.map((l) => (
-                <button
-                  key={l.key}
-                  type="button"
-                  onClick={() => onNavigate(l.key)}
-                  className="rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-800 hover:border-blue-300 hover:bg-blue-50"
-                >
-                  {l.label}
-                </button>
-              ))}
-            </div>
 
             <div className="mt-10">
               <SectionLeadCTA variant="blue" />

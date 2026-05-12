@@ -120,48 +120,23 @@ export default function Footer({ onNavigate }: FooterProps) {
                     Contact Us
                   </button>
                 </li>
-              </ul>
-            </nav>
-            <h4 className="text-white font-semibold mt-8 mb-4">Locations</h4>
-            <nav aria-label="Locations navigation">
-              <ul className="space-y-2 text-sm">
                 <li>
-                  <button onClick={() => onNavigate('whitefield')} className="hover:text-white transition-colors text-left w-full">
-                    Whitefield
+                  <button onClick={() => onNavigate('privacy-policy')} className="hover:text-white transition-colors text-left w-full">
+                    Privacy Policy
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('hsr-layout')} className="hover:text-white transition-colors text-left w-full">
-                    HSR Layout
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onNavigate('electronic-city')} className="hover:text-white transition-colors text-left w-full">
-                    Electronic City
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onNavigate('indiranagar')} className="hover:text-white transition-colors text-left w-full">
-                    Indiranagar
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onNavigate('koramangala')} className="hover:text-white transition-colors text-left w-full">
-                    Koramangala
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onNavigate('marathahalli')} className="hover:text-white transition-colors text-left w-full">
-                    Marathahalli
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onNavigate('btm-layout')} className="hover:text-white transition-colors text-left w-full">
-                    BTM Layout
+                  <button onClick={() => onNavigate('terms-and-conditions')} className="hover:text-white transition-colors text-left w-full">
+                    Terms &amp; Conditions
                   </button>
                 </li>
               </ul>
             </nav>
+            <h4 className="text-white font-semibold mt-8 mb-4">Areas we serve</h4>
+            <p className="text-sm leading-relaxed">
+              Whitefield, HSR Layout, Electronic City, Indiranagar, Koramangala, Marathahalli, BTM Layout, and across
+              Bangalore.
+            </p>
           </div>
 
           <div>
@@ -197,12 +172,12 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-center sm:text-left">
             <p>&copy; {currentYear} RJR Safety Nets. All rights reserved.</p>
-            <div className="flex gap-4">
-              <button onClick={() => onNavigate('home')} className="hover:text-white transition-colors">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 sm:justify-end">
+              <button type="button" onClick={() => onNavigate('privacy-policy')} className="hover:text-white transition-colors">
                 Privacy Policy
               </button>
-              <button onClick={() => onNavigate('home')} className="hover:text-white transition-colors">
-                Terms of Service
+              <button type="button" onClick={() => onNavigate('terms-and-conditions')} className="hover:text-white transition-colors">
+                Terms &amp; Conditions
               </button>
             </div>
           </div>

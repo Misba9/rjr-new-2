@@ -21,17 +21,18 @@ export const WHATSAPP_NUMBER = '917075051812';
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export const ADDRESS = {
-  streetAddress: 'Bengaluru',
+  streetAddress: '7, 3rd Cross Rd, Muthyala Nagar, Gokula Extension, Mathikere',
   addressLocality: 'Bengaluru',
   addressRegion: 'Karnataka',
-  postalCode: '560001',
+  postalCode: '560054',
   addressCountry: 'IN',
 };
 
-/** Full address string for display */
-export const ADDRESS_DISPLAY = 'Bengaluru, Karnataka, India';
+/** Full address string for display (must match Google Business Profile) */
+export const ADDRESS_DISPLAY =
+  '7, 3rd Cross Rd, Muthyala Nagar, Gokula Extension, Mathikere, Bengaluru, Karnataka 560054';
 
-export const EMAIL = 'info@rjrsafetynets.com';
+export const EMAIL = 'rjrsafetynets@gmail.com';
 
 export const SITE_URL = 'https://www.rjrsafetynets.in';
 

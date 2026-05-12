@@ -52,7 +52,54 @@ export const allSportsNet = new URL('./pages/all-sports.jpg', import.meta.url).h
 export const coconutTreeNet = new URL('./Coconut-Tree-Safety-Nets.jpg', import.meta.url).href;
 
 // ===========================
-// HOMEPAGE HERO (SLIDER-C)
+// HIGH-RES SITE PHOTOS (/public/images — served as-is, sharp JPEGs)
+// ===========================
+
+export const sitePhotos = {
+  balconySafetyNets01: '/images/balcony-safety-nets-01.jpeg',
+  balconySafetyNets02: '/images/balcony-safety-nets-02.jpeg',
+  balconySafetyNets03: '/images/balcony-safety-nets-03.jpeg',
+  balconySafetyNets04: '/images/balcony-safety-nets-04.jpeg',
+  balconySafetyNets05: '/images/balcony-safety-nets-05.jpeg',
+  balconySafetyNets06: '/images/balcony-safety-nets-06.jpeg',
+  balconySafetyNets07: '/images/balcony-safety-nets-07.jpeg',
+  clothHanger01: '/images/clouth-hanger-01.jpeg',
+  invisibleGrill01: '/images/invisible-grill-01.jpeg',
+  invisibleGrill02: '/images/invisible-grill-02.jpeg',
+  invisibleGrill03: '/images/invisible-grill-03.jpeg',
+  invisibleGrill04: '/images/invisible-grill-04.jpeg',
+  invisibleGrill05: '/images/invisible-grill-05.jpeg',
+  invisibleGrill06: '/images/invisible-grill-06.jpeg',
+  invisibleGrill07: '/images/invisible-grill-07.jpeg',
+  invisibleGrill08: '/images/invisible-grill-08.jpeg',
+  pigeonSpikes01: '/images/pigeon-spikes-01.jpeg',
+  pigeonSpikes02: '/images/pigeon-spikes-02.jpeg',
+  pigeonSpikes03: '/images/pigeon-spikes-03.jpeg',
+} as const;
+
+const balconyInstallGallery = [
+  sitePhotos.balconySafetyNets02,
+  sitePhotos.balconySafetyNets03,
+  sitePhotos.balconySafetyNets04,
+  sitePhotos.balconySafetyNets05,
+  sitePhotos.balconySafetyNets06,
+  sitePhotos.balconySafetyNets07,
+  balconyNet02,
+  balconyNet03,
+] as const;
+
+const invisibleGrillGallery = [
+  sitePhotos.invisibleGrill02,
+  sitePhotos.invisibleGrill03,
+  sitePhotos.invisibleGrill04,
+  sitePhotos.invisibleGrill05,
+  sitePhotos.invisibleGrill06,
+  sitePhotos.invisibleGrill07,
+  sitePhotos.invisibleGrill08,
+] as const;
+
+// ===========================
+// HOMEPAGE HERO (SLIDER-C) — fallbacks when no /public/images match
 // ===========================
 
 export const sliderCBalconySafetyNets = new URL('./slider-c/balcony-safety-nets.png', import.meta.url).href;
@@ -94,12 +141,20 @@ export const logos = {
 
 export const services = {
   balcony: {
-    main: balconyNet,
-    gallery: [balconyNet02, balconyNet03],
+    main: sitePhotos.balconySafetyNets01,
+    gallery: [...balconyInstallGallery],
   },
   pigeon: {
     main: pigeonNet,
-    gallery: [pigeonNet01, pigeonNet02, antiBirdNet, birdSafetyNets],
+    gallery: [
+      sitePhotos.pigeonSpikes01,
+      sitePhotos.pigeonSpikes02,
+      sitePhotos.pigeonSpikes03,
+      pigeonNet01,
+      pigeonNet02,
+      antiBirdNet,
+      birdSafetyNets,
+    ],
     spikes: antiBirdSpikes,
   },
   children: {
@@ -120,6 +175,13 @@ export const services = {
   },
   coconutTree: {
     main: coconutTreeNet,
+  },
+  clothHanger: {
+    main: sitePhotos.clothHanger01,
+  },
+  invisibleGrills: {
+    main: sitePhotos.invisibleGrill01,
+    gallery: [...invisibleGrillGallery],
   },
 };
 
@@ -143,9 +205,10 @@ export const ctaButtons = {
   whatsapp: whatsappButton,
 };
 
+/** Home hero: full-res JPEGs from /public/images (slides 1–2); slide 3 uses packaged PNG */
 export const sliderC = {
-  balcony: sliderCBalconySafetyNets,
-  pigeon: sliderCPigeonProtectionNets,
+  balcony: sitePhotos.balconySafetyNets05,
+  pigeon: sitePhotos.pigeonSpikes03,
   children: sliderCChildrenSafetyNets,
 };
 
@@ -159,7 +222,9 @@ export const sliderC = {
  * @returns The main image URL for the service
  */
 export const getServiceImage = (serviceType: keyof typeof services): string => {
-  return services[serviceType]?.main || balconyNet;
+  const entry = services[serviceType];
+  if (entry && 'main' in entry) return entry.main;
+  return sitePhotos.balconySafetyNets01;
 };
 
 /**
@@ -179,6 +244,7 @@ export const getServiceGallery = (serviceType: keyof typeof services): string[] 
 export default {
   logos,
   services,
+  sitePhotos,
   about,
   icons,
   ctaButtons,

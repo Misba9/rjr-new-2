@@ -1,6 +1,22 @@
 import { useEffect, type MouseEvent } from 'react';
-import { Baby, Bird, CalendarClock, CheckCircle, MapPin, MessageCircle, Phone, Shield } from 'lucide-react';
+import {
+  Baby,
+  Bird,
+  CalendarClock,
+  CheckCircle,
+  Dumbbell,
+  Eye,
+  HardHat,
+  MapPin,
+  MessageCircle,
+  PawPrint,
+  Phone,
+  Shield,
+  Shirt,
+  Trees,
+} from 'lucide-react';
 import { updatePageMeta } from '../utils/seo';
+import { PAGE_TO_PATH, type PageKey } from '../constants/routes';
 import HeroSlider from '../components/HeroSlider';
 import OptimizedImage from '../components/OptimizedImage';
 import TrustReviewsSection from '../components/TrustReviewsSection';
@@ -49,10 +65,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   const primaryH1 = 'Balcony, Pigeon & Children Safety Nets in Bangalore';
 
-  const primaryServices = [
+  const allServiceCards: Array<{
+    key: PageKey;
+    icon: typeof Shield;
+    heading: string;
+    image: string;
+    alt: string;
+    description: string;
+  }> = [
     {
       key: 'balcony',
-      href: '/services/balcony-safety-nets-bangalore',
       icon: Shield,
       heading: 'Balcony Safety Nets in Bangalore',
       image: serviceImages.balcony.main,
@@ -62,7 +84,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     },
     {
       key: 'pigeon',
-      href: '/services/pigeon-safety-nets-bangalore',
       icon: Bird,
       heading: 'Pigeon Safety Nets in Bangalore',
       image: serviceImages.pigeon.main,
@@ -72,7 +93,6 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     },
     {
       key: 'children',
-      href: '/services/children-safety-nets-bangalore',
       icon: Baby,
       heading: 'Children Safety Nets in Bangalore',
       image: serviceImages.children.main,
@@ -80,7 +100,61 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       description:
         'Child-safe netting for balconies and windows with secure fittings. Built for daily family life with durable materials and neat finishing.',
     },
-  ] as const;
+    {
+      key: 'monkey',
+      icon: PawPrint,
+      heading: 'Monkey Safety Nets in Bangalore',
+      image: serviceImages.monkey.main,
+      alt: 'Monkey safety nets Bangalore installation for stronger barriers',
+      description:
+        'Stronger barriers for monkey-prone zones — practical surveys and durable installs for villas and apartments near green belts.',
+    },
+    {
+      key: 'coconut',
+      icon: Trees,
+      heading: 'Coconut Tree Safety Nets in Bangalore',
+      image: serviceImages.coconutTree.main,
+      alt: 'Coconut tree safety nets Bangalore over driveways and paths',
+      description:
+        'Reduce risk from falling coconuts over driveways, paths, and play areas with properly tensioned overhead netting.',
+    },
+    {
+      key: 'cloth-hanger',
+      icon: Shirt,
+      heading: 'Cloth Hanger Nets in Bangalore',
+      image: serviceImages.clothHanger.main,
+      alt: 'Balcony cloth drying and cloth hanger nets in Bangalore',
+      description:
+        'Safe balcony cloth drying — keep laundry secure in wind while maximising sun and airflow on your drying area.',
+    },
+    {
+      key: 'invisible-grills',
+      icon: Eye,
+      heading: 'Invisible Grills in Bangalore',
+      image: serviceImages.invisibleGrills.main,
+      alt: 'Invisible grills Bangalore for windows and balconies',
+      description:
+        'Sleek stainless cable grills for windows and balconies — safety with minimal visual impact and good ventilation.',
+    },
+    {
+      key: 'construction',
+      icon: HardHat,
+      heading: 'Construction Safety Nets in Bangalore',
+      image: serviceImages.construction.main,
+      alt: 'Construction safety nets Bangalore for sites and buildings',
+      description:
+        'Site and industrial netting for fall and debris risk — scoped to your project with professional installation.',
+    },
+    {
+      key: 'sports',
+      icon: Dumbbell,
+      heading: 'Sports Practice Nets in Bangalore',
+      image: serviceImages.sports.main,
+      alt: 'Sports practice nets Bangalore cricket and multi-sport',
+      description:
+        'Cricket and multi-sport practice nets for homes, academies, and terraces — durable mesh and clean setup.',
+    },
+  ];
 
   const renderCTAButtons = () => (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -169,7 +243,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Our Safety Net Services
             </h2>
             <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
-              Balcony, pigeon and child protection solutions installed across Bengaluru.
+              Balcony, bird, child, monkey, coconut, construction, sports, cloth drying, and invisible grills — installed
+              across Bengaluru.
             </p>
           </header>
 
@@ -225,40 +300,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </p>
           </div>
 
-          <div className="mb-10 flex flex-wrap justify-center gap-3 text-sm">
-            <button
-              type="button"
-              onClick={() => onNavigate('services')}
-              className="rounded-full bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
-            >
-              View all services
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate('construction')}
-              className="rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-gray-800 hover:border-blue-300"
-            >
-              Construction safety nets
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate('monkey')}
-              className="rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-gray-800 hover:border-blue-300"
-            >
-              Monkey safety nets
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate('coconut')}
-              className="rounded-full border border-gray-200 bg-white px-4 py-2 font-medium text-gray-800 hover:border-blue-300"
-            >
-              Coconut tree nets
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {primaryServices.map((service) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allServiceCards.map((service) => {
               const Icon = service.icon;
+              const href = PAGE_TO_PATH[service.key];
               return (
                 <article key={service.key} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
                   <div className="relative h-48">
@@ -267,8 +312,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                       alt={service.alt}
                       className="w-full h-full"
                       loading="lazy"
-                      width={1200}
-                      height={675}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                      width={1600}
+                      height={900}
                       objectFit="cover"
                     />
                   </div>
@@ -284,7 +330,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{service.heading}</h3>
                     <p className="text-gray-600 leading-relaxed mb-5">{service.description}</p>
                     <a
-                      href={service.href}
+                      href={href}
                       onClick={(e) => handleInternalLink(e, service.key)}
                       className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                     >
@@ -294,6 +340,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 </article>
               );
             })}
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={() => onNavigate('services')}
+              className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+            >
+              View services hub
+            </button>
           </div>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import { PageMeta } from '../types';
-import { SITE_URL, ADDRESS, PHONE_PRIMARY, PHONE_SECONDARY, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, SERVICE_AREAS } from '../constants/nap';
+import { SITE_URL, ADDRESS, EMAIL, PHONE_PRIMARY, PHONE_SECONDARY, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, SERVICE_AREAS } from '../constants/nap';
 
 const DEFAULT_IMAGE = 'https://www.rjrsafetynets.in/og-image.jpg';
 
@@ -157,10 +157,11 @@ export const generateLocalBusinessSchema = () => {
     description: 'Professional safety net installation in Bangalore. Balcony safety nets, pigeon safety nets, children safety nets. 10+ years experience, 5+ years warranty.',
     url: SITE_URL,
     telephone: [PHONE_PRIMARY, PHONE_SECONDARY],
-    email: 'info@rjrsafetynets.com',
+    email: EMAIL,
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: ADDRESS.streetAddress,
       addressLocality: ADDRESS.addressLocality,
       addressRegion: ADDRESS.addressRegion,
       postalCode: ADDRESS.postalCode,
@@ -168,8 +169,8 @@ export const generateLocalBusinessSchema = () => {
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 12.9716,
-      longitude: 77.5946,
+      latitude: 13.0283,
+      longitude: 77.5536,
     },
     areaServed: [
       { '@type': 'City', name: 'Bangalore' },

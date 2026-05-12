@@ -93,13 +93,14 @@ export default function HeroCarousel({
           alt={altText}
           className={'w-full ' + height + ' object-cover object-center'}
           style={{
-            imageRendering: 'crisp-edges',
+            imageRendering: 'auto',
             WebkitBackfaceVisibility: 'hidden',
             backfaceVisibility: 'hidden',
           } as React.CSSProperties}
-          loading='eager'
-          fetchPriority='high'
-          decoding='async'
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          sizes="100vw"
         />
       </div>
     );
@@ -132,7 +133,8 @@ export default function HeroCarousel({
               } as React.CSSProperties}
               loading={index === 0 && priority ? 'eager' : 'lazy'}
               fetchPriority={index === 0 && priority ? 'high' : 'low'}
-              decoding='async'
+              decoding="async"
+              sizes="100vw"
             />
           </div>
         ))}

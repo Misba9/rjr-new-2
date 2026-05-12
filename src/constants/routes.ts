@@ -16,13 +16,8 @@ export type PageKey =
   | 'blog'
   | 'about'
   | 'contact'
-  | 'whitefield'
-  | 'hsr-layout'
-  | 'electronic-city'
-  | 'indiranagar'
-  | 'koramangala'
-  | 'marathahalli'
-  | 'btm-layout';
+  | 'privacy-policy'
+  | 'terms-and-conditions';
 
 export const PAGE_TO_PATH: Record<PageKey, string> = {
   home: '/',
@@ -39,13 +34,8 @@ export const PAGE_TO_PATH: Record<PageKey, string> = {
   blog: '/blog',
   about: '/about',
   contact: '/contact',
-  whitefield: '/location/whitefield-safety-nets',
-  'hsr-layout': '/hsr-layout',
-  'electronic-city': '/location/electronic-city-safety-nets',
-  indiranagar: '/location/indiranagar-safety-nets',
-  koramangala: '/koramangala',
-  marathahalli: '/location/marathahalli-safety-nets',
-  'btm-layout': '/location/btm-safety-nets',
+  'privacy-policy': '/privacy-policy',
+  'terms-and-conditions': '/terms-and-conditions',
 };
 
 export const canonicalUrl = (page: PageKey): string => `${SITE_URL}${PAGE_TO_PATH[page]}`;
@@ -68,6 +58,8 @@ export function getPageKeyFromPath(pathname: string): PageKey {
     '/about': 'about',
     '/about-us': 'about',
     '/contact': 'contact',
+    '/privacy-policy': 'privacy-policy',
+    '/terms-and-conditions': 'terms-and-conditions',
     '/blog': 'blog',
     '/balcony': 'balcony',
     '/balcony-safety-nets-bangalore': 'balcony',
@@ -82,18 +74,6 @@ export function getPageKeyFromPath(pathname: string): PageKey {
     '/invisible-grills': 'invisible-grills',
     '/construction': 'construction',
     '/sports': 'sports',
-    '/whitefield': 'whitefield',
-    '/location/whitefield-safety-nets': 'whitefield',
-    '/hsr-layout': 'hsr-layout',
-    '/electronic-city': 'electronic-city',
-    '/location/electronic-city-safety-nets': 'electronic-city',
-    '/indiranagar': 'indiranagar',
-    '/location/indiranagar-safety-nets': 'indiranagar',
-    '/koramangala': 'koramangala',
-    '/marathahalli': 'marathahalli',
-    '/location/marathahalli-safety-nets': 'marathahalli',
-    '/btm-layout': 'btm-layout',
-    '/location/btm-safety-nets': 'btm-layout',
     '/services/balcony-safety-nets-bangalore': 'balcony',
     '/services/pigeon-safety-nets-bangalore': 'pigeon',
     '/services/children-safety-nets-bangalore': 'children',

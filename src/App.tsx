@@ -16,13 +16,8 @@ import SportsPracticeNetsPage from './pages/SportsPracticeNetsPage';
 import BlogPage from './pages/BlogPage';
 import AboutUsPage from './pages/AboutUsPage';
 import ContactPage from './pages/ContactPage';
-import WhitefieldPage from './pages/locations/WhitefieldPage';
-import HSRLayoutPage from './pages/locations/HSRLayoutPage';
-import ElectronicCityPage from './pages/locations/ElectronicCityPage';
-import IndiranagarPage from './pages/locations/IndiranagarPage';
-import KoramangalaPage from './pages/locations/KoramangalaPage';
-import MarathahalliPage from './pages/locations/MarathahalliPage';
-import BTMLayoutPage from './pages/locations/BTMLayoutPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 import { getPageKeyFromPath, getPathForPageKey, type PageKey } from './constants/routes';
 
 const normalizePath = (pathname: string) => {
@@ -103,20 +98,10 @@ function App() {
         return <AboutUsPage />;
       case 'contact':
         return <ContactPage />;
-      case 'whitefield':
-        return <WhitefieldPage onNavigate={handleNavigate} />;
-      case 'hsr-layout':
-        return <HSRLayoutPage onNavigate={handleNavigate} />;
-      case 'electronic-city':
-        return <ElectronicCityPage onNavigate={handleNavigate} />;
-      case 'indiranagar':
-        return <IndiranagarPage onNavigate={handleNavigate} />;
-      case 'koramangala':
-        return <KoramangalaPage onNavigate={handleNavigate} />;
-      case 'marathahalli':
-        return <MarathahalliPage onNavigate={handleNavigate} />;
-      case 'btm-layout':
-        return <BTMLayoutPage onNavigate={handleNavigate} />;
+      case 'privacy-policy':
+        return <PrivacyPolicyPage onNavigate={handleNavigate} />;
+      case 'terms-and-conditions':
+        return <TermsAndConditionsPage onNavigate={handleNavigate} />;
       default:
         return <HomePage onNavigate={handleNavigate} />;
     }
