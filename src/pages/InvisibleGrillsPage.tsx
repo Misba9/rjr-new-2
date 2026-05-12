@@ -1,45 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, type MouseEvent } from 'react';
 import { Shield, CheckCircle, Eye, Wind, Lock, Home } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
+import { updatePageMeta, addSchemaMarkup, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
 import HeroCarousel from '../components/HeroCarousel';
 import { services as serviceImages } from '../assets/images';
+import { canonicalUrl, PAGE_TO_PATH } from '../constants/routes';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, SITE_URL } from '../constants/nap';
+import Breadcrumbs from '../components/Breadcrumbs';
+import LongFormArticle from '../components/LongFormArticle';
+import { invisibleGrillLongFormParagraphs } from '../content/serviceLongFormArticles';
+import SectionLeadCTA from '../components/SectionLeadCTA';
+import LeadQuoteForm from '../components/LeadQuoteForm';
+import TrustReviewsSection from '../components/TrustReviewsSection';
 
-export default function InvisibleGrillsPage() {
-  useEffect(() => {
-    updatePageMeta({
-      title: 'Invisible Grills in Bangalore | Transparent Window Safety Grills',
-      description: 'Install invisible grills in Bangalore for modern window and balcony safety. RJR Safety Nets offers sleek, transparent grill solutions that maintain your view.',
-      keywords: 'Invisible Grills Bangalore, Transparent Grills, Window Safety Grills, Invisible Window Grills, Modern Safety Grills',
-      canonical: 'https://www.rjrsafetynets.in/invisible-grills',
-      ogTitle: 'Invisible Grills in Bangalore | RJR Safety Nets',
-      ogDescription: 'Marine-grade 316 stainless steel invisible grills for windows and balconies with modern aesthetics.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
+interface InvisibleGrillsPageProps {
+  onNavigate?: (page: string) => void;
+}
 
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': 'https://www.rjrsafetynets.in/invisible-grills#service',
-      serviceType: 'Invisible Grills Installation',
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+91-7075051812',
-        areaServed: 'Bangalore',
-      },
-      description: 'Professional invisible grills installation services in Bangalore',
-    });
-
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.invisibleGrills.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, []);
+export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageProps) {
+  const serviceUrl = canonicalUrl('invisible-grills');
 
   const benefits = [
     {
@@ -122,57 +101,108 @@ export default function InvisibleGrillsPage() {
   const faqs = [
     {
       question: 'What are invisible grills?',
-      answer: 'Invisible grills are modern safety solutions made from thin, high-tensile stainless steel cables installed horizontally or vertically across windows and balconies. They provide security and safety while remaining nearly invisible, maintaining clear views.',
+      answer:
+        'Invisible grills are modern safety solutions made from thin, high-tensile stainless steel cables installed horizontally or vertically across windows and balconies. They provide security and safety while remaining nearly invisible, maintaining clear views.',
     },
     {
       question: 'How strong are invisible grills?',
-      answer: 'Invisible grills use marine-grade 316 stainless steel cables with high tensile strength (typically 1800+ kg breaking load). They can withstand significant force and are designed to prevent falls and unauthorized entry.',
+      answer:
+        'Invisible grills use marine-grade 316 stainless steel cables with high tensile strength (typically 1800+ kg breaking load). They can withstand significant force and are designed to prevent falls and unauthorized entry.',
     },
     {
       question: 'Are they safe for children?',
-      answer: 'Yes, invisible grills are specifically designed with child safety in mind. The cable spacing (typically 2-3 inches) prevents children from slipping through while maintaining visibility and ventilation.',
+      answer:
+        'Yes, invisible grills are specifically designed with child safety in mind. The cable spacing (typically 2-3 inches) prevents children from slipping through while maintaining visibility and ventilation.',
     },
     {
       question: 'Will they obstruct my view?',
-      answer: 'No, invisible grills are designed to be nearly invisible from a distance. The thin cables allow 99% visibility, maintaining your views while providing complete safety.',
+      answer:
+        'No, invisible grills are designed to be nearly invisible from a distance. The thin cables allow 99% visibility, maintaining your views while providing complete safety.',
     },
     {
       question: 'How long do invisible grills last?',
-      answer: 'With proper installation and quality materials (316-grade stainless steel), invisible grills can last 10-15 years or more without rusting or deteriorating.',
+      answer:
+        'With proper installation and quality materials (316-grade stainless steel), invisible grills can last 10-15 years or more without rusting or deteriorating.',
     },
     {
       question: 'Can they be installed on all window types?',
-      answer: 'Yes, invisible grills can be customized for all window types - sliding windows, casement windows, fixed windows, balconies, and terraces of any size.',
+      answer:
+        'Yes, invisible grills can be customized for all window types - sliding windows, casement windows, fixed windows, balconies, and terraces of any size.',
     },
     {
       question: 'Are they better than traditional grills?',
-      answer: 'Invisible grills offer several advantages: unobstructed views, better ventilation, modern aesthetics, easier emergency exit, and they don\'t make your home feel caged or confined.',
+      answer:
+        "Invisible grills offer several advantages: unobstructed views, better ventilation, modern aesthetics, easier emergency exit, and they don't make your home feel caged or confined.",
     },
     {
       question: 'What is the installation time?',
-      answer: 'Installation typically takes 3-6 hours depending on the number and size of openings. Our professional team ensures clean, precise installation.',
+      answer:
+        'Installation typically takes 3-6 hours depending on the number and size of openings. Our professional team ensures clean, precise installation.',
     },
     {
       question: 'Do they require maintenance?',
-      answer: 'Minimal maintenance is required. Occasional cleaning with water is sufficient. The stainless steel cables are rust-proof and weather-resistant.',
+      answer:
+        'Minimal maintenance is required. Occasional cleaning with water is sufficient. The stainless steel cables are rust-proof and weather-resistant.',
     },
   ];
 
-  const invisibleHeroImages = [
-    serviceImages.invisibleGrills.main,
-    ...serviceImages.invisibleGrills.gallery,
-  ];
+  const invisibleHeroImages = [serviceImages.invisibleGrills.main, ...serviceImages.invisibleGrills.gallery];
+
+  const handleLink = (e: MouseEvent<HTMLAnchorElement>, page: string) => {
+    e.preventDefault();
+    onNavigate?.(page);
+  };
 
   useEffect(() => {
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((f) => ({
-        '@type': 'Question',
-        name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      })),
+    updatePageMeta({
+      title: 'Invisible Grill Bangalore | RJR Safety Nets',
+      description:
+        'Professional invisible grill installation in Bangalore (Bengaluru) by RJR Safety Nets. Marine-grade stainless steel, child-safe spacing, neat finishing. Free consultation.',
+      keywords:
+        'invisible grill Bangalore, invisible grills Bangalore, window safety grills Bangalore, balcony invisible grill, transparent grills Bangalore, RJR Safety Nets',
+      canonical: serviceUrl,
+      ogTitle: 'Invisible Grill Bangalore | RJR Safety Nets',
+      ogDescription:
+        'Marine-grade 316 stainless steel invisible grills for windows and balconies — safety with minimal visual impact.',
+      ogType: 'website',
+      author: 'RJR Safety Nets',
     });
+
+    const serviceSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${serviceUrl}#service`,
+      serviceType: 'Invisible Grill Installation',
+      name: 'Invisible Grill Installation Bangalore',
+      url: serviceUrl,
+      provider: {
+        '@type': 'LocalBusiness',
+        '@id': `${SITE_URL}/#organization`,
+        name: 'RJR Safety Nets',
+        telephone: '+917075051812',
+        areaServed: { '@type': 'City', name: 'Bangalore' },
+      },
+      description:
+        'Professional invisible grill installation for windows, balconies, terraces, and staircases in Bengaluru.',
+    };
+
+    addSchemaMarkup([
+      serviceSchema,
+      generateFAQSchema(faqs),
+      generateBreadcrumbSchema([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Services', url: `${SITE_URL}/services` },
+        { name: 'Invisible Grill Bangalore', url: serviceUrl },
+      ]),
+    ]);
+
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = serviceImages.invisibleGrills.main;
+    preloadLink.setAttribute('fetchpriority', 'high');
+    document.head.appendChild(preloadLink);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only meta/schema + preload (faqs & serviceUrl are stable)
   }, []);
 
   return (
@@ -188,13 +218,15 @@ export default function InvisibleGrillsPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]">
-              Invisible Grills in Bangalore
+              Invisible Grill Bangalore
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-indigo-100 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
-              Modern safety solutions that maintain your view and enhance aesthetics
+              Modern window and balcony safety for Bengaluru homes — clear views, strong cables, professional installation.
             </p>
             <p className="text-lg mb-8 leading-relaxed text-gray-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
-              RJR Safety Nets provides premium invisible grill installations using marine-grade stainless steel. Enjoy complete safety for your family while preserving unobstructed views and natural ventilation.
+              RJR Safety Nets provides premium invisible grill installations using marine-grade stainless steel. Enjoy complete
+              safety for your family while preserving unobstructed views and natural ventilation across Whitefield, HSR Layout,
+              Electronic City, JP Nagar, Marathahalli, Indiranagar, Hebbal, and Yelahanka.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -216,15 +248,66 @@ export default function InvisibleGrillsPage() {
         </div>
       </section>
 
+      <section className="bg-white border-b border-gray-100 py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            onNavigate={onNavigate}
+            items={[
+              { name: 'Home', href: '/', page: 'home' },
+              { name: 'Services', href: '/services', page: 'services' },
+              { name: 'Invisible Grill', href: PAGE_TO_PATH['invisible-grills'] },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="border-b border-gray-100 bg-white py-10">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
+          <div className="lg:col-span-2">
+            <SectionLeadCTA variant="blue" headline="Book a free consultation" />
+            {onNavigate && (
+              <p className="mt-6 text-gray-700 leading-relaxed">
+                Many customers combine{' '}
+                <a
+                  href={PAGE_TO_PATH.balcony}
+                  className="text-blue-700 font-semibold hover:underline"
+                  onClick={(e) => handleLink(e, 'balcony')}
+                >
+                  balcony safety nets Bangalore
+                </a>{' '}
+                or{' '}
+                <a
+                  href={PAGE_TO_PATH.pigeon}
+                  className="text-blue-700 font-semibold hover:underline"
+                  onClick={(e) => handleLink(e, 'pigeon')}
+                >
+                  pigeon safety nets Bangalore
+                </a>{' '}
+                with invisible grills for a complete safety plan. See{' '}
+                <a href={PAGE_TO_PATH.about} className="text-blue-700 font-semibold hover:underline" onClick={(e) => handleLink(e, 'about')}>
+                  About RJR Safety Nets
+                </a>{' '}
+                or{' '}
+                <a
+                  href={PAGE_TO_PATH.contact}
+                  className="text-blue-700 font-semibold hover:underline"
+                  onClick={(e) => handleLink(e, 'contact')}
+                >
+                  contact us
+                </a>{' '}
+                to schedule a site visit.
+              </p>
+            )}
+          </div>
+          <LeadQuoteForm id="invisible-grill-lead" heading="WhatsApp — free quote" />
+        </div>
+      </section>
+
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Benefits of Invisible Grills
-            </h2>
-            <p className="text-xl text-gray-600">
-              Modern safety with uncompromised aesthetics
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Benefits of Invisible Grills</h2>
+            <p className="text-xl text-gray-600">Modern safety with uncompromised aesthetics</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => {
@@ -249,12 +332,8 @@ export default function InvisibleGrillsPage() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Applications of Invisible Grills
-            </h2>
-            <p className="text-xl text-gray-600">
-              Versatile solutions for all safety needs
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Applications of Invisible Grills</h2>
+            <p className="text-xl text-gray-600">Versatile solutions for all safety needs</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {applications.map((item, index) => (
@@ -270,12 +349,8 @@ export default function InvisibleGrillsPage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Features & Specifications
-            </h2>
-            <p className="text-xl text-gray-600">
-              Premium quality for lasting safety
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Features & Specifications</h2>
+            <p className="text-xl text-gray-600">Premium quality for lasting safety</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {features.map((item, index) => (
@@ -291,12 +366,8 @@ export default function InvisibleGrillsPage() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Why Choose RJR for Invisible Grills?
-            </h2>
-            <p className="text-xl text-gray-600">
-              Expertise and quality you can trust
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose RJR for Invisible Grills?</h2>
+            <p className="text-xl text-gray-600">Expertise and quality you can trust</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {whyChoose.map((item, index) => (
@@ -309,16 +380,35 @@ export default function InvisibleGrillsPage() {
         </div>
       </section>
 
+      <LongFormArticle
+        title="Invisible grill Bangalore — expert guide"
+        paragraphs={invisibleGrillLongFormParagraphs}
+        id="invisible-grill-longform"
+      />
+
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">Customer testimonials</h2>
+          <TrustReviewsSection
+            rating={GOOGLE_RATING}
+            customerCount={GOOGLE_REVIEW_COUNT}
+            testimonial={{
+              name: 'Priya S.',
+              location: 'HSR Layout, Bengaluru',
+              rating: 5,
+              text: 'We installed invisible grills on our large windows. The team was punctual, the cables look very neat, and we feel much safer with kids at home.',
+            }}
+            variant="blue"
+          />
+        </div>
+      </section>
+
       <FAQSection faqs={faqs} />
 
       <section className="py-16 bg-indigo-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Get Modern Safety for Your Home
-          </h2>
-          <p className="text-xl mb-8 text-indigo-100">
-            Free consultation • Professional installation • 10-year warranty
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Get modern safety for your home</h2>
+          <p className="text-xl mb-8 text-indigo-100">Free consultation • Professional installation • Strong materials</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:+917075051812"

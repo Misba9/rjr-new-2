@@ -1,5 +1,15 @@
 import { PageMeta } from '../types';
-import { SITE_URL, ADDRESS, EMAIL, PHONE_PRIMARY, PHONE_SECONDARY, GOOGLE_RATING, GOOGLE_REVIEW_COUNT, SERVICE_AREAS } from '../constants/nap';
+import {
+  SITE_URL,
+  ADDRESS,
+  EMAIL,
+  PHONE_PRIMARY,
+  PHONE_SECONDARY,
+  GOOGLE_RATING,
+  GOOGLE_REVIEW_COUNT,
+  SERVICE_AREAS,
+  BUSINESS_NAME,
+} from '../constants/nap';
 
 const DEFAULT_IMAGE = 'https://www.rjrsafetynets.in/og-image.jpg';
 
@@ -93,13 +103,12 @@ export const updatePageMeta = (meta: PageMeta) => {
 
 /**
  * Add structured data (Schema.org) markup.
- * Removes only dynamically-injected schemas (preserves index.html static schema).
- * Supports multiple schemas - pass array to add several without overwriting.
+ * Removes only page-level dynamic schemas (`data-dynamic-schema`). Preserves `index.html` static LocalBusiness and
+ * `data-global-schema` (WebSite) injected once on app load.
  */
 export const addSchemaMarkup = (schema: object | object[]) => {
   const schemas = Array.isArray(schema) ? schema : [schema];
-  const existingScripts = document.querySelectorAll('script[type="application/ld+json"][data-dynamic-schema]');
-  existingScripts.forEach((s) => s.remove());
+  document.querySelectorAll('script[type="application/ld+json"][data-dynamic-schema]').forEach((s) => s.remove());
 
   schemas.forEach((s) => {
     const script = document.createElement('script');
@@ -108,6 +117,31 @@ export const addSchemaMarkup = (schema: object | object[]) => {
     script.text = JSON.stringify(s);
     document.head.appendChild(script);
   });
+};
+
+/**
+ * WebSite JSON-LD (publisher points at static LocalBusiness `#organization` in index.html).
+ * Call once on app mount. Sitelinks Search Box requires an on-site search URL; we omit SearchAction until a real search route exists.
+ */
+export const injectGlobalWebSiteSchemaOnce = () => {
+  if (document.querySelector('script[type="application/ld+json"][data-global-schema]')) return;
+
+  const webSite = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: `${SITE_URL}/`,
+    name: BUSINESS_NAME,
+    alternateName: ['RJR Safety Nets Bangalore', 'RJR Safety Nets Bengaluru'],
+    inLanguage: 'en-IN',
+    publisher: { '@id': `${SITE_URL}/#organization` },
+  };
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.setAttribute('data-global-schema', 'true');
+  script.text = JSON.stringify(webSite);
+  document.head.appendChild(script);
 };
 
 /**
@@ -200,6 +234,7 @@ export const generateLocalBusinessSchema = () => {
       itemListElement: [
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Balcony safety nets Bangalore' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pigeon safety nets Bangalore' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Invisible grill Bangalore' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bird net Bangalore' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Children safety nets Bangalore' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Construction safety nets Bangalore' } },

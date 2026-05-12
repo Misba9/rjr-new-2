@@ -26,6 +26,11 @@ const coreServices: Array<{ key: string; title: string; blurb: string }> = [
     blurb: 'Child-safe balcony and window protection with secure anchoring and neat finishing.',
   },
   {
+    key: 'invisible-grills',
+    title: 'Invisible grill Bangalore',
+    blurb: '316 stainless cable grills for windows and balconies — safety with minimal visual impact and strong ventilation.',
+  },
+  {
     key: 'construction',
     title: 'Construction safety nets Bangalore',
     blurb: 'Site and industrial netting for fall and debris risk — scoped to your project needs.',
@@ -47,7 +52,7 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
     updatePageMeta({
       title: 'Safety Net Services in Bangalore | RJR Safety Nets',
       description:
-        'Balcony, pigeon, children, construction, monkey, and coconut tree safety nets in Bangalore. Safety nets installation Bangalore with free quote — call or WhatsApp RJR Safety Nets.',
+        'Balcony, pigeon, children, invisible grill, construction, monkey, and coconut tree safety nets in Bangalore. Safety nets installation Bengaluru with free quote — call or WhatsApp RJR Safety Nets.',
       keywords:
         'safety nets in Bangalore, balcony safety nets Bangalore, pigeon safety nets Bangalore, bird net Bangalore, children safety nets Bangalore, safety nets installation Bangalore, safety nets near me',
       canonical: canonicalUrl('services'),

@@ -38,7 +38,7 @@ export default function SportsPracticeNetsPage() {
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
     preloadLink.href = serviceImages.sports.main;
-    (preloadLink as any).fetchPriority = 'high';
+    preloadLink.setAttribute('fetchpriority', 'high');
     document.head.appendChild(preloadLink);
   }, []);
 
@@ -179,6 +179,7 @@ export default function SportsPracticeNetsPage() {
         acceptedAnswer: { '@type': 'Answer', text: f.answer },
       })),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqs content is static for this page
   }, []);
 
   return (

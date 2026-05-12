@@ -82,7 +82,8 @@ export default function CoconutSafetyNetsPage({ onNavigate }: CoconutSafetyNetsP
     preloadLink.href = serviceImages.coconutTree.main;
     preloadLink.setAttribute('fetchpriority', 'high');
     document.head.appendChild(preloadLink);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqs content is static for this page
+  }, [serviceUrl]);
 
   const benefits = [
     { icon: Shield, title: 'Impact containment', description: 'Designed to catch falling nuts and reduce ground-level risk.' },

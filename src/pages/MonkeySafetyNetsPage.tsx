@@ -81,9 +81,9 @@ export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPag
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
     preloadLink.href = serviceImages.monkey.main;
-    (preloadLink as any).fetchPriority = 'high';
+    preloadLink.setAttribute('fetchpriority', 'high');
     document.head.appendChild(preloadLink);
-  }, []);
+  }, [serviceUrl]);
 
   const benefits = [
     {

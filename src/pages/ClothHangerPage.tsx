@@ -151,6 +151,7 @@ export default function ClothHangerPage() {
         acceptedAnswer: { '@type': 'Answer', text: f.answer },
       })),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqs content is static for this page
   }, []);
 
   return (

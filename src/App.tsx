@@ -19,6 +19,7 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 import { getPageKeyFromPath, getPathForPageKey, type PageKey } from './constants/routes';
+import { injectGlobalWebSiteSchemaOnce } from './utils/seo';
 
 const normalizePath = (pathname: string) => {
   const withLeading = pathname.startsWith('/') ? pathname : `/${pathname}`;
@@ -37,6 +38,10 @@ function App() {
       window.history.pushState({}, '', nextPath);
     }
     setCurrentPage(page as PageKey);
+  }, []);
+
+  useEffect(() => {
+    injectGlobalWebSiteSchemaOnce();
   }, []);
 
   useEffect(() => {
@@ -87,7 +92,7 @@ function App() {
       case 'cloth-hanger':
         return <ClothHangerPage />;
       case 'invisible-grills':
-        return <InvisibleGrillsPage />;
+        return <InvisibleGrillsPage onNavigate={handleNavigate} />;
       case 'construction':
         return <ConstructionSafetyNetsPage onNavigate={handleNavigate} />;
       case 'sports':

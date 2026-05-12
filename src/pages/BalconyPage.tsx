@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Clock, Cloud, Users } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { updatePageMeta, addSchemaMarkup, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
+import { canonicalUrl, PAGE_TO_PATH } from '../constants/routes';
+import { SITE_URL } from '../constants/nap';
 import LongFormArticle from '../components/LongFormArticle';
 import { balconyLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
@@ -9,6 +10,7 @@ import SectionLeadCTA from '../components/SectionLeadCTA';
 import FAQSection from '../components/FAQSection';
 import ServiceContentBlock from '../components/ServiceContentBlock';
 import { services as serviceImages } from '../assets/images';
+import Breadcrumbs from '../components/Breadcrumbs';
 import HeroCarousel from '../components/HeroCarousel';
 
 interface BalconyPageProps {
@@ -48,15 +50,15 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
 
   useEffect(() => {
     updatePageMeta({
-      title: 'Balcony Safety Nets in Bangalore | Installation & Price',
+      title: 'Balcony Safety Nets Bangalore | RJR Safety Nets',
       description:
-        'Get durable balcony safety nets in Bangalore. Affordable pricing, quick installation. Call now for free quote.',
+        'Professional balcony safety net installation in Bangalore by RJR Safety Nets. Affordable, durable HDPE nets with neat fitting and 5+ years warranty. Free inspection.',
       keywords:
         'balcony safety nets Bangalore, balcony safety nets in Bangalore, safety nets in Bangalore, safety nets near me, balcony net price Bangalore, safety nets installation Bangalore, bird net Bangalore',
       canonical: serviceUrl,
-      ogTitle: 'Balcony Safety Nets in Bangalore | Installation & Price',
+      ogTitle: 'Balcony Safety Nets Bangalore | RJR Safety Nets',
       ogDescription:
-        'Get durable balcony safety nets in Bangalore. Affordable pricing, quick installation. Call now for free quote.',
+        'Professional balcony safety net installation in Bangalore by RJR Safety Nets. Affordable, durable HDPE nets with neat fitting and 5+ years warranty.',
       ogType: 'website',
       author: 'RJR Safety Nets',
     });
@@ -97,16 +99,24 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
       },
     };
 
-    addSchemaMarkup([serviceSchema, generateFAQSchema(BALCONY_FAQS)]);
+    addSchemaMarkup([
+      serviceSchema,
+      generateFAQSchema(BALCONY_FAQS),
+      generateBreadcrumbSchema([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Services', url: `${SITE_URL}/services` },
+        { name: 'Balcony Safety Nets Bangalore', url: serviceUrl },
+      ]),
+    ]);
 
     // Preload LCP hero image for faster first paint
     const preloadLink = document.createElement('link');
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
     preloadLink.href = serviceImages.balcony.main;
-    (preloadLink as any).fetchPriority = 'high';
+    preloadLink.setAttribute('fetchpriority', 'high');
     document.head.appendChild(preloadLink);
-  }, []);
+  }, [serviceUrl]);
 
   const benefits = [
     {
@@ -152,7 +162,7 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Balcony Safety Nets in Bangalore
+              Balcony Safety Nets Bangalore
             </h1>
             <p className="text-xl md:text-2xl mb-6 text-blue-100 leading-relaxed">
               Looking for the best balcony safety nets in Bangalore? We provide high-quality, durable and affordable safety net
@@ -179,6 +189,19 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white border-b border-gray-100 py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            onNavigate={onNavigate}
+            items={[
+              { name: 'Home', href: '/', page: 'home' },
+              { name: 'Services', href: '/services', page: 'services' },
+              { name: 'Balcony Safety Nets', href: PAGE_TO_PATH.balcony },
+            ]}
+          />
         </div>
       </section>
 

@@ -15,7 +15,7 @@ import {
   Shirt,
   Trees,
 } from 'lucide-react';
-import { updatePageMeta } from '../utils/seo';
+import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
 import { PAGE_TO_PATH, type PageKey } from '../constants/routes';
 import HeroSlider from '../components/HeroSlider';
 import OptimizedImage from '../components/OptimizedImage';
@@ -30,25 +30,57 @@ import {
   WHATSAPP_URL,
 } from '../constants/nap';
 
+import FAQSection from '../components/FAQSection';
+
 interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
+const HOME_FAQS = [
+  {
+    question: 'Do you install safety nets across Bangalore and Bengaluru?',
+    answer:
+      'Yes. RJR Safety Nets provides inspection and installation across Bengaluru, including Whitefield, HSR Layout, Electronic City, JP Nagar, Marathahalli, Indiranagar, Hebbal, Yelahanka, and many other neighborhoods. Contact us with your pin code to confirm the next available slot.',
+  },
+  {
+    question: 'What is the difference between balcony safety nets and pigeon safety nets?',
+    answer:
+      'Both often use durable mesh, but the goal differs: balcony nets prioritize fall protection for people and pets, while pigeon nets focus on humane bird exclusion and hygiene. Many balconies benefit from a solution that addresses both risks—our site visit helps you choose the correct mesh and coverage.',
+  },
+  {
+    question: 'Do you install invisible grills in Bangalore?',
+    answer:
+      'Yes. We install stainless steel invisible grills for windows, balconies, terraces, and staircases. Invisible grills are a strong option when you want safety with minimal visual obstruction and maximum ventilation.',
+  },
+  {
+    question: 'How do I book a free inspection?',
+    answer:
+      'Call or WhatsApp our team, or use the contact page to request a visit. We typically schedule a convenient time, measure your openings, recommend the right product, and share a transparent quote.',
+  },
+  {
+    question: 'What warranty do you provide?',
+    answer:
+      'Safety net installations are backed by a 5+ years warranty on standard terms. Warranty scope is explained clearly at quotation so you know what is covered for materials and workmanship.',
+  },
+];
+
 export default function HomePage({ onNavigate }: HomePageProps) {
   useEffect(() => {
     updatePageMeta({
-      title: 'Safety Nets in Bangalore | Balcony, Bird & Children Nets',
+      title: 'RJR Safety Nets | Balcony, Pigeon & Invisible Grill in Bangalore',
       description:
-        'Best safety nets in Bangalore. Balcony, pigeon, children & construction nets at affordable price. Call now for installation.',
+        'RJR Safety Nets installs balcony safety nets, pigeon safety nets, invisible grills, and children safety nets in Bangalore (Bengaluru). Free inspection, neat installation, 5+ years warranty. Call 7075051812.',
       keywords:
-        'safety nets in Bangalore, balcony safety nets Bangalore, pigeon safety nets Bangalore, bird net Bangalore, children safety nets Bangalore, safety nets near me, anti bird net Bangalore, balcony net price Bangalore, safety nets installation Bangalore',
+        'RJR Safety Nets, safety nets in Bangalore, balcony safety nets Bangalore, pigeon safety nets Bangalore, invisible grill Bangalore, children safety nets Bangalore, safety nets installation Bangalore, safety nets near me',
       canonical: 'https://www.rjrsafetynets.in/',
-      ogTitle: 'Safety Nets in Bangalore | Balcony, Bird & Children Nets',
+      ogTitle: 'RJR Safety Nets | Balcony, Pigeon & Invisible Grill in Bangalore',
       ogDescription:
-        'Best safety nets in Bangalore. Balcony, pigeon, children & construction nets at affordable price. Call now for installation.',
+        'Trusted safety nets and invisible grill installation in Bengaluru. Free inspection, transparent quotes, professional fitting.',
       ogType: 'website',
       author: 'RJR Safety Nets',
     });
+
+    addSchemaMarkup(generateFAQSchema(HOME_FAQS));
 
     const preloadLink = document.createElement('link');
     preloadLink.rel = 'preload';
@@ -185,7 +217,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
     </div>
   );
 
-  const serviceAreaHighlights = ['Whitefield', 'HSR Layout', 'Electronic City', 'Marathahalli', 'JP Nagar', 'Bangalore'];
+  const serviceAreaHighlights = [
+    'Whitefield',
+    'HSR Layout',
+    'Electronic City',
+    'Marathahalli',
+    'JP Nagar',
+    'Indiranagar',
+    'Bangalore',
+  ];
 
   return (
     <div>
@@ -254,7 +294,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Whether you need support for a high-rise balcony, a clean bird-free balcony, or added child protection on
               windows, we help you select the right mesh and fitment for your space. Explore our dedicated pages for{' '}
               <a
-                href="/balcony-safety-nets-bangalore/"
+                href={PAGE_TO_PATH.balcony}
                 onClick={(e) => handleInternalLink(e, 'balcony')}
                 className="text-blue-700 font-semibold hover:underline"
               >
@@ -262,21 +302,33 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </a>
               ,{' '}
               <a
-                href="/pigeon-safety-nets-bangalore/"
+                href={PAGE_TO_PATH.pigeon}
                 onClick={(e) => handleInternalLink(e, 'pigeon')}
                 className="text-blue-700 font-semibold hover:underline"
               >
                 Pigeon Safety Nets
               </a>
-              , and{' '}
+              ,{' '}
               <a
-                href="/children-safety-nets-bangalore/"
+                href={PAGE_TO_PATH['invisible-grills']}
+                onClick={(e) => handleInternalLink(e, 'invisible-grills')}
+                className="text-blue-700 font-semibold hover:underline"
+              >
+                Invisible Grill Bangalore
+              </a>
+              ,{' '}
+              <a
+                href={PAGE_TO_PATH.children}
                 onClick={(e) => handleInternalLink(e, 'children')}
                 className="text-blue-700 font-semibold hover:underline"
               >
                 Children Safety Nets
               </a>
-              .
+              , and our{' '}
+              <a href={PAGE_TO_PATH.about} onClick={(e) => handleInternalLink(e, 'about')} className="text-blue-700 font-semibold hover:underline">
+                About
+              </a>{' '}
+              page to learn how we work.
             </p>
             <p>
               Customers searching specifically for <strong>balcony safety nets Bangalore</strong>,{' '}
@@ -294,7 +346,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 onClick={(e) => handleInternalLink(e, 'contact')}
                 className="text-blue-700 font-semibold hover:underline"
               >
-                Contact Us
+                Contact
               </a>
               .
             </p>
@@ -497,11 +549,18 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
+      <section className="py-14 bg-white" aria-labelledby="home-faq-title">
+        <h2 id="home-faq-title" className="sr-only">
+          Frequently asked questions
+        </h2>
+        <FAQSection faqs={HOME_FAQS} />
+      </section>
+
       <section className="py-14 bg-white" aria-labelledby="reviews-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <header className="text-center mb-10">
             <h2 id="reviews-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
-              Customer Reviews
+              Testimonials
             </h2>
             <p className="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">
               Rated by Bengaluru customers for responsiveness, neat work and long-lasting net quality.
@@ -538,19 +597,32 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <div>
                 <p className="text-gray-900 font-semibold">Quick links</p>
                 <nav className="mt-3 space-y-2" aria-label="Internal links">
-                  <a
-                    href="/about"
-                    onClick={(e) => handleInternalLink(e, 'about')}
-                    className="block text-blue-700 hover:underline"
-                  >
-                    /about
+                  <a href={PAGE_TO_PATH.about} onClick={(e) => handleInternalLink(e, 'about')} className="block text-blue-700 hover:underline">
+                    About RJR Safety Nets
                   </a>
                   <a
-                    href="/contact"
-                    onClick={(e) => handleInternalLink(e, 'contact')}
+                    href={PAGE_TO_PATH.balcony}
+                    onClick={(e) => handleInternalLink(e, 'balcony')}
                     className="block text-blue-700 hover:underline"
                   >
-                    /contact
+                    Balcony safety nets Bangalore
+                  </a>
+                  <a
+                    href={PAGE_TO_PATH['invisible-grills']}
+                    onClick={(e) => handleInternalLink(e, 'invisible-grills')}
+                    className="block text-blue-700 hover:underline"
+                  >
+                    Invisible grill Bangalore
+                  </a>
+                  <a
+                    href={PAGE_TO_PATH.pigeon}
+                    onClick={(e) => handleInternalLink(e, 'pigeon')}
+                    className="block text-blue-700 hover:underline"
+                  >
+                    Pigeon safety nets Bangalore
+                  </a>
+                  <a href={PAGE_TO_PATH.contact} onClick={(e) => handleInternalLink(e, 'contact')} className="block text-blue-700 hover:underline">
+                    Contact &amp; book inspection
                   </a>
                 </nav>
                 <p className="mt-6 text-gray-700 leading-relaxed">

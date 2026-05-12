@@ -23,5 +23,8 @@ https://rjrsafetynets.com/* https://www.rjrsafetynets.in/:splat 301!
 /btm-layout  /  301
 /location/btm-safety-nets  /  301
 
+# Canonical invisible grill URL (legacy path)
+/invisible-grills  /invisible-grill-bangalore  301
+
 # SPA fallback - must be last
 /*    /index.html   200

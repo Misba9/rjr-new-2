@@ -2,16 +2,40 @@ import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { logos } from '../assets/images';
 import { PHONE_TEL, PHONE_PRIMARY_DISPLAY } from '../constants/nap';
+import { PAGE_TO_PATH, type PageKey } from '../constants/routes';
 
 interface HeaderProps {
   currentPage: string;
   onNavigate: (page: string) => void;
 }
 
+const primaryNav: Array<{ label: string; page: PageKey }> = [
+  { label: 'Home', page: 'home' },
+  { label: 'About', page: 'about' },
+  { label: 'Services', page: 'services' },
+  { label: 'Balcony Safety Nets', page: 'balcony' },
+  { label: 'Invisible Grill', page: 'invisible-grills' },
+  { label: 'Pigeon Safety Nets', page: 'pigeon' },
+  { label: 'Contact', page: 'contact' },
+];
+
+const moreNav: Array<{ label: string; page: PageKey }> = [
+  { label: 'Children Safety Nets', page: 'children' },
+  { label: 'Monkey Safety Nets', page: 'monkey' },
+  { label: 'Coconut Tree Nets', page: 'coconut' },
+  { label: 'Cloth Hanger Nets', page: 'cloth-hanger' },
+  { label: 'Construction Nets', page: 'construction' },
+  { label: 'Sports Practice Nets', page: 'sports' },
+  { label: 'Blog', page: 'blog' },
+];
+
+const morePages: PageKey[] = moreNav.map((i) => i.page);
+
 export default function Header({ currentPage, onNavigate }: HeaderProps) {
+  const isMoreActive = morePages.includes(currentPage as PageKey);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [desktopServicesOpen, setDesktopServicesOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [desktopMoreOpen, setDesktopMoreOpen] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const phoneRef = useRef<HTMLAnchorElement>(null);
 
@@ -36,145 +60,120 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
     };
   }, [isMobile, mobileMenuOpen]);
 
-  const navigation = [
-    { name: 'Home', href: 'home' },
-    { name: 'All Services', href: 'services' },
-    { name: 'Services', dropdown: true },
-    { name: 'About', href: 'about' },
-    { name: 'Blog', href: 'blog' },
-    { name: 'Contact', href: 'contact' },
-  ];
+  const go = (page: PageKey) => {
+    onNavigate(page);
+    setMobileMenuOpen(false);
+    setDesktopMoreOpen(false);
+    setMobileMoreOpen(false);
+  };
 
-  const services = [
-    { name: 'Balcony Safety Nets', href: 'balcony' },
-    { name: 'Pigeon Safety Nets', href: 'pigeon' },
-    { name: 'Children Safety Nets', href: 'children' },
-    { name: 'Monkey Safety Nets', href: 'monkey' },
-    { name: 'Coconut Tree Safety Nets', href: 'coconut' },
-    { name: 'Cloth Hanger Nets', href: 'cloth-hanger' },
-    { name: 'Invisible Grills', href: 'invisible-grills' },
-    { name: 'Construction Safety Nets', href: 'construction' },
-    { name: 'Sports Practice Nets', href: 'sports' },
-  ];
-
-  const servicePages = [
-    'services',
-    'balcony',
-    'pigeon',
-    'children',
-    'monkey',
-    'coconut',
-    'cloth-hanger',
-    'invisible-grills',
-    'construction',
-    'sports',
-  ];
-  const isServicePage = servicePages.includes(currentPage);
+  const linkClass = (active: boolean) =>
+    `text-sm font-medium transition-all duration-300 ease-in-out whitespace-nowrap ${
+      active ? 'text-blue-600 border-b-2 border-blue-600 pb-0.5' : 'text-gray-700 hover:text-blue-600'
+    }`;
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0 cursor-pointer flex items-center gap-3" onClick={() => onNavigate('home')}>
-            <img 
-              src={logos.navbar} 
-              alt="RJR Safety Nets Logo" 
-              className="h-10 w-auto"
-            />
-            <div>
-              <p className="text-xl sm:text-2xl font-bold text-blue-600">RJR Safety Nets</p>
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main">
+        <div className="flex justify-between items-center h-16 gap-3">
+          <div
+            className="flex-shrink-0 cursor-pointer flex items-center gap-3 min-w-0"
+            onClick={() => go('home')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                go('home');
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="RJR Safety Nets home"
+          >
+            <img src={logos.navbar} alt="RJR Safety Nets Logo" className="h-10 w-auto flex-shrink-0" />
+            <div className="min-w-0">
+              <p className="text-lg sm:text-2xl font-bold text-blue-600 truncate">RJR Safety Nets</p>
               <p className="text-xs text-gray-600">Bangalore</p>
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <div key={item.name} className="relative">
-                {item.dropdown ? (
-                  // Attach hover handlers to the wrapper so moving between button & panel doesn't close it
-                  <div
-                    className={`flex items-center text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 ${
-                      isServicePage ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                    }`}
-                    onMouseEnter={() => setDesktopServicesOpen(true)}
-                    onMouseLeave={() => setDesktopServicesOpen(false)}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setDesktopServicesOpen((s) => !s)}
-                      aria-haspopup="menu"
-                      aria-expanded={desktopServicesOpen}
-                      className="cursor-pointer flex items-center"
-                    >
-                      <span>{item.name}</span>
-                      <ChevronDown 
-                        size={16} 
-                        className={`ml-1 transition-transform duration-300 ease-in-out ${
-                          desktopServicesOpen ? 'rotate-180' : ''
-                        }`} 
-                      />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(item.href!)}
-                    className={`text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 ${
-                      item.href && currentPage === item.href
-                        ? 'text-blue-600 border-b-2 border-blue-600'
-                        : 'text-gray-700 hover:text-blue-600'
-                    }`}
-                  >
-                    {item.name}
-                  </button>
-                )}
+          <div className="hidden lg:flex items-center gap-x-2 xl:gap-x-3 flex-wrap justify-end flex-1 min-w-0">
+            {primaryNav.map((item) => {
+              const href = PAGE_TO_PATH[item.page];
+              const active = currentPage === item.page;
+              return (
+                <a
+                  key={item.page}
+                  href={href}
+                  className={linkClass(active)}
+                  aria-current={active ? 'page' : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    go(item.page);
+                  }}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
 
-                {item.dropdown && desktopServicesOpen && (
-                  <div
-                    className="absolute left-0 mt-2 w-64 bg-white shadow-2xl rounded-lg py-3 z-50 opacity-0 translate-y-2 animate-fadeInDown"
-                    onMouseEnter={() => setDesktopServicesOpen(true)}
-                    onMouseLeave={() => setDesktopServicesOpen(false)}
-                    role="menu"
-                    aria-label="Services"
-                  >
-                    <div className="grid grid-cols-1 gap-1 max-h-96 overflow-y-auto">
-                      {services.map((service) => (
-                        <button
-                          key={service.name}
-                          type="button"
-                          onClick={() => {
-                            onNavigate(service.href);
-                            setDesktopServicesOpen(false);
-                          }}
-                          className={`block w-full text-left px-5 py-3 text-sm transition-all duration-200 ease-in-out hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 ${
-                            currentPage === service.href 
-                              ? 'text-blue-600 bg-blue-50 font-medium' 
-                              : 'text-gray-700 hover:text-blue-600'
-                          }`}
-                        >
-                          <span className="flex items-center">
-                            <span className="mr-2">•</span>
-                            {service.name}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+            <div
+              className="relative"
+              onMouseEnter={() => setDesktopMoreOpen(true)}
+              onMouseLeave={() => setDesktopMoreOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setDesktopMoreOpen((o) => !o)}
+                aria-haspopup="menu"
+                aria-expanded={desktopMoreOpen}
+                className={`${linkClass(isMoreActive)} flex items-center gap-1 cursor-pointer border-b-0 pb-0`}
+              >
+                More
+                <ChevronDown size={16} className={`transition-transform ${desktopMoreOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {desktopMoreOpen && (
+                <div
+                  className="absolute right-0 mt-2 w-56 bg-white shadow-2xl rounded-lg py-2 z-50 border border-gray-100"
+                  role="menu"
+                  aria-label="More pages"
+                >
+                  {moreNav.map((item) => {
+                    const href = PAGE_TO_PATH[item.page];
+                    const active = currentPage === item.page;
+                    return (
+                      <a
+                        key={item.page}
+                        href={href}
+                        role="menuitem"
+                        className={`block px-4 py-2.5 text-sm transition-colors ${
+                          active ? 'text-blue-600 bg-blue-50 font-medium' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          go(item.page);
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             <a
               href={PHONE_TEL}
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl flex-shrink-0"
             >
               <Phone size={18} aria-hidden="true" />
-              <span className="text-sm font-semibold">Call Now</span>
+              <span className="text-sm font-semibold hidden xl:inline">Call Now</span>
+              <span className="text-sm font-semibold xl:hidden">Call</span>
             </a>
           </div>
 
           <button
             type="button"
-            className="md:hidden p-2"
+            className="lg:hidden p-2 flex-shrink-0"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
@@ -184,71 +183,60 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t animate-slideDown">
-            {navigation.map((item) => (
-              <div key={item.name}>
-                {item.dropdown ? (
-                  <>
-                    <button
-                      type="button"
-                      className={`flex items-center justify-between w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 ease-in-out ${
-                        isServicePage 
-                          ? 'text-blue-600 bg-blue-50' 
-                          : 'text-gray-700 hover:bg-gray-50'
-                      }`}
-                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                      aria-haspopup="menu"
-                      aria-expanded={mobileServicesOpen}
+          <div className="lg:hidden py-4 border-t animate-slideDown max-h-[calc(100vh-5rem)] overflow-y-auto">
+            {primaryNav.map((item) => {
+              const href = PAGE_TO_PATH[item.page];
+              const active = currentPage === item.page;
+              return (
+                <a
+                  key={item.page}
+                  href={href}
+                  className={`block px-4 py-3 text-base font-medium ${
+                    active ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                  aria-current={active ? 'page' : undefined}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    go(item.page);
+                  }}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+            <button
+              type="button"
+              className={`flex items-center justify-between w-full text-left px-4 py-3 text-base font-medium ${
+                isMoreActive ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setMobileMoreOpen(!mobileMoreOpen)}
+              aria-haspopup="menu"
+              aria-expanded={mobileMoreOpen}
+            >
+              <span>More services &amp; blog</span>
+              <ChevronDown size={18} className={`transform transition-transform ${mobileMoreOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {mobileMoreOpen && (
+              <div className="pl-4 bg-gray-50 border-t border-gray-100" role="menu" aria-label="More pages">
+                {moreNav.map((item) => {
+                  const href = PAGE_TO_PATH[item.page];
+                  const active = currentPage === item.page;
+                  return (
+                    <a
+                      key={item.page}
+                      href={href}
+                      className={`block px-4 py-3 text-sm ${active ? 'text-blue-600 font-medium' : 'text-gray-700'}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        go(item.page);
+                      }}
                     >
-                      <span>{item.name}</span>
-                      <ChevronDown 
-                        size={18} 
-                        className={`transform transition-transform duration-300 ease-in-out ${
-                          mobileServicesOpen ? 'rotate-180' : ''
-                        }`} 
-                      />
-                    </button>
-                    {mobileServicesOpen && (
-                      <div className="pl-6 py-2 bg-gray-50 animate-slideDown" role="menu" aria-label="Services">
-                        {services.map((service) => (
-                          <button
-                            key={service.name}
-                            type="button"
-                            onClick={() => {
-                              onNavigate(service.href);
-                              setMobileMenuOpen(false);
-                              setMobileServicesOpen(false);
-                            }}
-                            className={`block w-full text-left px-4 py-3 text-sm transition-all duration-200 ease-in-out ${
-                              currentPage === service.href
-                                ? 'text-blue-600 bg-blue-50 font-medium'
-                                : 'text-gray-700 hover:bg-gray-100'
-                            }`}
-                          >
-                            {service.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onNavigate(item.href!);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`block w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 ease-in-out ${
-                      item.href && currentPage === item.href
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    {item.name}
-                  </button>
-                )}
+                      {item.label}
+                    </a>
+                  );
+                })}
               </div>
-            ))}
+            )}
             <a
               ref={phoneRef}
               href={PHONE_TEL}

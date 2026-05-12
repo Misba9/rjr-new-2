@@ -81,9 +81,9 @@ export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionS
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
     preloadLink.href = serviceImages.construction.main;
-    (preloadLink as any).fetchPriority = 'high';
+    preloadLink.setAttribute('fetchpriority', 'high');
     document.head.appendChild(preloadLink);
-  }, []);
+  }, [serviceUrl]);
 
   const benefits = [
     {

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Bird, Home, Sparkles, Clock } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { updatePageMeta, addSchemaMarkup, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
+import { canonicalUrl, PAGE_TO_PATH } from '../constants/routes';
+import { SITE_URL } from '../constants/nap';
 import LongFormArticle from '../components/LongFormArticle';
 import { pigeonLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
@@ -10,6 +11,7 @@ import FAQSection from '../components/FAQSection';
 import ServiceContentBlock from '../components/ServiceContentBlock';
 import { services as serviceImages } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 interface PigeonPageProps {
   onNavigate?: (page: string) => void;
@@ -48,13 +50,15 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
 
   useEffect(() => {
     updatePageMeta({
-      title: 'Pigeon Safety Nets in Bangalore | Anti Bird Nets',
-      description: 'Protect your home with pigeon safety nets in Bangalore. High quality anti bird nets. Book installation today.',
+      title: 'Pigeon Safety Nets Bangalore | RJR Safety Nets',
+      description:
+        'Professional pigeon safety net and anti bird net installation in Bangalore by RJR Safety Nets. Humane exclusion, neat finishing, free inspection.',
       keywords:
         'pigeon safety nets Bangalore, bird net Bangalore, anti bird net Bangalore, pigeon safety nets in Bangalore, safety nets in Bangalore, safety nets installation Bangalore',
       canonical: serviceUrl,
-      ogTitle: 'Pigeon Safety Nets in Bangalore | Anti Bird Nets',
-      ogDescription: 'Protect your home with pigeon safety nets in Bangalore. High quality anti bird nets. Book installation today.',
+      ogTitle: 'Pigeon Safety Nets Bangalore | RJR Safety Nets',
+      ogDescription:
+        'Protect balconies and windows with pigeon safety nets in Bangalore. High quality anti bird nets and expert installation.',
       ogType: 'website',
       author: 'RJR Safety Nets',
     });
@@ -75,16 +79,24 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
       description: 'Professional pigeon and bird protection net installation services in Bangalore',
     };
 
-    addSchemaMarkup([serviceSchema, generateFAQSchema(PIGEON_FAQS)]);
+    addSchemaMarkup([
+      serviceSchema,
+      generateFAQSchema(PIGEON_FAQS),
+      generateBreadcrumbSchema([
+        { name: 'Home', url: `${SITE_URL}/` },
+        { name: 'Services', url: `${SITE_URL}/services` },
+        { name: 'Pigeon Safety Nets Bangalore', url: serviceUrl },
+      ]),
+    ]);
 
     // Preload LCP hero image for faster first paint
     const preloadLink = document.createElement('link');
     preloadLink.rel = 'preload';
     preloadLink.as = 'image';
     preloadLink.href = serviceImages.pigeon.main;
-    (preloadLink as any).fetchPriority = 'high';
+    preloadLink.setAttribute('fetchpriority', 'high');
     document.head.appendChild(preloadLink);
-  }, []);
+  }, [serviceUrl]);
 
   const benefits = [
     {
@@ -184,7 +196,7 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Pigeon Safety Nets in Bangalore | Anti Bird Nets
+              Pigeon Safety Nets Bangalore
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-green-100 leading-relaxed">
               Keep your balconies clean and bird-free with our premium pigeon protection nets
@@ -209,6 +221,19 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white border-b border-gray-100 py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            onNavigate={onNavigate}
+            items={[
+              { name: 'Home', href: '/', page: 'home' },
+              { name: 'Services', href: '/services', page: 'services' },
+              { name: 'Pigeon Safety Nets', href: PAGE_TO_PATH.pigeon },
+            ]}
+          />
         </div>
       </section>
 
