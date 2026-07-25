@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
 import { Calendar, User, ChevronRight, BookOpen } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
+import { buildHubPageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 
 interface BlogPost {
   id: number;
@@ -17,30 +19,7 @@ interface BlogPageProps {
 }
 
 export default function BlogPage({ onNavigate }: BlogPageProps) {
-  useEffect(() => {
-    updatePageMeta({
-      title: 'Safety Nets Blog - Tips, Guides & News | RJR Safety Nets',
-      description: 'Read expert articles, installation guides, and safety tips from RJR Safety Nets. Stay informed about safety net solutions in Bangalore.',
-      keywords: 'Safety Nets Blog, Safety Tips Bangalore, Installation Guides, Safety Net Articles',
-      canonical: 'https://www.rjrsafetynets.in/blog',
-      ogTitle: 'RJR Safety Nets Blog | Tips, Guides & Updates',
-      ogDescription: 'Expert articles on balcony nets, pigeon control, children safety, sports and construction netting in Bengaluru.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'Blog',
-      name: 'RJR Safety Nets Blog',
-      description: 'Expert articles and guides on safety net solutions',
-      publisher: {
-        '@type': 'Organization',
-        name: 'RJR Safety Nets',
-        telephone: '+91-7075051812',
-      },
-    });
-  }, []);
+  const blogSeo = getPageSeo('blog');
 
   const blogPosts: BlogPost[] = [
     {
@@ -130,10 +109,20 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...blogSeo} />
+      <JsonLd
+        data={buildHubPageSchemas({
+          pageKey: 'blog',
+          name: 'RJR Safety Nets Blog',
+          description: blogSeo.description,
+          type: 'Blog',
+          breadcrumbName: 'Blog',
+        })}
+      />
       <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
-            <BookOpen className="mx-auto mb-6" size={64} />
+            <BookOpen className="mx-auto mb-6 text-blue-700" size={64} aria-hidden="true" />
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
               RJR Safety Nets Blog
             </h1>
@@ -144,54 +133,48 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50" aria-labelledby="blog-articles-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-3 mb-12 justify-center">
+          <h2 id="blog-articles-heading" className="sr-only">
+            Latest articles
+          </h2>
+          <ul className="mb-12 flex flex-wrap justify-center gap-3" aria-label="Article categories">
             {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                className="px-6 py-2 rounded-full bg-white text-gray-700 font-medium hover:bg-blue-600 hover:text-white transition-colors shadow-sm"
-              >
-                {category}
-              </button>
+              <li key={category}>
+                <span className="inline-block rounded-full bg-white px-6 py-2 text-sm font-medium text-gray-800 shadow-sm">
+                  {category}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post) => (
               <article
                 key={post.id}
-                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden cursor-pointer"
+                className="overflow-hidden rounded-xl bg-white shadow-md transition-shadow hover:shadow-xl"
               >
                 <div className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-blue-600 font-semibold mb-3">
-                    <span className="bg-blue-100 px-3 py-1 rounded-full">{post.category}</span>
-                    <span className="text-gray-500">{post.readTime}</span>
+                  <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-700">
+                    <span className="rounded-full bg-blue-100 px-3 py-1">{post.category}</span>
+                    <span className="text-gray-700">{post.readTime}</span>
                   </div>
-                  <h2 className="text-xl font-bold mb-3 text-gray-900 hover:text-blue-600 transition-colors">
-                    {post.title}
-                  </h2>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <h3 className="mb-3 text-xl font-bold text-gray-900">{post.title}</h3>
+                  <p className="mb-4 leading-relaxed text-gray-700">{post.excerpt}</p>
+                  <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+                    <div className="flex items-center gap-4 text-sm text-gray-700">
                       <div className="flex items-center gap-1">
-                        <Calendar size={16} />
+                        <Calendar size={16} aria-hidden="true" />
                         <span>{post.date}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <User size={16} />
+                        <User size={16} aria-hidden="true" />
                         <span>{post.author}</span>
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      className="flex items-center gap-1 text-blue-600 font-semibold hover:gap-2 transition-all"
-                    >
-                      Read More <ChevronRight size={20} />
-                    </button>
+                    <span className="flex items-center gap-1 font-semibold text-blue-700" aria-hidden="true">
+                      Read More <ChevronRight size={20} aria-hidden="true" />
+                    </span>
                   </div>
                 </div>
               </article>
@@ -209,9 +192,9 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white" aria-labelledby="blog-services-heading">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 id="blog-services-heading" className="text-3xl md:text-4xl font-bold mb-4">
             Explore our safety net services
           </h2>
           <p className="text-xl text-gray-600 mb-6">
@@ -256,9 +239,14 @@ export default function BlogPage({ onNavigate }: BlogPageProps) {
               </button>
             </div>
           ) : null}
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">
+        </div>
+      </section>
+
+      <section className="pb-16 bg-white" aria-labelledby="blog-cta-heading">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 id="blog-cta-heading" className="text-2xl md:text-3xl font-bold mb-4">
             Need Safety Net Solutions?
-          </h3>
+          </h2>
           <p className="text-xl text-gray-600 mb-8">
             Contact our experts for free consultation and professional installation
           </p>

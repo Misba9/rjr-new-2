@@ -1,15 +1,19 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Heart, Home, Baby, Lock } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import LongFormArticle from '../components/LongFormArticle';
 import { childrenLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 import FAQSection from '../components/FAQSection';
 import ServiceContentBlock from '../components/ServiceContentBlock';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
 interface ChildrenSafetyNetsPageProps {
   onNavigate?: (page: string) => void;
@@ -44,47 +48,10 @@ const CHILDREN_FAQS = [
 ];
 
 export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNetsPageProps) {
-  const serviceUrl = canonicalUrl('children');
-
   useEffect(() => {
-    updatePageMeta({
-      title: 'Children Safety Nets in Bangalore | Balcony Protection',
-      description: 'Ensure child safety with balcony safety nets in Bangalore. Strong, secure and affordable.',
-      keywords:
-        'children safety nets Bangalore, children safety nets in Bangalore, balcony safety nets Bangalore, safety nets in Bangalore, safety nets installation Bangalore, safety nets near me',
-      canonical: serviceUrl,
-      ogTitle: 'Children Safety Nets in Bangalore | Balcony Protection',
-      ogDescription: 'Ensure child safety with balcony safety nets in Bangalore. Strong, secure and affordable.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      serviceType: 'Children Safety Nets Installation',
-      url: serviceUrl,
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-        areaServed: { '@type': 'City', name: 'Bangalore' },
-      },
-      description: 'Professional children safety net installation services in Bangalore',
-    };
-
-    addSchemaMarkup([serviceSchema, generateFAQSchema(CHILDREN_FAQS)]);
-
-    // Preload LCP hero image for faster first paint
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.children.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, [serviceUrl]);
+    const link = preloadHeroImage(serviceImages.children.main);
+    return () => link.remove();
+  }, []);
 
   const benefits = [
     {
@@ -153,13 +120,25 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('children')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'children',
+          name: 'Children Safety Nets Installation in Bangalore',
+          description:
+            'Child-safe balcony, window, and staircase net installation in Bangalore with fine mesh and secure anchoring.',
+          serviceType: 'Children Safety Nets Installation',
+          breadcrumbName: 'Children Safety Nets Bangalore',
+          faqs: CHILDREN_FAQS,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.children.main, ...serviceImages.children.gallery]}
           altText="children safety nets Bangalore balcony protection"
           autoPlayInterval={5000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -167,7 +146,7 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Children Safety Nets in Bangalore | Balcony Protection
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-pink-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed">
               Protect your little ones with premium child safety nets for balconies, windows, and more
             </p>
             <p className="text-lg mb-8 leading-relaxed">
@@ -192,6 +171,8 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
           </div>
         </div>
       </section>
+
+      <ServiceBreadcrumbBar pageKey="children" onNavigate={onNavigate} />
 
       <ServiceContentBlock
         serviceName="Children Safety Nets"
@@ -229,13 +210,6 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {onNavigate && (
-            <p className="text-center text-gray-600 mb-6">
-              Also see: <button type="button" onClick={() => onNavigate('balcony')} className="text-blue-600 font-medium hover:underline">Balcony safety nets</button>,{' '}
-              <button type="button" onClick={() => onNavigate('pigeon')} className="text-blue-600 font-medium hover:underline">Pigeon safety nets</button>,{' '}
-              <button type="button" onClick={() => onNavigate('contact')} className="text-blue-600 font-medium hover:underline">Contact for free quote</button>
-            </p>
-          )}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Benefits of Children Safety Nets in Bangalore
@@ -330,7 +304,7 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Child safety nets for apartments near Yeshwanthpur Junction and Metro. High-rise living requires extra protection—our nets secure balconies, windows, and staircases for complete peace of mind.
               </p>
-              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-600 transition-colors">WhatsApp for Quote</a>
+              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#075E54] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#064e46] transition-colors">WhatsApp for Quote</a>
             </div>
             <div className="bg-white rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-pink-600">Children Safety Nets in Gokula Extension</h3>
@@ -344,7 +318,7 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Child safety net installation near Hebbal Flyover, Manyata Tech Park, and Bangalore University. Ideal for families in apartments and villas. 5+ years warranty, quick installation within 2–4 hours.
               </p>
-              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-600 transition-colors">WhatsApp for Quote</a>
+              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#075E54] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#064e46] transition-colors">WhatsApp for Quote</a>
             </div>
             <div className="bg-white rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-pink-600">Children Safety Nets in Yelahanka</h3>
@@ -380,12 +354,14 @@ export default function ChildrenSafetyNetsPage({ onNavigate }: ChildrenSafetyNet
 
       <FAQSection faqs={CHILDREN_FAQS} />
 
+      <ServiceInternalLinks pageKey="children" onNavigate={onNavigate} />
+
       <section className="py-16 bg-pink-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Protect Your Children Today
           </h2>
-          <p className="text-xl mb-8 text-pink-100">
+          <p className="text-xl mb-8 text-white/95">
             Free inspection • Expert installation • 5+ years warranty
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

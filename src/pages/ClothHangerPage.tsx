@@ -1,44 +1,23 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Sun, Wind, Droplet, Sparkles } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import FAQSection from '../components/FAQSection';
 import HeroCarousel from '../components/HeroCarousel';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
-export default function ClothHangerPage() {
+interface ClothHangerPageProps {
+  onNavigate?: (page: string) => void;
+}
+
+export default function ClothHangerPage({ onNavigate }: ClothHangerPageProps) {
   useEffect(() => {
-    updatePageMeta({
-      title: 'Cloth Hanger Nets in Bangalore | Balcony Cloth Drying Nets',
-      description: 'Install premium cloth hanger nets in Bangalore for safe and convenient cloth drying. RJR Safety Nets provides durable balcony cloth drying solutions.',
-      keywords: 'Cloth Hanger Nets Bangalore, Balcony Cloth Drying Nets, Clothes Drying Nets, Cloth Hanger Safety Nets',
-      canonical: 'https://www.rjrsafetynets.in/cloth-hanger',
-      ogTitle: 'Cloth Hanger Nets in Bangalore | RJR Safety Nets',
-      ogDescription: 'Safe, convenient balcony cloth drying nets. Custom solutions with quick installation in Bengaluru.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': 'https://www.rjrsafetynets.in/cloth-hanger#service',
-      serviceType: 'Cloth Hanger Nets Installation',
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+91-7075051812',
-        areaServed: 'Bangalore',
-      },
-      description: 'Professional cloth hanger net installation services in Bangalore',
-    });
-
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.clothHanger.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
+    const link = preloadHeroImage(serviceImages.clothHanger.main);
+    return () => link.remove();
   }, []);
 
   const benefits = [
@@ -141,27 +120,26 @@ export default function ClothHangerPage() {
     },
   ];
 
-  useEffect(() => {
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((f) => ({
-        '@type': 'Question',
-        name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      })),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqs content is static for this page
-  }, []);
-
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('cloth-hanger')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'cloth-hanger',
+          name: 'Cloth Hanger Nets Installation in Bangalore',
+          description:
+            'Balcony cloth hanger and drying net installation in Bangalore for safe, wind-resistant cloth drying.',
+          serviceType: 'Cloth Hanger Nets Installation',
+          breadcrumbName: 'Cloth Hanger Nets Bangalore',
+          faqs,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-900">
         <HeroCarousel
           images={[serviceImages.clothHanger.main]}
           altText="Cloth hanger nets Bangalore balcony drying installation"
           autoPlayInterval={5000}
-          overlayOpacity={1}
+          overlayOpacity={0.55}
           minHeight="min-h-[380px] md:min-h-[480px]"
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -169,7 +147,7 @@ export default function ClothHangerPage() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]">
               Cloth Hanger Nets in Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-teal-100 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
               Safe and convenient cloth drying solutions for your balcony
             </p>
             <p className="text-lg mb-8 leading-relaxed text-gray-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
@@ -194,6 +172,8 @@ export default function ClothHangerPage() {
           </div>
         </div>
       </section>
+
+      <ServiceBreadcrumbBar pageKey="cloth-hanger" onNavigate={onNavigate} />
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -269,12 +249,14 @@ export default function ClothHangerPage() {
 
       <FAQSection faqs={faqs} />
 
+      <ServiceInternalLinks pageKey="cloth-hanger" onNavigate={onNavigate} />
+
       <section className="py-16 bg-teal-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Get Your Cloth Hanger Nets Installed
           </h2>
-          <p className="text-xl mb-8 text-teal-100">
+          <p className="text-xl mb-8 text-white/95">
             Free consultation • Custom solutions • Professional installation
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

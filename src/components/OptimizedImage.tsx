@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { resolveImage, type ImageAsset } from '../assets/images';
 
 interface OptimizedImageProps {
-  src: string;
+  src: string | ImageAsset;
   alt: string;
   className?: string;
   width?: number;
@@ -18,7 +19,7 @@ interface OptimizedImageProps {
 }
 
 /**
- * Optimized Image Component with lazy loading, blur placeholder, and responsive features
+ * Optimized image: WebP via <picture>, lazy loading, width/height for CLS prevention.
  */
 export default function OptimizedImage({
   src,
@@ -28,16 +29,20 @@ export default function OptimizedImage({
   height,
   loading = 'lazy',
   priority = false,
-  sizes,
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
   fetchPriority,
   objectFit = 'cover',
   onLoad,
   onError,
 }: OptimizedImageProps) {
+  const asset = resolveImage(src);
+  const imgWidth = width ?? asset.width;
+  const imgHeight = height ?? asset.height;
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [isInView, setIsInView] = useState(priority);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const [isInView, setIsInView] = useState(priority || loading === 'eager');
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (priority || loading === 'eager') {
@@ -54,18 +59,11 @@ export default function OptimizedImage({
           }
         });
       },
-      {
-        rootMargin: '50px',
-      }
+      { rootMargin: '120px' }
     );
 
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, [priority, loading]);
 
   const handleLoad = () => {
@@ -78,60 +76,45 @@ export default function OptimizedImage({
     onError?.();
   };
 
-  const aspectRatio = width && height ? `${width} / ${height}` : undefined;
+  const aspectRatio = imgWidth && imgHeight ? `${imgWidth} / ${imgHeight}` : undefined;
+  const resolvedFetchPriority = priority ? fetchPriority ?? 'high' : fetchPriority ?? 'auto';
+  const resolvedLoading = priority ? 'eager' : loading;
 
   return (
     <div
-      ref={imgRef}
+      ref={containerRef}
       className={`relative overflow-hidden ${className}`}
       style={{ aspectRatio }}
     >
-      {/* Blur placeholder */}
       {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        <div className="absolute inset-0 bg-gray-200 animate-pulse" aria-hidden="true" />
       )}
 
-      {/* Actual image */}
       {isInView && !hasError && (
-        <img
-          src={src}
-          alt={alt}
-          loading={priority ? 'eager' : loading}
-          decoding="async"
-          fetchPriority={priority ? fetchPriority ?? 'high' : fetchPriority ?? 'auto'}
-          sizes={sizes}
-          onLoad={handleLoad}
-          onError={handleError}
-          className={`w-full h-full transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{
-            objectFit,
-          }}
-          width={width}
-          height={height}
-        />
+        <picture>
+          {asset.webp ? <source srcSet={asset.webp} type="image/webp" sizes={sizes} /> : null}
+          <img
+            src={asset.src}
+            alt={alt}
+            width={imgWidth}
+            height={imgHeight}
+            loading={resolvedLoading}
+            decoding="async"
+            fetchPriority={resolvedFetchPriority}
+            sizes={sizes}
+            onLoad={handleLoad}
+            onError={handleError}
+            className={`w-full h-full transition-opacity duration-300 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ objectFit }}
+          />
+        </picture>
       )}
 
-      {/* Error fallback */}
       {hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <div className="text-center text-gray-400">
-            <svg
-              className="mx-auto h-12 w-12 mb-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <p className="text-sm">Image not available</p>
-          </div>
+          <p className="text-sm text-gray-400">Image not available</p>
         </div>
       )}
     </div>

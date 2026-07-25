@@ -20,6 +20,12 @@ export const PHONE_SECONDARY_TEL = 'tel:+918074514411';
 export const WHATSAPP_NUMBER = '917075051812';
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
+/** Accessible WhatsApp CTA — white text on dark green (≥4.5:1 contrast) */
+export const WHATSAPP_BTN_CLASS =
+  'bg-[#075E54] text-white hover:bg-[#064e46] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#075E54]';
+export const WHATSAPP_FAB_CLASS =
+  'bg-[#075E54] text-white hover:bg-[#064e46] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+
 export const ADDRESS = {
   streetAddress: '7, 3rd Cross Rd, Muthyala Nagar, Gokula Extension, Mathikere',
   addressLocality: 'Bengaluru',

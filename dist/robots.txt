@@ -1,22 +1,20 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /404
 
-# Disallow admin or internal pages (if any)
-# Disallow: /admin/
-
-# Sitemap location
-Sitemap: https://www.rjrsafetynets.in/sitemap.xml
-
-# Crawl delay (optional)
-Crawl-delay: 0
-
-# Specific bot instructions
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /404
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /404
 
-User-agent: Slurp
-Allow: /
+Sitemap: https://www.rjrsafetynets.in/sitemap.xml

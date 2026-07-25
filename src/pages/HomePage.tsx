@@ -1,26 +1,13 @@
-import { useEffect, type MouseEvent } from 'react';
-import {
-  Baby,
-  Bird,
-  CalendarClock,
-  CheckCircle,
-  Dumbbell,
-  Eye,
-  HardHat,
-  MapPin,
-  MessageCircle,
-  PawPrint,
-  Phone,
-  Shield,
-  Shirt,
-  Trees,
-} from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { PAGE_TO_PATH, type PageKey } from '../constants/routes';
+import { lazy, Suspense, type MouseEvent } from 'react';
+import { CalendarClock, CheckCircle, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { generateFAQSchema } from '../utils/seo';
+import { PAGE_TO_PATH } from '../constants/routes';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import HeroSlider from '../components/HeroSlider';
-import OptimizedImage from '../components/OptimizedImage';
-import TrustReviewsSection from '../components/TrustReviewsSection';
-import { services as serviceImages, sliderC as sliderCImages } from '../assets/images';
+import FAQSection from '../components/FAQSection';
+import { sliderC as sliderCImages } from '../assets/images';
 import {
   GOOGLE_RATING,
   GOOGLE_REVIEW_COUNT,
@@ -30,7 +17,8 @@ import {
   WHATSAPP_URL,
 } from '../constants/nap';
 
-import FAQSection from '../components/FAQSection';
+const HomeServiceGrid = lazy(() => import('../components/HomeServiceGrid'));
+const TrustReviewsSection = lazy(() => import('../components/TrustReviewsSection'));
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -65,31 +53,6 @@ const HOME_FAQS = [
 ];
 
 export default function HomePage({ onNavigate }: HomePageProps) {
-  useEffect(() => {
-    updatePageMeta({
-      title: 'RJR Safety Nets | Balcony, Pigeon & Invisible Grill in Bangalore',
-      description:
-        'RJR Safety Nets installs balcony safety nets, pigeon safety nets, invisible grills, and children safety nets in Bangalore (Bengaluru). Free inspection, neat installation, 5+ years warranty. Call 7075051812.',
-      keywords:
-        'RJR Safety Nets, safety nets in Bangalore, balcony safety nets Bangalore, pigeon safety nets Bangalore, invisible grill Bangalore, children safety nets Bangalore, safety nets installation Bangalore, safety nets near me',
-      canonical: 'https://www.rjrsafetynets.in/',
-      ogTitle: 'RJR Safety Nets | Balcony, Pigeon & Invisible Grill in Bangalore',
-      ogDescription:
-        'Trusted safety nets and invisible grill installation in Bengaluru. Free inspection, transparent quotes, professional fitting.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    addSchemaMarkup(generateFAQSchema(HOME_FAQS));
-
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = sliderCImages.balcony;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, []);
-
   const handleInternalLink = (e: MouseEvent<HTMLAnchorElement>, page: string) => {
     e.preventDefault();
     onNavigate(page);
@@ -97,102 +60,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   const primaryH1 = 'Balcony, Pigeon & Children Safety Nets in Bangalore';
 
-  const allServiceCards: Array<{
-    key: PageKey;
-    icon: typeof Shield;
-    heading: string;
-    image: string;
-    alt: string;
-    description: string;
-  }> = [
-    {
-      key: 'balcony',
-      icon: Shield,
-      heading: 'Balcony Safety Nets in Bangalore',
-      image: serviceImages.balcony.main,
-      alt: 'Balcony safety nets in Bangalore installation for apartments',
-      description:
-        'Invisible-looking protection for high-rise balconies. Helps prevent falls and keeps the balcony usable without blocking the view.',
-    },
-    {
-      key: 'pigeon',
-      icon: Bird,
-      heading: 'Pigeon Safety Nets in Bangalore',
-      image: serviceImages.pigeon.main,
-      alt: 'Pigeon safety nets in Bangalore to keep balconies bird-free',
-      description:
-        'Humane anti-bird netting to stop nesting and droppings. Keeps balconies cleaner while maintaining ventilation and light.',
-    },
-    {
-      key: 'children',
-      icon: Baby,
-      heading: 'Children Safety Nets in Bangalore',
-      image: serviceImages.children.main,
-      alt: 'Children safety nets in Bangalore for child protection on balconies and windows',
-      description:
-        'Child-safe netting for balconies and windows with secure fittings. Built for daily family life with durable materials and neat finishing.',
-    },
-    {
-      key: 'monkey',
-      icon: PawPrint,
-      heading: 'Monkey Safety Nets in Bangalore',
-      image: serviceImages.monkey.main,
-      alt: 'Monkey safety nets Bangalore installation for stronger barriers',
-      description:
-        'Stronger barriers for monkey-prone zones — practical surveys and durable installs for villas and apartments near green belts.',
-    },
-    {
-      key: 'coconut',
-      icon: Trees,
-      heading: 'Coconut Tree Safety Nets in Bangalore',
-      image: serviceImages.coconutTree.main,
-      alt: 'Coconut tree safety nets Bangalore over driveways and paths',
-      description:
-        'Reduce risk from falling coconuts over driveways, paths, and play areas with properly tensioned overhead netting.',
-    },
-    {
-      key: 'cloth-hanger',
-      icon: Shirt,
-      heading: 'Cloth Hanger Nets in Bangalore',
-      image: serviceImages.clothHanger.main,
-      alt: 'Balcony cloth drying and cloth hanger nets in Bangalore',
-      description:
-        'Safe balcony cloth drying — keep laundry secure in wind while maximising sun and airflow on your drying area.',
-    },
-    {
-      key: 'invisible-grills',
-      icon: Eye,
-      heading: 'Invisible Grills in Bangalore',
-      image: serviceImages.invisibleGrills.main,
-      alt: 'Invisible grills Bangalore for windows and balconies',
-      description:
-        'Sleek stainless cable grills for windows and balconies — safety with minimal visual impact and good ventilation.',
-    },
-    {
-      key: 'construction',
-      icon: HardHat,
-      heading: 'Construction Safety Nets in Bangalore',
-      image: serviceImages.construction.main,
-      alt: 'Construction safety nets Bangalore for sites and buildings',
-      description:
-        'Site and industrial netting for fall and debris risk — scoped to your project with professional installation.',
-    },
-    {
-      key: 'sports',
-      icon: Dumbbell,
-      heading: 'Sports Practice Nets in Bangalore',
-      image: serviceImages.sports.main,
-      alt: 'Sports practice nets Bangalore cricket and multi-sport',
-      description:
-        'Cricket and multi-sport practice nets for homes, academies, and terraces — durable mesh and clean setup.',
-    },
-  ];
-
   const renderCTAButtons = () => (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <a
         href={PHONE_TEL}
-        className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-700 px-6 py-4 font-semibold text-white transition-colors hover:bg-blue-800"
+        aria-label={`Call RJR Safety Nets at ${PHONE_PRIMARY_DISPLAY}`}
       >
         <Phone size={20} aria-hidden="true" />
         Call Now
@@ -201,7 +74,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-6 py-4 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#075E54] px-6 py-4 font-semibold text-white transition-colors hover:bg-[#064e46]"
+        aria-label="WhatsApp RJR Safety Nets now"
       >
         <MessageCircle size={20} aria-hidden="true" />
         WhatsApp Now
@@ -209,7 +83,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       <a
         href="/contact"
         onClick={(e) => handleInternalLink(e, 'contact')}
-        className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 border border-blue-200 px-6 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+        className="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-300 bg-white px-6 py-4 font-semibold text-blue-800 transition-colors hover:bg-blue-50"
+        aria-label="Book a free safety net inspection"
       >
         <CalendarClock size={20} aria-hidden="true" />
         Book Free Inspection
@@ -229,6 +104,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div>
+      <SEOHead {...getPageSeo('home')} />
+      <JsonLd data={generateFAQSchema(HOME_FAQS)} />
       <HeroSlider
         slides={[
           {
@@ -238,6 +115,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             description:
               'Get the right net for your balcony, pigeon problem, or child protection—installed neatly by trained experts across Bengaluru.',
             alt: 'Safety nets in Bangalore for balcony, pigeon and child protection',
+            sources: [
+              { src: '/images/balcony-safety-nets-05-800.webp', width: 800 },
+              { src: '/images/balcony-safety-nets-05.webp', width: 1280 },
+            ],
           },
           {
             image: sliderCImages.pigeon,
@@ -257,18 +138,18 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           },
         ]}
         autoPlayInterval={6000}
-        overlayOpacity={0.75}
+        overlayOpacity={0.55}
       >
         {() => (
           <div className="max-w-3xl">
             <div className="animate-fadeIn">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{primaryH1}</h1>
-              <p className="text-lg md:text-xl mb-8 text-blue-50 leading-relaxed">
+              <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">{primaryH1}</h1>
+              <p className="mb-8 text-lg leading-relaxed text-white md:text-xl">
                 Professional safety net installation in Bangalore for balconies, pigeon control and child protection.
                 Get a free inspection and a clear quote.
               </p>
               {renderCTAButtons()}
-              <p className="mt-4 text-sm text-blue-100">
+              <p className="mt-4 text-sm text-white">
                 Call <span className="font-semibold">{PHONE_PRIMARY_DISPLAY}</span> for quick assistance.
               </p>
             </div>
@@ -352,47 +233,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {allServiceCards.map((service) => {
-              const Icon = service.icon;
-              const href = PAGE_TO_PATH[service.key];
-              return (
-                <article key={service.key} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                  <div className="relative h-48">
-                    <OptimizedImage
-                      src={service.image}
-                      alt={service.alt}
-                      className="w-full h-full"
-                      loading="lazy"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
-                      width={1600}
-                      height={900}
-                      objectFit="cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
-                        <Icon className="text-blue-600" size={22} aria-hidden="true" />
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        <span className="font-semibold text-gray-900">RJR</span> • Bengaluru
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.heading}</h3>
-                    <p className="text-gray-600 leading-relaxed mb-5">{service.description}</p>
-                    <a
-                      href={href}
-                      onClick={(e) => handleInternalLink(e, service.key)}
-                      className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" aria-hidden="true">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="h-80 rounded-xl bg-gray-100 animate-pulse" />
+                ))}
+              </div>
+            }
+          >
+            <HomeServiceGrid onNavigate={onNavigate} />
+          </Suspense>
 
           <div className="mt-10 flex justify-center">
             <button
@@ -549,12 +400,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="py-14 bg-white" aria-labelledby="home-faq-title">
-        <h2 id="home-faq-title" className="sr-only">
-          Frequently asked questions
-        </h2>
-        <FAQSection faqs={HOME_FAQS} />
-      </section>
+      <FAQSection faqs={HOME_FAQS} headingId="home-faq-title" />
 
       <section className="py-14 bg-white" aria-labelledby="reviews-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -568,17 +414,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </header>
         </div>
 
-        <TrustReviewsSection
-          rating={GOOGLE_RATING}
-          customerCount={GOOGLE_REVIEW_COUNT}
-          testimonial={{
-            name: 'Ramesh Kumar',
-            location: 'Whitefield, Bangalore',
-            rating: 5,
-            text: 'Excellent service! The team was professional and installed the balcony safety nets quickly. Very satisfied with the quality.',
-          }}
-          variant="blue"
-        />
+        <Suspense fallback={null}>
+          <TrustReviewsSection
+            rating={GOOGLE_RATING}
+            customerCount={GOOGLE_REVIEW_COUNT}
+            testimonial={{
+              name: 'Ramesh Kumar',
+              location: 'Whitefield, Bangalore',
+              rating: 5,
+              text: 'Excellent service! The team was professional and installed the balcony safety nets quickly. Very satisfied with the quality.',
+            }}
+            variant="blue"
+          />
+        </Suspense>
       </section>
 
       <section className="py-14 bg-gray-50" aria-labelledby="contact-heading">

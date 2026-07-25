@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, HardHat, Building2, Users, AlertTriangle } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import LongFormArticle from '../components/LongFormArticle';
 import { constructionLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 import FAQSection from '../components/FAQSection';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
 interface ConstructionSafetyNetsPageProps {
   onNavigate?: (page: string) => void;
@@ -43,47 +47,10 @@ const CONSTRUCTION_FAQS = [
 ];
 
 export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionSafetyNetsPageProps) {
-  const serviceUrl = canonicalUrl('construction');
-
   useEffect(() => {
-    updatePageMeta({
-      title: 'Construction Safety Nets in Bangalore | Industrial Nets',
-      description: 'Industrial construction safety nets in Bangalore for worker protection. Durable and certified nets.',
-      keywords:
-        'construction safety nets Bangalore, industrial safety nets Bangalore, safety nets installation Bangalore, safety nets in Bangalore',
-      canonical: serviceUrl,
-      ogTitle: 'Construction Safety Nets in Bangalore | Industrial Nets',
-      ogDescription: 'Industrial construction safety nets in Bangalore for worker protection. Durable and certified nets.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      url: serviceUrl,
-      serviceType: 'Construction Safety Nets Installation',
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-        areaServed: { '@type': 'City', name: 'Bangalore' },
-      },
-      description: 'Professional construction and industrial safety net installation services in Bangalore',
-    };
-
-    addSchemaMarkup([serviceSchema, generateFAQSchema(CONSTRUCTION_FAQS)]);
-
-    // Preload LCP hero image for faster first paint
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.construction.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, [serviceUrl]);
+    const link = preloadHeroImage(serviceImages.construction.main);
+    return () => link.remove();
+  }, []);
 
   const benefits = [
     {
@@ -179,13 +146,25 @@ export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionS
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('construction')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'construction',
+          name: 'Construction Safety Nets Installation in Bangalore',
+          description:
+            'Industrial construction safety nets in Bangalore for fall protection, debris control, and scaffolding sites.',
+          serviceType: 'Construction Safety Nets Installation',
+          breadcrumbName: 'Construction Safety Nets Bangalore',
+          faqs: CONSTRUCTION_FAQS,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.construction.main, ...serviceImages.construction.gallery]}
           altText="construction safety nets Bangalore industrial nets"
           autoPlayInterval={5000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -193,7 +172,7 @@ export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionS
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Construction Safety Nets in Bangalore | Industrial Nets
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-orange-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed">
               Industrial-grade safety netting for construction sites and high-rise buildings
             </p>
             <p className="text-lg mb-8 leading-relaxed">
@@ -218,6 +197,8 @@ export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionS
           </div>
         </div>
       </section>
+
+      <ServiceBreadcrumbBar pageKey="construction" onNavigate={onNavigate} />
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -327,16 +308,6 @@ export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionS
         id="construction-longform"
       />
 
-      {onNavigate ? (
-        <section className="bg-gray-50 py-8">
-          <div className="mx-auto max-w-4xl px-4 text-center text-gray-700 sm:px-6 lg:px-8">
-            <button type="button" onClick={() => onNavigate('services')} className="font-semibold text-blue-600 hover:underline">
-              Residential safety net services (balcony / bird / child)
-            </button>
-          </div>
-        </section>
-      ) : null}
-
       <section className="bg-white py-10">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <SectionLeadCTA variant="blue" />
@@ -345,12 +316,14 @@ export default function ConstructionSafetyNetsPage({ onNavigate }: ConstructionS
 
       <FAQSection faqs={CONSTRUCTION_FAQS} />
 
+      <ServiceInternalLinks pageKey="construction" onNavigate={onNavigate} />
+
       <section className="py-16 bg-orange-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Secure Your Construction Site Today
           </h2>
-          <p className="text-xl mb-8 text-orange-100">
+          <p className="text-xl mb-8 text-white/95">
             OSHA-compliant • Professional installation • Rental available
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

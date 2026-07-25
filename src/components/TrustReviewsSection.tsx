@@ -33,27 +33,27 @@ export default function TrustReviewsSection({
 
   const ctaStyles = {
     blue: {
-      call: 'bg-blue-600 hover:bg-blue-700 text-white',
-      whatsapp: 'bg-green-500 hover:bg-green-600 text-white',
+      call: 'bg-blue-700 hover:bg-blue-800 text-white',
+      whatsapp: 'bg-[#075E54] hover:bg-[#064e46] text-white',
     },
     green: {
-      call: 'bg-green-600 hover:bg-green-700 text-white',
-      whatsapp: 'bg-green-500 hover:bg-green-600 text-white',
+      call: 'bg-green-800 hover:bg-green-900 text-white',
+      whatsapp: 'bg-[#075E54] hover:bg-[#064e46] text-white',
     },
     neutral: {
       call: 'bg-gray-800 hover:bg-gray-900 text-white',
-      whatsapp: 'bg-green-500 hover:bg-green-600 text-white',
+      whatsapp: 'bg-[#075E54] hover:bg-[#064e46] text-white',
     },
   };
 
   const styles = ctaStyles[variant];
 
   return (
-    <section className="py-12 sm:py-16 bg-white" aria-labelledby="trust-reviews-heading">
+    <div className="py-12 sm:py-16 bg-white" aria-labelledby="trust-reviews-heading">
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
-        <p id="trust-reviews-heading" className="sr-only">
-          Trust & Reviews
-        </p>
+        <h3 id="trust-reviews-heading" className="sr-only">
+          Trust &amp; Reviews
+        </h3>
 
         {/* Rating & Trust badge */}
         <div
@@ -100,7 +100,7 @@ export default function TrustReviewsSection({
               <p className="text-gray-500 text-sm italic">
                 Customer testimonial placeholder — add your best review here
               </p>
-              <p className="mt-2 text-xs text-gray-400">RJR Safety Nets, Bengaluru</p>
+              <p className="mt-2 text-xs text-gray-600">RJR Safety Nets, Bengaluru</p>
             </div>
           )}
         </div>
@@ -110,6 +110,7 @@ export default function TrustReviewsSection({
           <a
             href={PHONE_TEL}
             className={`flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 rounded-lg font-semibold transition-colors ${styles.call}`}
+            aria-label={`Call RJR Safety Nets at ${PHONE_PRIMARY_DISPLAY}`}
           >
             <Phone size={20} aria-hidden="true" />
             Call {PHONE_PRIMARY_DISPLAY}
@@ -119,12 +120,13 @@ export default function TrustReviewsSection({
             target="_blank"
             rel="noopener noreferrer"
             className={`flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 rounded-lg font-semibold transition-colors ${styles.whatsapp}`}
+            aria-label="WhatsApp RJR Safety Nets"
           >
             <MessageCircle size={20} aria-hidden="true" />
             WhatsApp Us
           </a>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { PageKey } from '../constants/routes';
+import { PAGE_TO_PATH, type PageKey } from '../constants/routes';
 
 export type BreadcrumbItem = {
   name: string;
@@ -12,32 +12,39 @@ type BreadcrumbsProps = {
   className?: string;
 };
 
+/**
+ * Crawlable breadcrumb trail — always emits real hrefs for search engines;
+ * SPA navigation via onNavigate when provided.
+ */
 export default function Breadcrumbs({ items, onNavigate, className = '' }: BreadcrumbsProps) {
   return (
     <nav aria-label="Breadcrumb" className={`text-sm ${className}`}>
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-gray-600">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
+          const page = item.page;
           return (
             <li key={`${item.href}-${index}`} className="flex items-center gap-2">
-              {index > 0 && <span className="text-gray-400" aria-hidden="true">/</span>}
+              {index > 0 && (
+                <span className="text-gray-400" aria-hidden="true">
+                  /
+                </span>
+              )}
               {isLast ? (
                 <span className="font-medium text-gray-900" aria-current="page">
                   {item.name}
                 </span>
-              ) : item.page && onNavigate ? (
+              ) : (
                 <a
-                  href={item.href}
+                  href={item.href || (page ? PAGE_TO_PATH[page] : '#')}
                   className="text-blue-700 hover:underline"
                   onClick={(e) => {
-                    e.preventDefault();
-                    onNavigate(item.page!);
+                    if (page && onNavigate) {
+                      e.preventDefault();
+                      onNavigate(page);
+                    }
                   }}
                 >
-                  {item.name}
-                </a>
-              ) : (
-                <a href={item.href} className="text-blue-700 hover:underline">
                   {item.name}
                 </a>
               )}

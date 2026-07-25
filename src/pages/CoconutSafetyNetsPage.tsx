@@ -1,22 +1,24 @@
 import { useEffect } from 'react';
 import { Shield, Leaf, AlertTriangle, CheckCircle, Sun } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import FAQSection from '../components/FAQSection';
 import HeroCarousel from '../components/HeroCarousel';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
 import LongFormArticle from '../components/LongFormArticle';
 import { coconutLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
 interface CoconutSafetyNetsPageProps {
   onNavigate?: (page: string) => void;
 }
 
 export default function CoconutSafetyNetsPage({ onNavigate }: CoconutSafetyNetsPageProps) {
-  const serviceUrl = canonicalUrl('coconut');
-
   const faqs = [
     {
       question: 'Why install coconut tree safety nets in Bangalore?',
@@ -46,44 +48,9 @@ export default function CoconutSafetyNetsPage({ onNavigate }: CoconutSafetyNetsP
   ];
 
   useEffect(() => {
-    updatePageMeta({
-      title: 'Coconut Tree Safety Nets in Bangalore',
-      description: 'Prevent falling coconuts with strong safety nets in Bangalore.',
-      keywords:
-        'coconut tree safety nets Bangalore, coconut safety nets, falling coconut protection, safety nets in Bangalore, safety nets installation Bangalore',
-      canonical: serviceUrl,
-      ogTitle: 'Coconut Tree Safety Nets in Bangalore | RJR Safety Nets',
-      ogDescription: 'Strong netting solutions to reduce risk from falling coconuts across Bengaluru.',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      serviceType: 'Coconut tree safety net installation',
-      name: 'Coconut Tree Safety Nets',
-      url: serviceUrl,
-      description: 'Coconut tree safety nets in Bangalore to reduce risk from falling coconuts.',
-      areaServed: { '@type': 'City', name: 'Bangalore' },
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-      },
-    };
-
-    addSchemaMarkup([serviceSchema, generateFAQSchema(faqs)]);
-
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.coconutTree.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqs content is static for this page
-  }, [serviceUrl]);
+    const link = preloadHeroImage(serviceImages.coconutTree.main);
+    return () => link.remove();
+  }, []);
 
   const benefits = [
     { icon: Shield, title: 'Impact containment', description: 'Designed to catch falling nuts and reduce ground-level risk.' },
@@ -95,16 +62,28 @@ export default function CoconutSafetyNetsPage({ onNavigate }: CoconutSafetyNetsP
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('coconut')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'coconut',
+          name: 'Coconut Tree Safety Nets Installation in Bangalore',
+          description:
+            'Coconut tree safety net installation in Bangalore to protect driveways, paths, and homes from falling coconuts.',
+          serviceType: 'Coconut Tree Safety Nets Installation',
+          breadcrumbName: 'Coconut Tree Safety Nets Bangalore',
+          faqs,
+        })}
+      />
       <section className="relative overflow-hidden bg-gray-100 text-white">
         <HeroCarousel
           images={[serviceImages.coconutTree.main]}
           altText="Coconut tree safety nets Bangalore installation"
-          overlayOpacity={0.82}
+          overlayOpacity={0.55}
         />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8">
           <div className="max-w-3xl">
             <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">Coconut Tree Safety Nets in Bangalore</h1>
-            <p className="mb-8 text-xl leading-relaxed text-emerald-100 md:text-2xl">
+            <p className="mb-8 text-xl leading-relaxed text-white/95 md:text-2xl">
               Prevent falling coconuts with strong safety nets in Bangalore — practical surveys and professional installation.
             </p>
             <div className="mb-8 flex flex-col gap-4 sm:flex-row">
@@ -126,6 +105,8 @@ export default function CoconutSafetyNetsPage({ onNavigate }: CoconutSafetyNetsP
           </div>
         </div>
       </section>
+
+      <ServiceBreadcrumbBar pageKey="coconut" onNavigate={onNavigate} />
 
       <section className="py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -175,30 +156,14 @@ export default function CoconutSafetyNetsPage({ onNavigate }: CoconutSafetyNetsP
         id="coconut-longform"
       />
 
-      {onNavigate ? (
-        <section className="bg-white py-8">
-          <div className="mx-auto max-w-4xl px-4 text-center text-gray-700 sm:px-6 lg:px-8">
-            <p>
-              Explore{' '}
-              <button type="button" className="font-semibold text-blue-600 hover:underline" onClick={() => onNavigate('services')}>
-                all services
-              </button>{' '}
-              or{' '}
-              <button type="button" className="font-semibold text-blue-600 hover:underline" onClick={() => onNavigate('balcony')}>
-                balcony safety nets in Bangalore
-              </button>
-              .
-            </p>
-          </div>
-        </section>
-      ) : null}
-
       <FAQSection faqs={faqs} />
+
+      <ServiceInternalLinks pageKey="coconut" onNavigate={onNavigate} />
 
       <section className="bg-emerald-700 py-16 text-white">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">Call Now for Free Quote</h2>
-          <p className="mb-8 text-xl text-emerald-100">We respond quickly on phone and WhatsApp.</p>
+          <p className="mb-8 text-xl text-white/95">We respond quickly on phone and WhatsApp.</p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <a
               href="tel:+917075051812"

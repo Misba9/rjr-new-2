@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Shield, Clock, MapPin, Building2, Users, Star, CheckCircle, AlertTriangle } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../../utils/seo';
+import { addSchemaMarkup } from '../../utils/seo';
+import SEOHead from '../../components/SEOHead';
 import FAQSection from '../../components/FAQSection';
 import FloatingWhatsApp from '../../components/FloatingWhatsApp';
 
@@ -10,16 +11,6 @@ interface WhitefieldBalconyPageProps {
 
 export default function WhitefieldBalconyPage({ onNavigate }: WhitefieldBalconyPageProps) {
   useEffect(() => {
-    updatePageMeta({
-      title: 'Balcony Safety Nets in Whitefield, Bangalore | Same Day Installation - RJR Safety Nets',
-      description: 'Professional balcony safety nets installation in Whitefield. Trusted by 500+ apartments including Prestige, Sobha, Brigade. 5+ year warranty. Call +91 7075051812 for same-day service.',
-      keywords: 'balcony safety nets Whitefield, safety nets in Whitefield, balcony nets Whitefield Bangalore, safety net installation near me Whitefield, child safety nets Whitefield, balcony protection Whitefield',
-      canonical: 'https://www.rjrsafetynets.in/balcony-safety-nets-whitefield',
-      ogTitle: 'Balcony Safety Nets in Whitefield, Bangalore | RJR Safety Nets',
-      ogDescription: 'Professional balcony safety nets installation in Whitefield. Same-day service. 5+ year warranty. Call +91 7075051812.',
-      ogType: 'website',
-    });
-
     // LocalBusiness Schema for Whitefield
     addSchemaMarkup({
       '@context': 'https://schema.org',
@@ -155,6 +146,17 @@ export default function WhitefieldBalconyPage({ onNavigate }: WhitefieldBalconyP
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        robots="noindex, follow"
+        title="Balcony Safety Nets in Whitefield, Bangalore | Same Day Installation - RJR Safety Nets"
+        description="Professional balcony safety nets installation in Whitefield. Trusted by 500+ apartments including Prestige, Sobha, Brigade. 5+ year warranty. Call +91 7075051812 for same-day service."
+        keywords="balcony safety nets Whitefield, safety nets in Whitefield, balcony nets Whitefield Bangalore, safety net installation near me Whitefield, child safety nets Whitefield, balcony protection Whitefield"
+        canonical="https://www.rjrsafetynets.in/balcony-safety-nets-whitefield"
+        ogTitle="Balcony Safety Nets in Whitefield, Bangalore | RJR Safety Nets"
+        ogDescription="Professional balcony safety nets installation in Whitefield. Same-day service. 5+ year warranty. Call +91 7075051812."
+        ogType="website"
+        author="RJR Safety Nets"
+      />
       {/* Floating WhatsApp */}
       <FloatingWhatsApp phoneNumber="917075051812" message="Hi! I need balcony safety nets in Whitefield, Bangalore." />
 
@@ -186,7 +188,7 @@ export default function WhitefieldBalconyPage({ onNavigate }: WhitefieldBalconyP
                 href="https://wa.me/917075051812?text=Hi!%20I%20need%20balcony%20safety%20nets%20in%20Whitefield"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-500 text-white px-10 py-5 rounded-lg text-xl hover:bg-green-600 transition-colors font-bold shadow-2xl"
+                className="bg-[#075E54] text-white px-10 py-5 rounded-lg text-xl hover:bg-[#064e46] transition-colors font-bold shadow-2xl"
               >
                 💬 WhatsApp Now
               </a>
@@ -499,7 +501,7 @@ export default function WhitefieldBalconyPage({ onNavigate }: WhitefieldBalconyP
               href="https://wa.me/917075051812?text=Hi!%20I%20need%20balcony%20safety%20nets%20in%20Whitefield"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-500 text-white px-10 py-5 rounded-lg text-xl hover:bg-green-600 transition-colors font-bold shadow-2xl"
+              className="bg-[#075E54] text-white px-10 py-5 rounded-lg text-xl hover:bg-[#064e46] transition-colors font-bold shadow-2xl"
             >
               💬 WhatsApp Us
             </a>
@@ -565,7 +567,7 @@ export default function WhitefieldBalconyPage({ onNavigate }: WhitefieldBalconyP
             </a>
             <button
               onClick={() => onNavigate('contact')}
-              className="bg-green-500 text-white px-10 py-5 rounded-lg text-xl hover:bg-green-600 transition-colors font-bold shadow-2xl"
+              className="bg-[#075E54] text-white px-10 py-5 rounded-lg text-xl hover:bg-[#064e46] transition-colors font-bold shadow-2xl"
             >
               📝 Book Free Inspection
             </button>

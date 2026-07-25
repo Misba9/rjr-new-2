@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { buildHubPageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import { BUSINESS_NAME, EMAIL, PHONE_PRIMARY_DISPLAY, SITE_URL } from '../constants/nap';
 
 interface PrivacyPolicyPageProps {
@@ -64,33 +65,19 @@ const sections: Array<{ title: string; paragraphs: string[] }> = [
 ];
 
 export default function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
-  const pageUrl = canonicalUrl('privacy-policy');
-
-  useEffect(() => {
-    updatePageMeta({
-      title: 'Privacy Policy | RJR Safety Nets Bangalore',
-      description:
-        'Privacy Policy for RJR Safety Nets — how we collect, use, and protect your information when you use our website and services in Bangalore.',
-      keywords: 'RJR Safety Nets privacy policy, data protection, Bangalore safety nets',
-      canonical: pageUrl,
-      ogTitle: 'Privacy Policy | RJR Safety Nets',
-      ogDescription: 'How we handle your personal information and enquiries.',
-      ogType: 'website',
-      author: BUSINESS_NAME,
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      '@id': `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: 'Privacy Policy',
-      isPartOf: { '@type': 'WebSite', name: BUSINESS_NAME, url: SITE_URL },
-    });
-  }, [pageUrl]);
+  const privacySeo = getPageSeo('privacy-policy');
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEOHead {...privacySeo} />
+      <JsonLd
+        data={buildHubPageSchemas({
+          pageKey: 'privacy-policy',
+          name: 'Privacy Policy',
+          description: privacySeo.description,
+          breadcrumbName: 'Privacy Policy',
+        })}
+      />
       <section className="border-b border-gray-200 bg-white py-12">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">Privacy Policy</h1>

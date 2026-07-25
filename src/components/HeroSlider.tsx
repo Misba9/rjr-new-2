@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { resolveImage, type ImageAsset } from '../assets/images';
 
 export interface HeroSlide {
-  image: string;
+  image: string | ImageAsset;
   title: string;
   subtitle: string;
   description: string;
@@ -14,22 +15,29 @@ export interface HeroSlide {
 interface HeroSliderProps {
   slides: HeroSlide[];
   autoPlayInterval?: number;
+  /** 0–1 black overlay darkness (higher = better text contrast) */
   overlayOpacity?: number;
   children?: (currentSlide: HeroSlide, currentIndex: number) => React.ReactNode;
-  fullHeight?: boolean; // if true use nearly full viewport height
+  fullHeight?: boolean;
+  ariaLabel?: string;
 }
 
 export default function HeroSlider({
   slides,
   autoPlayInterval = 5000,
-  overlayOpacity = 0.3,
+  overlayOpacity = 0.55,
   children,
   fullHeight = true,
+  ariaLabel = 'Featured services slideshow',
 }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const rootRef = useRef<HTMLElement>(null);
+
+  const dim = Math.min(0.75, Math.max(0.45, overlayOpacity));
 
   const nextSlide = useCallback(() => {
     if (isTransitioning || slides.length <= 1) return;
@@ -52,15 +60,12 @@ export default function HeroSlider({
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
-  // Auto-play functionality
   useEffect(() => {
-    if (slides.length <= 1) return;
-
+    if (slides.length <= 1 || isPaused) return;
     const interval = setInterval(nextSlide, autoPlayInterval);
     return () => clearInterval(interval);
-  }, [slides.length, autoPlayInterval, nextSlide]);
+  }, [slides.length, autoPlayInterval, nextSlide, isPaused]);
 
-  // Touch handlers for mobile swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
@@ -71,17 +76,9 @@ export default function HeroSlider({
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    } else if (isRightSwipe) {
-      prevSlide();
-    }
-
+    if (distance > 50) nextSlide();
+    if (distance < -50) prevSlide();
     setTouchStart(0);
     setTouchEnd(0);
   };
@@ -89,118 +86,158 @@ export default function HeroSlider({
   const currentSlide = slides[currentIndex];
 
   return (
-    <section 
+    <section
+      ref={rootRef}
       className={
-        `relative text-white overflow-hidden bg-gray-300 ${
+        `relative overflow-hidden bg-gray-900 text-white ${
           fullHeight
-            ? 'min-h-[70vh] md:min-h-[80vh] lg:min-h-[85vh]' 
+            ? 'min-h-[70vh] md:min-h-[80vh] lg:min-h-[85vh]'
             : 'min-h-[500px] md:min-h-[600px] lg:min-h-[700px]'
         }`
       }
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={ariaLabel}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={(e) => {
+        if (!rootRef.current?.contains(e.relatedTarget as Node)) {
+          setIsPaused(false);
+        }
+      }}
     >
-      {/* Background Images */}
       <div className="absolute inset-0">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-            style={{ opacity: index === currentIndex ? overlayOpacity : 0 }}
-          >
-            <img
-              src={slide.image}
-              alt={slide.alt || slide.title}
-              className="w-full h-full object-cover object-center"
-              style={{
-                imageRendering: 'auto',
-                WebkitBackfaceVisibility: 'hidden',
-                backfaceVisibility: 'hidden',
-                transform: 'translateZ(0)',
-                willChange: 'opacity'
-              } as React.CSSProperties}
-              loading={index === 0 ? 'eager' : 'lazy'}
-              fetchPriority={index === 0 ? 'high' : 'low'}
-              decoding="async"
-              sizes="(min-width: 1024px) 100vw, (min-width: 640px) 100vw, 100vw"
-              srcSet={
-                slide.sources && slide.sources.length
-                  ? slide.sources
-                      .sort((a,b) => a.width - b.width)
-                      .map(s => `${s.src} ${s.width}w`)
-                      .join(', ')
-                  : undefined
-              }
-            />
-          </div>
-        ))}
+        {slides.map((slide, index) => {
+          const asset = resolveImage(slide.image);
+          const eager = index === 0;
+          const isActive = index === currentIndex;
+          return (
+            <div
+              key={index}
+              className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+              style={{ opacity: isActive ? 1 : 0 }}
+              aria-hidden={!isActive}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${slide.title} — slide ${index + 1} of ${slides.length}`}
+            >
+              <picture>
+                {asset.webp ? (
+                  <source
+                    type="image/webp"
+                    srcSet={
+                      slide.sources?.length
+                        ? slide.sources.map((s) => `${s.src} ${s.width}w`).join(', ')
+                        : `${asset.webp} ${asset.width}w`
+                    }
+                    sizes="100vw"
+                  />
+                ) : null}
+                <img
+                  src={asset.src}
+                  alt={slide.alt || slide.title}
+                  width={asset.width}
+                  height={asset.height}
+                  className="h-full w-full object-cover object-center"
+                  style={
+                    {
+                      imageRendering: 'auto',
+                      WebkitBackfaceVisibility: 'hidden',
+                      backfaceVisibility: 'hidden',
+                    } as React.CSSProperties
+                  }
+                  loading={eager ? 'eager' : 'lazy'}
+                  fetchPriority={eager ? 'high' : 'low'}
+                  decoding="async"
+                  sizes="100vw"
+                />
+              </picture>
+              <div
+                className="pointer-events-none absolute inset-0 bg-black"
+                style={{ opacity: dim }}
+                aria-hidden="true"
+              />
+            </div>
+          );
+        })}
       </div>
 
-      {/* Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 z-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8">
         {children ? (
           children(currentSlide, currentIndex)
         ) : (
           <div className="max-w-3xl">
-            <div 
-              key={currentIndex}
-              className="animate-fadeIn"
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+            <div key={currentIndex} className="animate-fadeIn">
+              <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
                 {currentSlide.title}
               </h1>
-              <p className="text-xl md:text-2xl mb-8 text-blue-100 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-                {currentSlide.subtitle}
-              </p>
-              <p className="text-lg mb-8 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-                {currentSlide.description}
-              </p>
+              <p className="mb-8 text-xl font-medium text-white md:text-2xl">{currentSlide.subtitle}</p>
+              <p className="mb-8 text-lg leading-relaxed text-white/95">{currentSlide.description}</p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Navigation Controls */}
       {slides.length > 1 && (
         <>
           <button
             type="button"
             onClick={prevSlide}
             disabled={isTransitioning}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 md:p-3 rounded-full backdrop-blur-sm transition-all z-20 focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50"
+            className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/30 p-2 text-white backdrop-blur-sm transition-all hover:bg-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-50 md:p-3"
             aria-label="Previous slide"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={24} aria-hidden="true" />
           </button>
           <button
             type="button"
             onClick={nextSlide}
             disabled={isTransitioning}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 md:p-3 rounded-full backdrop-blur-sm transition-all z-20 focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50"
+            className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/30 p-2 text-white backdrop-blur-sm transition-all hover:bg-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-50 md:p-3"
             aria-label="Next slide"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={24} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsPaused((p) => !p)}
+            className="absolute right-4 top-4 z-20 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-all hover:bg-black/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
+            aria-pressed={isPaused}
+          >
+            {isPaused ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
           </button>
         </>
       )}
 
-      {/* Indicators */}
       {slides.length > 1 && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        <div
+          className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-1"
+          role="tablist"
+          aria-label="Slide indicators"
+        >
           {slides.map((_, index) => (
             <button
               key={index}
               type="button"
+              role="tab"
+              aria-selected={index === currentIndex}
+              aria-current={index === currentIndex ? 'true' : undefined}
               onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentIndex
-                  ? 'bg-white w-8'
-                  : 'bg-white/50 hover:bg-white/75 w-2'
-              }`}
+              className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               aria-label={`Go to slide ${index + 1}: ${slides[index].title}`}
-              aria-current={index === currentIndex ? 'true' : 'false'}
-            />
+            >
+              <span
+                className={`block h-2.5 rounded-full transition-all ${
+                  index === currentIndex ? 'w-8 bg-white' : 'w-2.5 bg-white/60'
+                }`}
+                aria-hidden="true"
+              />
+            </button>
           ))}
         </div>
       )}

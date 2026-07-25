@@ -1,12 +1,16 @@
 import { useEffect, type MouseEvent } from 'react';
 import { Shield, CheckCircle, Eye, Wind, Lock, Home } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
+import { buildServicePageSchemas } from '../utils/seo';
 import FAQSection from '../components/FAQSection';
 import HeroCarousel from '../components/HeroCarousel';
-import { services as serviceImages } from '../assets/images';
-import { canonicalUrl, PAGE_TO_PATH } from '../constants/routes';
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, SITE_URL } from '../constants/nap';
-import Breadcrumbs from '../components/Breadcrumbs';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
+import { PAGE_TO_PATH } from '../constants/routes';
+import { getPageSeo } from '../constants/pageSeo';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '../constants/nap';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 import LongFormArticle from '../components/LongFormArticle';
 import { invisibleGrillLongFormParagraphs } from '../content/serviceLongFormArticles';
 import SectionLeadCTA from '../components/SectionLeadCTA';
@@ -18,8 +22,6 @@ interface InvisibleGrillsPageProps {
 }
 
 export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageProps) {
-  const serviceUrl = canonicalUrl('invisible-grills');
-
   const benefits = [
     {
       icon: Eye,
@@ -154,65 +156,30 @@ export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageP
   };
 
   useEffect(() => {
-    updatePageMeta({
-      title: 'Invisible Grill Bangalore | RJR Safety Nets',
-      description:
-        'Professional invisible grill installation in Bangalore (Bengaluru) by RJR Safety Nets. Marine-grade stainless steel, child-safe spacing, neat finishing. Free consultation.',
-      keywords:
-        'invisible grill Bangalore, invisible grills Bangalore, window safety grills Bangalore, balcony invisible grill, transparent grills Bangalore, RJR Safety Nets',
-      canonical: serviceUrl,
-      ogTitle: 'Invisible Grill Bangalore | RJR Safety Nets',
-      ogDescription:
-        'Marine-grade 316 stainless steel invisible grills for windows and balconies — safety with minimal visual impact.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      serviceType: 'Invisible Grill Installation',
-      name: 'Invisible Grill Installation Bangalore',
-      url: serviceUrl,
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': `${SITE_URL}/#organization`,
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-        areaServed: { '@type': 'City', name: 'Bangalore' },
-      },
-      description:
-        'Professional invisible grill installation for windows, balconies, terraces, and staircases in Bengaluru.',
-    };
-
-    addSchemaMarkup([
-      serviceSchema,
-      generateFAQSchema(faqs),
-      generateBreadcrumbSchema([
-        { name: 'Home', url: `${SITE_URL}/` },
-        { name: 'Services', url: `${SITE_URL}/services` },
-        { name: 'Invisible Grill Bangalore', url: serviceUrl },
-      ]),
-    ]);
-
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.invisibleGrills.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only meta/schema + preload (faqs & serviceUrl are stable)
+    const link = preloadHeroImage(serviceImages.invisibleGrills.main);
+    return () => link.remove();
   }, []);
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('invisible-grills')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'invisible-grills',
+          name: 'Invisible Grill Installation in Bangalore',
+          description:
+            'Marine-grade stainless steel invisible grill installation for windows, balconies, terraces, and staircases in Bengaluru.',
+          serviceType: 'Invisible Grill Installation',
+          breadcrumbName: 'Invisible Grill Bangalore',
+          faqs,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-900">
         <HeroCarousel
           images={invisibleHeroImages}
           altText="Invisible grills Bangalore installation on windows and balconies"
           autoPlayInterval={5000}
-          overlayOpacity={0.88}
+          overlayOpacity={0.58}
           minHeight="min-h-[420px] md:min-h-[520px]"
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -220,7 +187,7 @@ export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageP
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]">
               Invisible Grill Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-indigo-100 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
               Modern window and balcony safety for Bengaluru homes — clear views, strong cables, professional installation.
             </p>
             <p className="text-lg mb-8 leading-relaxed text-gray-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
@@ -248,18 +215,7 @@ export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageP
         </div>
       </section>
 
-      <section className="bg-white border-b border-gray-100 py-3">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            onNavigate={onNavigate}
-            items={[
-              { name: 'Home', href: '/', page: 'home' },
-              { name: 'Services', href: '/services', page: 'services' },
-              { name: 'Invisible Grill', href: PAGE_TO_PATH['invisible-grills'] },
-            ]}
-          />
-        </div>
-      </section>
+      <ServiceBreadcrumbBar pageKey="invisible-grills" onNavigate={onNavigate} />
 
       <section className="border-b border-gray-100 bg-white py-10">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
@@ -299,7 +255,9 @@ export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageP
               </p>
             )}
           </div>
-          <LeadQuoteForm id="invisible-grill-lead" heading="WhatsApp — free quote" />
+          <aside>
+            <LeadQuoteForm id="invisible-grill-lead" heading="WhatsApp — free quote" headingLevel="h2" />
+          </aside>
         </div>
       </section>
 
@@ -405,10 +363,12 @@ export default function InvisibleGrillsPage({ onNavigate }: InvisibleGrillsPageP
 
       <FAQSection faqs={faqs} />
 
+      <ServiceInternalLinks pageKey="invisible-grills" onNavigate={onNavigate} />
+
       <section className="py-16 bg-indigo-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get modern safety for your home</h2>
-          <p className="text-xl mb-8 text-indigo-100">Free consultation • Professional installation • Strong materials</p>
+          <p className="text-xl mb-8 text-white/95">Free consultation • Professional installation • Strong materials</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:+917075051812"

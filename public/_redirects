@@ -9,19 +9,33 @@ https://rjrsafetynets.in/* https://www.rjrsafetynets.in/:splat 301!
 https://www.rjrsafetynets.com/* https://www.rjrsafetynets.in/:splat 301!
 https://rjrsafetynets.com/* https://www.rjrsafetynets.in/:splat 301!
 
-# Retired location landing pages → home
-/location/whitefield-safety-nets  /  301
-/whitefield  /  301
-/hsr-layout  /  301
-/electronic-city  /  301
-/location/electronic-city-safety-nets  /  301
-/indiranagar  /  301
-/location/indiranagar-safety-nets  /  301
-/koramangala  /  301
-/marathahalli  /  301
-/location/marathahalli-safety-nets  /  301
-/btm-layout  /  301
-/location/btm-safety-nets  /  301
+# Retired location landing pages → balcony service (crawlable)
+/location/whitefield-safety-nets  /services/balcony-safety-nets-bangalore  301
+/whitefield  /services/balcony-safety-nets-bangalore  301
+/balcony-safety-nets-whitefield  /services/balcony-safety-nets-bangalore  301
+/hsr-layout  /services/balcony-safety-nets-bangalore  301
+/electronic-city  /services/balcony-safety-nets-bangalore  301
+/location/electronic-city-safety-nets  /services/balcony-safety-nets-bangalore  301
+/indiranagar  /services/balcony-safety-nets-bangalore  301
+/location/indiranagar-safety-nets  /services/balcony-safety-nets-bangalore  301
+/koramangala  /services/balcony-safety-nets-bangalore  301
+/marathahalli  /services/balcony-safety-nets-bangalore  301
+/location/marathahalli-safety-nets  /services/balcony-safety-nets-bangalore  301
+/btm-layout  /services/balcony-safety-nets-bangalore  301
+/location/btm-safety-nets  /services/balcony-safety-nets-bangalore  301
+
+# Legacy short service paths → canonical service URLs
+/balcony  /services/balcony-safety-nets-bangalore  301
+/balcony-safety-nets-bangalore  /services/balcony-safety-nets-bangalore  301
+/pigeon  /services/pigeon-safety-nets-bangalore  301
+/pigeon-safety-nets-bangalore  /services/pigeon-safety-nets-bangalore  301
+/children  /services/children-safety-nets-bangalore  301
+/children-safety-nets-bangalore  /services/children-safety-nets-bangalore  301
+/monkey  /services/monkey-safety-nets-bangalore  301
+/coconut  /services/coconut-safety-nets-bangalore  301
+/coconut-safety-nets-bangalore  /services/coconut-safety-nets-bangalore  301
+/construction  /services/construction-safety-nets-bangalore  301
+/about-us  /about  301
 
 # Canonical invisible grill URL (legacy path)
 /invisible-grills  /invisible-grill-bangalore  301

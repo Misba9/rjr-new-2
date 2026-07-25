@@ -2,7 +2,8 @@ export interface PageMeta {
   title: string;
   description: string;
   keywords: string;
-  canonical?: string;
+  /** Absolute canonical URL — required for SEO */
+  canonical: string;
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;

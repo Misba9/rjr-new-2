@@ -1,45 +1,23 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Target, Users, Trophy, Zap } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import FAQSection from '../components/FAQSection';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
-export default function SportsPracticeNetsPage() {
+interface SportsPracticeNetsPageProps {
+  onNavigate?: (page: string) => void;
+}
+
+export default function SportsPracticeNetsPage({ onNavigate }: SportsPracticeNetsPageProps) {
   useEffect(() => {
-    updatePageMeta({
-      title: 'Sports Practice Nets in Bangalore | Cricket, Tennis & Multi-Sport Nets',
-      description: 'Professional sports practice nets in Bangalore for cricket, tennis, badminton, and more. RJR Safety Nets provides durable sports netting solutions.',
-      keywords: 'Sports Practice Nets Bangalore, Cricket Practice Nets, Tennis Practice Nets, Badminton Nets, Multi-Sport Nets Bangalore',
-      canonical: 'https://www.rjrsafetynets.in/sports',
-      ogTitle: 'Sports Practice Nets in Bangalore | RJR Safety Nets',
-      ogDescription: 'Cricket, tennis, badminton and multi-sport net installations for homes, schools and clubs in Bengaluru.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': 'https://www.rjrsafetynets.in/sports#service',
-      serviceType: 'Sports Practice Nets Installation',
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+91-7075051812',
-        areaServed: 'Bangalore',
-      },
-      description: 'Professional sports practice net installation services in Bangalore',
-    });
-
-    // Preload LCP hero image for faster first paint
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.sports.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
+    const link = preloadHeroImage(serviceImages.sports.main);
+    return () => link.remove();
   }, []);
 
   const benefits = [
@@ -169,28 +147,27 @@ export default function SportsPracticeNetsPage() {
     },
   ];
 
-  useEffect(() => {
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((f) => ({
-        '@type': 'Question',
-        name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      })),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqs content is static for this page
-  }, []);
-
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('sports')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'sports',
+          name: 'Sports Practice Nets Installation in Bangalore',
+          description:
+            'Sports practice net installation in Bangalore for cricket, tennis, badminton, and multi-sport training areas.',
+          serviceType: 'Sports Practice Nets Installation',
+          breadcrumbName: 'Sports Practice Nets Bangalore',
+          faqs,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.sports.main, ...serviceImages.sports.gallery]}
           altText="Sports Practice Nets Installation"
           autoPlayInterval={5000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -198,7 +175,7 @@ export default function SportsPracticeNetsPage() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Sports Practice Nets in Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-emerald-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed">
               Professional sports netting for cricket, tennis, badminton, and multi-sport facilities
             </p>
             <p className="text-lg mb-8 leading-relaxed">
@@ -223,6 +200,8 @@ export default function SportsPracticeNetsPage() {
           </div>
         </div>
       </section>
+
+      <ServiceBreadcrumbBar pageKey="sports" onNavigate={onNavigate} />
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -319,12 +298,14 @@ export default function SportsPracticeNetsPage() {
 
       <FAQSection faqs={faqs} />
 
+      <ServiceInternalLinks pageKey="sports" onNavigate={onNavigate} />
+
       <section className="py-16 bg-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Build Your Sports Practice Area
           </h2>
-          <p className="text-xl mb-8 text-emerald-100">
+          <p className="text-xl mb-8 text-white/95">
             Custom design • Professional installation • Durable materials
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

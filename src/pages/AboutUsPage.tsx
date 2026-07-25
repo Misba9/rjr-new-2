@@ -1,40 +1,24 @@
 import { useEffect } from 'react';
 import { Shield, Award, Users, Clock, CheckCircle, Phone, MapPin, Star } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
-import { about } from '../assets/images';
+import { buildHubPageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
+import { about, preloadHeroImage } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
+import OptimizedImage from '../components/OptimizedImage';
 
-export default function AboutUsPage() {
+interface AboutUsPageProps {
+  onNavigate?: (page: string) => void;
+}
+
+const aboutSeo = getPageSeo('about');
+
+export default function AboutUsPage(_props: AboutUsPageProps) {
   useEffect(() => {
-    updatePageMeta({
-      title: 'About Us - RJR Safety Nets Bangalore | Expert Safety Solutions',
-      description: 'Learn about RJR Safety Nets - Bangalore\'s trusted safety net specialists with 1000+ happy customers. Premium quality, professional installation, 5+ years warranty.',
-      keywords: 'About RJR Safety Nets, Safety Net Company Bangalore, Professional Safety Nets, Trusted Safety Solutions',
-      canonical: 'https://www.rjrsafetynets.in/about',
-      ogTitle: 'About RJR Safety Nets | Bangalore\'s Trusted Net Installers',
-      ogDescription: 'Premium safety nets, professional installation, and warranty-backed service across Bengaluru.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      '@id': 'https://www.rjrsafetynets.in/#organization',
-      name: 'RJR Safety Nets',
-      description: 'Professional safety net installation services in Bangalore',
-      telephone: '+91-7075051812',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Bengaluru',
-        addressRegion: 'Karnataka',
-        addressCountry: 'IN',
-      },
-      areaServed: 'Bangalore',
-      priceRange: '$$',
-    });
+    const link = preloadHeroImage(about.main);
+    return () => link.remove();
   }, []);
-
   const values = [
     {
       icon: Shield,
@@ -101,13 +85,23 @@ export default function AboutUsPage() {
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...aboutSeo} />
+      <JsonLd
+        data={buildHubPageSchemas({
+          pageKey: 'about',
+          name: 'About RJR Safety Nets',
+          description: aboutSeo.description,
+          type: 'AboutPage',
+          breadcrumbName: 'About',
+        })}
+      />
       <section className="relative text-white py-20 overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[about.main, about.alternative]}
           altText="RJR Safety Nets Company"
           autoPlayInterval={6000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,7 +109,7 @@ export default function AboutUsPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               About RJR Safety Nets
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <p className="text-xl text-white/95 leading-relaxed">
               Bangalore's trusted name in safety net solutions since years. Protecting families and properties with premium quality installations.
             </p>
           </div>
@@ -155,10 +149,12 @@ export default function AboutUsPage() {
               </div>
             </div>
             <div className="rounded-xl overflow-hidden shadow-2xl">
-              <img 
-                src={about.alternative || about.main} 
-                alt="RJR Safety Nets Team and Services" 
+              <OptimizedImage
+                src={about.alternative || about.main}
+                alt="RJR Safety Nets team installing safety nets for Bangalore homes"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>
@@ -197,8 +193,8 @@ export default function AboutUsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {services.map((service, index) => (
               <div key={index} className="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                <CheckCircle className="text-blue-600 mx-auto mb-3" size={32} />
-                <p className="font-semibold text-gray-800">{service}</p>
+                <CheckCircle className="text-blue-600 mx-auto mb-3" size={32} aria-hidden="true" />
+                <h3 className="font-semibold text-gray-800 text-base">{service}</h3>
               </div>
             ))}
           </div>
@@ -267,7 +263,7 @@ export default function AboutUsPage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Secure Your Property?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-white/95">
             Get a free inspection and quote from Bangalore's most trusted safety net experts
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

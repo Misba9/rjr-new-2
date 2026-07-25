@@ -4,119 +4,179 @@
     <meta charset="UTF-8" />
     
     <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/png" href="/assets/logo-navbar-BgVA75i7.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    
-    <!-- Primary Meta Tags - Local SEO Optimized -->
+
+    <!-- LCP hero preload (home) — responsive srcset for mobile/desktop -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/balcony-safety-nets-05.webp"
+      imagesrcset="/images/balcony-safety-nets-05-800.webp 800w, /images/balcony-safety-nets-05.webp 1280w"
+      imagesizes="100vw"
+      type="image/webp"
+      fetchpriority="high"
+    />
+
+    <!-- Early connection hints for CTA destinations -->
+    <link rel="dns-prefetch" href="https://wa.me" />
+    <link rel="dns-prefetch" href="https://api.whatsapp.com" />
+    <link rel="preconnect" href="https://maps.google.com" />
+
+    <!-- Primary Meta Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="#2563eb" />
     <title>RJR Safety Nets | Balcony, Pigeon &amp; Invisible Grill in Bangalore</title>
-    <meta name="description" content="RJR Safety Nets installs balcony safety nets, pigeon nets, invisible grills, and children safety nets in Bengaluru. Free inspection, professional installation, 5+ years warranty." />
+    <meta name="description" content="RJR Safety Nets installs balcony safety nets, pigeon nets, invisible grills, and children safety nets in Bengaluru. Free inspection, professional installation, 5+ years warranty. Call 7075051812." />
     <meta name="keywords" content="RJR Safety Nets, safety nets Bangalore, balcony safety nets Bangalore, pigeon safety nets Bangalore, invisible grill Bangalore, children safety nets Bangalore" />
     <meta name="author" content="RJR Safety Nets" />
     <meta name="google-site-verification" content="p_pSnXXh4MWKzdPYY5Q-GQ2AmBxM0pZI4hSiJiI9fm0" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-    
-    <!-- Canonical URL -->
+
     <link rel="canonical" href="https://www.rjrsafetynets.in/" />
-    
-    <!-- Open Graph / Facebook -->
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rjrsafetynets.in/" />
     <meta property="og:title" content="RJR Safety Nets | Balcony, Pigeon &amp; Invisible Grill in Bangalore" />
-    <meta property="og:description" content="RJR Safety Nets installs balcony safety nets, pigeon nets, invisible grills, and children safety nets in Bengaluru. Free inspection, professional installation, 5+ years warranty." />
+    <meta property="og:description" content="RJR Safety Nets installs balcony safety nets, pigeon nets, invisible grills, and children safety nets in Bengaluru. Free inspection, professional installation, 5+ years warranty. Call 7075051812." />
     <meta property="og:image" content="https://www.rjrsafetynets.in/og-image.jpg" />
     <meta property="og:site_name" content="RJR Safety Nets Bangalore" />
     <meta property="og:locale" content="en_IN" />
-    
-    <!-- Twitter -->
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://www.rjrsafetynets.in/" />
     <meta name="twitter:title" content="RJR Safety Nets | Balcony, Pigeon &amp; Invisible Grill in Bangalore" />
-    <meta name="twitter:description" content="RJR Safety Nets installs balcony safety nets, pigeon nets, invisible grills, and children safety nets in Bengaluru. Free inspection, professional installation, 5+ years warranty." />
+    <meta name="twitter:description" content="RJR Safety Nets installs balcony safety nets, pigeon nets, invisible grills, and children safety nets in Bengaluru. Free inspection, professional installation, 5+ years warranty. Call 7075051812." />
     <meta name="twitter:image" content="https://www.rjrsafetynets.in/og-image.jpg" />
-    
-    <!-- Geo Tags for Local SEO -->
+
     <meta name="geo.region" content="IN-KA" />
     <meta name="geo.placename" content="Mathikere, Bengaluru" />
     <meta name="geo.position" content="13.0283;77.5536" />
     <meta name="ICBM" content="13.0283, 77.5536" />
-    
-    <!-- Contact Information -->
     <meta name="telephone" content="+917075051812" />
-    
-    <!-- Preconnect to external domains for better performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    
-    <!-- LocalBusiness Schema - Must match Google Business Profile NAP exactly -->
+
+    <!-- Organization + LocalBusiness + WebSite (schema.org) — NAP must match Google Business Profile -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "@id": "https://www.rjrsafetynets.in/#organization",
-      "name": "RJR Safety Nets",
-      "image": "https://www.rjrsafetynets.in/logo.png",
-      "description": "Professional safety net installation in Bangalore. Balcony safety nets, pigeon safety nets, children safety nets, construction safety nets. 10+ years experience, 5+ years warranty.",
-      "url": "https://www.rjrsafetynets.in",
-      "telephone": "+917075051812",
-      "email": "rjrsafetynets@gmail.com",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "7, 3rd Cross Rd, Muthyala Nagar, Gokula Extension, Mathikere",
-        "addressLocality": "Bengaluru",
-        "addressRegion": "Karnataka",
-        "postalCode": "560054",
-        "addressCountry": "IN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 13.0283,
-        "longitude": 77.5536
-      },
-      "areaServed": [
-        {"@type": "City", "name": "Bangalore"},
-        {"@type": "State", "name": "Karnataka"}
-      ],
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "08:00",
-        "closes": "20:00"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "1000",
-        "bestRating": "5"
-      },
-      "sameAs": [
-        "https://www.facebook.com/rjrsafetynets",
-        "https://www.instagram.com/rjrsafetynets",
-        "https://twitter.com/rjrsafetynets"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Safety net services",
-        "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Balcony safety nets Bangalore"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Pigeon safety nets Bangalore"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Invisible grill Bangalore"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Children safety nets Bangalore"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Construction safety nets Bangalore"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Monkey safety nets Bangalore"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Coconut tree safety nets Bangalore"}}
-        ]
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.rjrsafetynets.in/#organization",
+          "name": "RJR Safety Nets",
+          "alternateName": ["RJR Safety Nets Bangalore", "RJR Safety Nets Bengaluru"],
+          "url": "https://www.rjrsafetynets.in",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.rjrsafetynets.in/logo.png"
+          },
+          "image": "https://www.rjrsafetynets.in/og-image.jpg",
+          "email": "rjrsafetynets@gmail.com",
+          "telephone": ["+917075051812", "+918074514411"],
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "7, 3rd Cross Rd, Muthyala Nagar, Gokula Extension, Mathikere",
+            "addressLocality": "Bengaluru",
+            "addressRegion": "Karnataka",
+            "postalCode": "560054",
+            "addressCountry": "IN"
+          },
+          "sameAs": [
+            "https://www.facebook.com/rjrsafetynets",
+            "https://www.instagram.com/rjrsafetynets",
+            "https://twitter.com/rjrsafetynets"
+          ],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "telephone": "+917075051812",
+            "contactType": "customer service",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi", "Kannada", "Telugu"]
+          }]
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://www.rjrsafetynets.in/#localbusiness",
+          "name": "RJR Safety Nets",
+          "alternateName": "RJR Safety Nets Bangalore",
+          "description": "Professional safety net installation in Bangalore. Balcony safety nets, pigeon safety nets, children safety nets, invisible grills, and more. 10+ years experience, 5+ years warranty.",
+          "url": "https://www.rjrsafetynets.in",
+          "image": ["https://www.rjrsafetynets.in/logo.png", "https://www.rjrsafetynets.in/og-image.jpg"],
+          "telephone": ["+917075051812", "+918074514411"],
+          "email": "rjrsafetynets@gmail.com",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "7, 3rd Cross Rd, Muthyala Nagar, Gokula Extension, Mathikere",
+            "addressLocality": "Bengaluru",
+            "addressRegion": "Karnataka",
+            "postalCode": "560054",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 13.0283,
+            "longitude": 77.5536
+          },
+          "areaServed": [
+            {"@type": "City", "name": "Bangalore"},
+            {"@type": "City", "name": "Bengaluru"},
+            {"@type": "State", "name": "Karnataka"}
+          ],
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "08:00",
+            "closes": "20:00"
+          },
+          "parentOrganization": {"@id": "https://www.rjrsafetynets.in/#organization"},
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "1000",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "sameAs": [
+            "https://www.facebook.com/rjrsafetynets",
+            "https://www.instagram.com/rjrsafetynets",
+            "https://twitter.com/rjrsafetynets"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Safety net services",
+            "itemListElement": [
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Balcony safety nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Pigeon safety nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Children safety nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Invisible grill Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Construction safety nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Monkey safety nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Coconut tree safety nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cloth hanger nets Bangalore"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Sports practice nets Bangalore"}}
+            ]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.rjrsafetynets.in/#website",
+          "url": "https://www.rjrsafetynets.in/",
+          "name": "RJR Safety Nets",
+          "alternateName": ["RJR Safety Nets Bangalore", "RJR Safety Nets Bengaluru"],
+          "inLanguage": "en-IN",
+          "publisher": {"@id": "https://www.rjrsafetynets.in/#organization"}
+        }
+      ]
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-C40yp0Ni.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BdzaqGtz.css">
+    <script type="module" crossorigin src="/assets/index-qRWdkXVV.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/helmet-Ct4CfVhP.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-vendor-J28FtANz.js">
+    <link rel="modulepreload" crossorigin href="/assets/icons-D5ZYzVxg.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-BysXW6D4.css">
+    <link rel="stylesheet" crossorigin href="/assets/fonts-BPEiYokW.css">
   </head>
   <body>
     <div id="root"></div>

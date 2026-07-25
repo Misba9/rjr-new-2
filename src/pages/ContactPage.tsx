@@ -1,50 +1,27 @@
-import { useEffect } from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
-import { ADDRESS, EMAIL, ADDRESS_DISPLAY } from '../constants/nap';
+import { buildHubPageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
+import { EMAIL, ADDRESS_DISPLAY } from '../constants/nap';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 
+const contactSeo = getPageSeo('contact');
+
 export default function ContactPage() {
-  useEffect(() => {
-    updatePageMeta({
-      title: 'Contact Us - RJR Safety Nets Bangalore | Free Inspection & Quote',
-      description: 'Contact RJR Safety Nets for professional safety net installation in Bangalore. Free site inspection. Call +91 7075051812 or +91 8074514411 for expert consultation.',
-      keywords: 'Contact RJR Safety Nets, Safety Nets Bangalore Contact, Free Inspection Bangalore, Safety Net Quote, RJR Safety Nets Phone Number',
-      canonical: canonicalUrl('contact'),
-      ogTitle: 'Contact RJR Safety Nets Bangalore',
-      ogDescription: 'Get in touch for free inspection and quote. Professional safety net installation services.',
-      author: 'RJR Safety Nets',
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'ContactPage',
-      '@id': `${canonicalUrl('contact')}#webpage`,
-      url: canonicalUrl('contact'),
-      name: 'Contact RJR Safety Nets',
-      description: 'Contact page for RJR Safety Nets - Professional safety net installation services in Bangalore',
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: ['+917075051812', '+918074514411'],
-        email: EMAIL,
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: ADDRESS.streetAddress,
-          addressLocality: ADDRESS.addressLocality,
-          addressRegion: ADDRESS.addressRegion,
-          postalCode: ADDRESS.postalCode,
-          addressCountry: ADDRESS.addressCountry,
-        },
-      },
-    });
-  }, []);
-
   return (
     <div id="contact" className="min-h-screen bg-gray-50 scroll-mt-20">
+      <SEOHead {...contactSeo} />
+      <JsonLd
+        data={buildHubPageSchemas({
+          pageKey: 'contact',
+          name: 'Contact RJR Safety Nets',
+          description: contactSeo.description,
+          type: 'ContactPage',
+          breadcrumbName: 'Contact',
+        })}
+      />
       <section className="py-16 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Contact Us</h1>

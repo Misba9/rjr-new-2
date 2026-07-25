@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Phone, Mail, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
 import { PHONE_TEL, PHONE_SECONDARY_TEL, ADDRESS_DISPLAY, EMAIL } from '../constants/nap';
 import { PAGE_TO_PATH, type PageKey } from '../constants/routes';
@@ -8,6 +8,45 @@ interface FooterProps {
 }
 
 const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS_DISPLAY)}&hl=en&z=14&output=embed`;
+
+function LazyMapEmbed() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShow(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="mt-10 rounded-xl overflow-hidden border border-gray-800 bg-gray-800/50">
+      {show ? (
+        <iframe
+          title="RJR Safety Nets — Mathikere, Bengaluru map"
+          src={mapEmbedSrc}
+          className="w-full h-56 sm:h-64"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      ) : (
+        <div className="w-full h-56 sm:h-64 flex items-center justify-center text-sm text-gray-500" aria-hidden="true">
+          Map loading…
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Footer({ onNavigate }: FooterProps) {
   const currentYear = new Date().getFullYear();
@@ -29,8 +68,9 @@ export default function Footer({ onNavigate }: FooterProps) {
   }
 
   return (
-    <footer className="bg-gray-900 text-gray-300" role="contentinfo">
+    <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h2 className="sr-only">Site footer</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <h3 className="text-white text-lg font-bold mb-4">RJR Safety Nets Bangalore</h3>
@@ -47,7 +87,7 @@ export default function Footer({ onNavigate }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Facebook size={20} />
+                <Facebook size={20} aria-hidden="true" />
               </a>
               <a
                 href="https://www.instagram.com/rjrsafetynets"
@@ -56,7 +96,7 @@ export default function Footer({ onNavigate }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Instagram size={20} />
+                <Instagram size={20} aria-hidden="true" />
               </a>
               <a
                 href="https://twitter.com/rjrsafetynets"
@@ -65,13 +105,13 @@ export default function Footer({ onNavigate }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Twitter size={20} />
+                <Twitter size={20} aria-hidden="true" />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Our Services</h4>
+            <h3 className="text-white font-semibold mb-4">Our Services</h3>
             <nav aria-label="Services navigation">
               <ul className="space-y-2 text-sm">
                 <li>
@@ -130,7 +170,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <nav aria-label="Quick links navigation">
               <ul className="space-y-2 text-sm">
                 <li>
@@ -171,7 +211,7 @@ export default function Footer({ onNavigate }: FooterProps) {
                 </li>
               </ul>
             </nav>
-            <h4 className="text-white font-semibold mt-8 mb-4">Areas we serve</h4>
+            <h3 className="text-white font-semibold mt-8 mb-4">Areas we serve</h3>
             <p className="text-sm leading-relaxed">
               Whitefield, HSR Layout, Electronic City, Hebbal, Yelahanka, JP Nagar, Marathahalli, Indiranagar, Koramangala,
               BTM Layout, and across Bangalore / Bengaluru.
@@ -179,7 +219,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Contact Info</h4>
+            <h3 className="text-white font-semibold mb-4">Contact Info</h3>
             <address className="not-italic">
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-2">
@@ -216,15 +256,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-10 rounded-xl overflow-hidden border border-gray-800 bg-gray-800/50">
-          <iframe
-            title="RJR Safety Nets — Mathikere, Bengaluru map"
-            src={mapEmbedSrc}
-            className="w-full h-56 sm:h-64"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
+        <LazyMapEmbed />
 
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-center sm:text-left">

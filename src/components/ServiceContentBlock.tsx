@@ -66,6 +66,7 @@ export default function ServiceContentBlock({
               <li key={i} className="flex items-start gap-2">
                 <CheckCircle
                   size={20}
+                  aria-hidden="true"
                   className={`flex-shrink-0 mt-0.5 ${
                     variant === 'blue' ? 'text-blue-600' : variant === 'green' ? 'text-green-600' : 'text-pink-600'
                   }`}
@@ -107,7 +108,7 @@ export default function ServiceContentBlock({
           <div className="space-y-4">
             {faqs.map((faq, i) => (
               <div key={i} className="border-b border-gray-200 pb-4 last:border-0">
-                <p className="font-semibold text-gray-900 mb-1">{faq.question}</p>
+                <h4 className="font-semibold text-gray-900 mb-1 text-base">{faq.question}</h4>
                 <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
               </div>
             ))}
@@ -130,7 +131,8 @@ export default function ServiceContentBlock({
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold text-white bg-green-500 hover:bg-green-600 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold text-white bg-[#075E54] hover:bg-[#064e46] transition-colors"
+              aria-label="WhatsApp for a free quote"
             >
               WhatsApp for Quote
             </a>

@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, AlertTriangle, Home, Leaf, Clock } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import LongFormArticle from '../components/LongFormArticle';
 import { monkeyLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 import FAQSection from '../components/FAQSection';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
 interface MonkeySafetyNetsPageProps {
   onNavigate?: (page: string) => void;
@@ -43,47 +47,10 @@ const MONKEY_FAQS = [
 ];
 
 export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPageProps) {
-  const serviceUrl = canonicalUrl('monkey');
-
   useEffect(() => {
-    updatePageMeta({
-      title: 'Monkey Safety Nets in Bangalore | Protection Nets',
-      description: 'Protect your home from monkeys with strong safety nets in Bangalore.',
-      keywords:
-        'monkey safety nets Bangalore, monkey safety nets in Bangalore, safety nets in Bangalore, safety nets installation Bangalore, safety nets near me',
-      canonical: serviceUrl,
-      ogTitle: 'Monkey Safety Nets in Bangalore | Protection Nets',
-      ogDescription: 'Protect your home from monkeys with strong safety nets in Bangalore.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      url: serviceUrl,
-      serviceType: 'Monkey Safety Nets Installation',
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-        areaServed: { '@type': 'City', name: 'Bangalore' },
-      },
-      description: 'Professional monkey protection net installation services in Bangalore',
-    };
-
-    addSchemaMarkup([serviceSchema, generateFAQSchema(MONKEY_FAQS)]);
-
-    // Preload LCP hero image for faster first paint
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.monkey.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, [serviceUrl]);
+    const link = preloadHeroImage(serviceImages.monkey.main);
+    return () => link.remove();
+  }, []);
 
   const benefits = [
     {
@@ -152,13 +119,25 @@ export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPag
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('monkey')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'monkey',
+          name: 'Monkey Safety Nets Installation in Bangalore',
+          description:
+            'Humane anti-monkey safety net installation for homes, balconies, kitchens, and gardens in Bangalore.',
+          serviceType: 'Monkey Safety Nets Installation',
+          breadcrumbName: 'Monkey Safety Nets Bangalore',
+          faqs: MONKEY_FAQS,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.monkey.main]}
           altText="monkey safety nets Bangalore"
           autoPlayInterval={5000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -166,7 +145,7 @@ export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPag
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Monkey Safety Nets in Bangalore | Protection Nets
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-amber-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed">
               Effective protection from monkey menace for your home and property
             </p>
             <p className="text-lg mb-8 leading-relaxed">
@@ -191,6 +170,8 @@ export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPag
           </div>
         </div>
       </section>
+
+      <ServiceBreadcrumbBar pageKey="monkey" onNavigate={onNavigate} />
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -279,16 +260,6 @@ export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPag
         id="monkey-longform"
       />
 
-      {onNavigate ? (
-        <section className="bg-gray-50 py-8">
-          <div className="mx-auto max-w-4xl px-4 text-center text-gray-700 sm:px-6 lg:px-8">
-            <button type="button" onClick={() => onNavigate('services')} className="font-semibold text-blue-600 hover:underline">
-              View all safety net services
-            </button>
-          </div>
-        </section>
-      ) : null}
-
       <section className="bg-white py-10">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <SectionLeadCTA variant="blue" />
@@ -297,12 +268,14 @@ export default function MonkeySafetyNetsPage({ onNavigate }: MonkeySafetyNetsPag
 
       <FAQSection faqs={MONKEY_FAQS} />
 
+      <ServiceInternalLinks pageKey="monkey" onNavigate={onNavigate} />
+
       <section className="py-16 bg-amber-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Get Monkey-Free Property Today
           </h2>
-          <p className="text-xl mb-8 text-amber-100">
+          <p className="text-xl mb-8 text-white/95">
             Free inspection • Professional installation • Humane solution
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Clock, Cloud, Users } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
-import { canonicalUrl, PAGE_TO_PATH } from '../constants/routes';
-import { SITE_URL } from '../constants/nap';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import LongFormArticle from '../components/LongFormArticle';
 import { balconyLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 import FAQSection from '../components/FAQSection';
 import ServiceContentBlock from '../components/ServiceContentBlock';
-import { services as serviceImages } from '../assets/images';
-import Breadcrumbs from '../components/Breadcrumbs';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 import HeroCarousel from '../components/HeroCarousel';
+import OptimizedImage from '../components/OptimizedImage';
 
 interface BalconyPageProps {
   onNavigate?: (page: string) => void;
@@ -46,77 +49,10 @@ const BALCONY_FAQS = [
 ];
 
 export default function BalconyPage({ onNavigate }: BalconyPageProps) {
-  const serviceUrl = canonicalUrl('balcony');
-
   useEffect(() => {
-    updatePageMeta({
-      title: 'Balcony Safety Nets Bangalore | RJR Safety Nets',
-      description:
-        'Professional balcony safety net installation in Bangalore by RJR Safety Nets. Affordable, durable HDPE nets with neat fitting and 5+ years warranty. Free inspection.',
-      keywords:
-        'balcony safety nets Bangalore, balcony safety nets in Bangalore, safety nets in Bangalore, safety nets near me, balcony net price Bangalore, safety nets installation Bangalore, bird net Bangalore',
-      canonical: serviceUrl,
-      ogTitle: 'Balcony Safety Nets Bangalore | RJR Safety Nets',
-      ogDescription:
-        'Professional balcony safety net installation in Bangalore by RJR Safety Nets. Affordable, durable HDPE nets with neat fitting and 5+ years warranty.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      serviceType: 'Balcony Safety Nets Installation',
-      name: 'Balcony Safety Nets Installation Service',
-      description: 'Professional balcony safety net installation services in Bangalore. UV-stabilized, weather-resistant HDPE nets with invisible design.',
-      url: serviceUrl,
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Bengaluru',
-          addressRegion: 'Karnataka',
-          addressCountry: 'IN',
-        },
-        areaServed: {
-          '@type': 'City',
-          name: 'Bangalore',
-        },
-      },
-      offers: {
-        '@type': 'Offer',
-        availability: 'https://schema.org/InStock',
-        priceRange: '$$',
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.8',
-        reviewCount: '500',
-      },
-    };
-
-    addSchemaMarkup([
-      serviceSchema,
-      generateFAQSchema(BALCONY_FAQS),
-      generateBreadcrumbSchema([
-        { name: 'Home', url: `${SITE_URL}/` },
-        { name: 'Services', url: `${SITE_URL}/services` },
-        { name: 'Balcony Safety Nets Bangalore', url: serviceUrl },
-      ]),
-    ]);
-
-    // Preload LCP hero image for faster first paint
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.balcony.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, [serviceUrl]);
+    const link = preloadHeroImage(serviceImages.balcony.main);
+    return () => link.remove();
+  }, []);
 
   const benefits = [
     {
@@ -150,13 +86,25 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('balcony')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'balcony',
+          name: 'Balcony Safety Nets Installation in Bangalore',
+          description:
+            'Professional balcony safety net installation in Bangalore. UV-stabilized, weather-resistant HDPE nets with neat fitting and 5+ years warranty.',
+          serviceType: 'Balcony Safety Nets Installation',
+          breadcrumbName: 'Balcony Safety Nets Bangalore',
+          faqs: BALCONY_FAQS,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.balcony.main, ...serviceImages.balcony.gallery]}
           altText="balcony safety nets Bangalore"
           autoPlayInterval={5000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -164,11 +112,11 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Balcony Safety Nets Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-6 text-blue-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-6 text-white/95 leading-relaxed">
               Looking for the best balcony safety nets in Bangalore? We provide high-quality, durable and affordable safety net
               solutions to protect your family and pets.
             </p>
-            <p className="text-lg mb-8 leading-relaxed text-blue-50">
+            <p className="text-lg mb-8 leading-relaxed text-white/95">
               Our balcony safety nets are designed to prevent accidents, especially for children and pets, while maintaining the
               aesthetics of your home.
             </p>
@@ -183,7 +131,7 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
                 href="https://wa.me/917075051812"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-600 transition-colors text-center"
+                className="bg-[#075E54] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#064e46] transition-colors text-center"
               >
                 WhatsApp Us
               </a>
@@ -192,25 +140,16 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
         </div>
       </section>
 
-      <section className="bg-white border-b border-gray-100 py-3">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            onNavigate={onNavigate}
-            items={[
-              { name: 'Home', href: '/', page: 'home' },
-              { name: 'Services', href: '/services', page: 'services' },
-              { name: 'Balcony Safety Nets', href: PAGE_TO_PATH.balcony },
-            ]}
-          />
-        </div>
-      </section>
+      <ServiceBreadcrumbBar pageKey="balcony" onNavigate={onNavigate} />
 
       <section className="border-b border-gray-100 bg-white py-12">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
           <div className="lg:col-span-2">
             <SectionLeadCTA headline="Call Now for Instant Installation!" />
           </div>
-          <LeadQuoteForm id="balcony-lead" heading="WhatsApp — free quote" />
+          <aside>
+            <LeadQuoteForm id="balcony-lead" heading="WhatsApp — free quote" headingLevel="h2" />
+          </aside>
         </div>
       </section>
 
@@ -340,13 +279,12 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
             {serviceImages.balcony.gallery && serviceImages.balcony.gallery.length > 0 ? (
               serviceImages.balcony.gallery.map((image, index) => (
                 <div key={index} className="relative overflow-hidden rounded-xl shadow-lg group">
-                  <img 
-                    src={image} 
-                    alt="balcony safety nets Bangalore" 
+                  <OptimizedImage
+                    src={image}
+                    alt={`Balcony safety net installation in Bangalore — project photo ${index + 1}`}
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                     loading="lazy"
-                    decoding="async"
-                    style={{ aspectRatio: '4/3' }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <p className="text-white font-semibold p-4">Professional Installation #{index + 1}</p>
@@ -355,13 +293,12 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
               ))
             ) : (
               <div className="col-span-full">
-                <img 
-                  src={serviceImages.balcony.main} 
-                  alt="balcony safety nets Bangalore" 
+                <OptimizedImage
+                  src={serviceImages.balcony.main}
+                  alt="Balcony safety net installation in Bangalore — project photo"
                   className="w-full h-96 object-cover rounded-xl shadow-lg"
                   loading="lazy"
-                  decoding="async"
-                  style={{ aspectRatio: '16/9' }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
             )}
@@ -393,7 +330,7 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Trusted balcony safety net installation for residents near Yeshwanthpur Junction, Railway Station, and Metro. Many high-rise apartments in this area rely on RJR for durable, invisible protection.
               </p>
-              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-600 transition-colors">WhatsApp for Quote</a>
+              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#075E54] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#064e46] transition-colors">WhatsApp for Quote</a>
             </div>
             <div className="bg-white rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-blue-600">Balcony Safety Nets in Gokula Extension</h3>
@@ -407,7 +344,7 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Professional balcony safety net installation near Hebbal Flyover, Manyata Tech Park, and Bangalore University. Protect your family with our strong, transparent nets. Installation within 24–48 hours.
               </p>
-              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-600 transition-colors">WhatsApp for Quote</a>
+              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#075E54] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#064e46] transition-colors">WhatsApp for Quote</a>
             </div>
             <div className="bg-white rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-blue-600">Balcony Safety Nets in Yelahanka</h3>
@@ -434,12 +371,14 @@ export default function BalconyPage({ onNavigate }: BalconyPageProps) {
 
       <FAQSection faqs={BALCONY_FAQS} />
 
+      <ServiceInternalLinks pageKey="balcony" onNavigate={onNavigate} />
+
       <section className="py-16 bg-blue-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Call Now for Instant Installation!
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-white/95">
             Balcony safety nets price in Bangalore depends on size and area — contact us for a free quote.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

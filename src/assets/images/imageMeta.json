@@ -1,0 +1,538 @@
+{
+  "generatedAt": "2026-07-24T13:22:11.886Z",
+  "images": [
+    {
+      "source": "src/assets/images/Coconut-Tree-Safety-Nets.jpg",
+      "webp": "src/assets/images/Coconut-Tree-Safety-Nets.webp",
+      "fallback": "src/assets/images/Coconut-Tree-Safety-Nets.jpg",
+      "width": 870,
+      "height": 500,
+      "bytes": {
+        "webp": 111044,
+        "fallback": 119246
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/Construction Safety Nets-2.jpg",
+      "webp": "src/assets/images/Construction Safety Nets-2.webp",
+      "fallback": "src/assets/images/Construction Safety Nets-2.jpg",
+      "width": 1365,
+      "height": 1305,
+      "bytes": {
+        "webp": 122042,
+        "fallback": 195884
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/about-new.jpg",
+      "webp": "src/assets/images/about-new.webp",
+      "fallback": "src/assets/images/about-new.jpg",
+      "width": 552,
+      "height": 366,
+      "bytes": {
+        "webp": 28964,
+        "fallback": 38208
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/about.jpg",
+      "webp": "src/assets/images/about.webp",
+      "fallback": "src/assets/images/about.jpg",
+      "width": 276,
+      "height": 183,
+      "bytes": {
+        "webp": 12806,
+        "fallback": 11033
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/anti-bird-net.jpg",
+      "webp": "src/assets/images/anti-bird-net.webp",
+      "fallback": "src/assets/images/anti-bird-net.jpg",
+      "width": 370,
+      "height": 400,
+      "bytes": {
+        "webp": 30346,
+        "fallback": 34728
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/brids-safty-nets.jpeg",
+      "webp": "src/assets/images/brids-safty-nets.webp",
+      "fallback": "src/assets/images/brids-safty-nets.jpeg",
+      "width": 1280,
+      "height": 960,
+      "bytes": {
+        "webp": 207504,
+        "fallback": 252387
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/children.jpg",
+      "webp": "src/assets/images/children.webp",
+      "fallback": "src/assets/images/children.jpg",
+      "width": 416,
+      "height": 306,
+      "bytes": {
+        "webp": 23572,
+        "fallback": 28690
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/duct-area-safety-nets.jpg",
+      "webp": "src/assets/images/duct-area-safety-nets.webp",
+      "fallback": "src/assets/images/duct-area-safety-nets.jpg",
+      "width": 565,
+      "height": 420,
+      "bytes": {
+        "webp": 45460,
+        "fallback": 50792
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/logo/logo-navbar.png",
+      "webp": "src/assets/images/logo/logo-navbar.webp",
+      "fallback": "src/assets/images/logo/logo-navbar.png",
+      "width": 500,
+      "height": 500,
+      "bytes": {
+        "webp": 14870,
+        "fallback": 76402
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/monkey Safety Nets.jpg",
+      "webp": "src/assets/images/monkey Safety Nets.webp",
+      "fallback": "src/assets/images/monkey Safety Nets.jpg",
+      "width": 565,
+      "height": 420,
+      "bytes": {
+        "webp": 48258,
+        "fallback": 59180
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/all-sports.jpg",
+      "webp": "src/assets/images/pages/all-sports.webp",
+      "fallback": "src/assets/images/pages/all-sports.jpg",
+      "width": 800,
+      "height": 450,
+      "bytes": {
+        "webp": 52148,
+        "fallback": 63833
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/balcony-02.jpg",
+      "webp": "src/assets/images/pages/balcony-02.webp",
+      "fallback": "src/assets/images/pages/balcony-02.jpg",
+      "width": 860,
+      "height": 400,
+      "bytes": {
+        "webp": 62164,
+        "fallback": 77761
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/balcony-03.jpg",
+      "webp": "src/assets/images/pages/balcony-03.webp",
+      "fallback": "src/assets/images/pages/balcony-03.jpg",
+      "width": 852,
+      "height": 400,
+      "bytes": {
+        "webp": 52512,
+        "fallback": 62337
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/building-1.jpg",
+      "webp": "src/assets/images/pages/building-1.webp",
+      "fallback": "src/assets/images/pages/building-1.jpg",
+      "width": 860,
+      "height": 400,
+      "bytes": {
+        "webp": 71684,
+        "fallback": 74440
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/children-safety-net.jpg",
+      "webp": "src/assets/images/pages/children-safety-net.webp",
+      "fallback": "src/assets/images/pages/children-safety-net.jpg",
+      "width": 268,
+      "height": 268,
+      "bytes": {
+        "webp": 15950,
+        "fallback": 17849
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/pigeo-net-01.jpg",
+      "webp": "src/assets/images/pages/pigeo-net-01.webp",
+      "fallback": "src/assets/images/pages/pigeo-net-01.jpg",
+      "width": 852,
+      "height": 400,
+      "bytes": {
+        "webp": 63258,
+        "fallback": 69958
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/pigeon-nets-02.jpg",
+      "webp": "src/assets/images/pages/pigeon-nets-02.webp",
+      "fallback": "src/assets/images/pages/pigeon-nets-02.jpg",
+      "width": 852,
+      "height": 400,
+      "bytes": {
+        "webp": 55122,
+        "fallback": 63489
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/sports-01.jpg",
+      "webp": "src/assets/images/pages/sports-01.webp",
+      "fallback": "src/assets/images/pages/sports-01.jpg",
+      "width": 860,
+      "height": 400,
+      "bytes": {
+        "webp": 58020,
+        "fallback": 70753
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/sports-2.jpg",
+      "webp": "src/assets/images/pages/sports-2.webp",
+      "fallback": "src/assets/images/pages/sports-2.jpg",
+      "width": 1600,
+      "height": 1067,
+      "bytes": {
+        "webp": 133706,
+        "fallback": 199095
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pages/sports.jpg",
+      "webp": "src/assets/images/pages/sports.webp",
+      "fallback": "src/assets/images/pages/sports.jpg",
+      "width": 1600,
+      "height": 1412,
+      "bytes": {
+        "webp": 102332,
+        "fallback": 168045
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/pigeon-safety-nets.jpg",
+      "webp": "src/assets/images/pigeon-safety-nets.webp",
+      "fallback": "src/assets/images/pigeon-safety-nets.jpg",
+      "width": 1000,
+      "height": 1000,
+      "bytes": {
+        "webp": 93948,
+        "fallback": 115415
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "src/assets/images/slider-c/children-safety-nets.png",
+      "webp": "src/assets/images/slider-c/children-safety-nets.webp",
+      "fallback": "src/assets/images/slider-c/children-safety-nets.jpg",
+      "width": 1920,
+      "height": 960,
+      "bytes": {
+        "webp": 186088,
+        "fallback": 270166
+      },
+      "publicWebp": null,
+      "publicFallback": null
+    },
+    {
+      "source": "public/images/balcony-safety-nets-01.jpeg",
+      "webp": "public/images/balcony-safety-nets-01.webp",
+      "fallback": "public/images/balcony-safety-nets-01.jpeg",
+      "width": 1014,
+      "height": 880,
+      "bytes": {
+        "webp": 84800,
+        "fallback": 117179
+      },
+      "publicWebp": "/images/balcony-safety-nets-01.webp",
+      "publicFallback": "/images/balcony-safety-nets-01.jpeg"
+    },
+    {
+      "source": "public/images/balcony-safety-nets-02.jpeg",
+      "webp": "public/images/balcony-safety-nets-02.webp",
+      "fallback": "public/images/balcony-safety-nets-02.jpeg",
+      "width": 960,
+      "height": 1280,
+      "bytes": {
+        "webp": 255220,
+        "fallback": 264530
+      },
+      "publicWebp": "/images/balcony-safety-nets-02.webp",
+      "publicFallback": "/images/balcony-safety-nets-02.jpeg"
+    },
+    {
+      "source": "public/images/balcony-safety-nets-03.jpeg",
+      "webp": "public/images/balcony-safety-nets-03.webp",
+      "fallback": "public/images/balcony-safety-nets-03.jpeg",
+      "width": 1200,
+      "height": 1600,
+      "bytes": {
+        "webp": 139332,
+        "fallback": 198195
+      },
+      "publicWebp": "/images/balcony-safety-nets-03.webp",
+      "publicFallback": "/images/balcony-safety-nets-03.jpeg"
+    },
+    {
+      "source": "public/images/balcony-safety-nets-04.jpeg",
+      "webp": "public/images/balcony-safety-nets-04.webp",
+      "fallback": "public/images/balcony-safety-nets-04.jpeg",
+      "width": 1600,
+      "height": 1200,
+      "bytes": {
+        "webp": 510142,
+        "fallback": 517702
+      },
+      "publicWebp": "/images/balcony-safety-nets-04.webp",
+      "publicFallback": "/images/balcony-safety-nets-04.jpeg"
+    },
+    {
+      "source": "public/images/balcony-safety-nets-05.jpeg",
+      "webp": "public/images/balcony-safety-nets-05.webp",
+      "fallback": "public/images/balcony-safety-nets-05.jpeg",
+      "width": 1280,
+      "height": 720,
+      "bytes": {
+        "webp": 162964,
+        "fallback": 182027
+      },
+      "publicWebp": "/images/balcony-safety-nets-05.webp",
+      "publicFallback": "/images/balcony-safety-nets-05.jpeg"
+    },
+    {
+      "source": "public/images/balcony-safety-nets-06.jpeg",
+      "webp": "public/images/balcony-safety-nets-06.webp",
+      "fallback": "public/images/balcony-safety-nets-06.jpeg",
+      "width": 1200,
+      "height": 1600,
+      "bytes": {
+        "webp": 321806,
+        "fallback": 320662
+      },
+      "publicWebp": "/images/balcony-safety-nets-06.webp",
+      "publicFallback": "/images/balcony-safety-nets-06.jpeg"
+    },
+    {
+      "source": "public/images/balcony-safety-nets-07.jpeg",
+      "webp": "public/images/balcony-safety-nets-07.webp",
+      "fallback": "public/images/balcony-safety-nets-07.jpeg",
+      "width": 715,
+      "height": 1600,
+      "bytes": {
+        "webp": 170516,
+        "fallback": 180049
+      },
+      "publicWebp": "/images/balcony-safety-nets-07.webp",
+      "publicFallback": "/images/balcony-safety-nets-07.jpeg"
+    },
+    {
+      "source": "public/images/clouth-hanger-01.jpeg",
+      "webp": "public/images/clouth-hanger-01.webp",
+      "fallback": "public/images/clouth-hanger-01.jpeg",
+      "width": 900,
+      "height": 1600,
+      "bytes": {
+        "webp": 65226,
+        "fallback": 118300
+      },
+      "publicWebp": "/images/clouth-hanger-01.webp",
+      "publicFallback": "/images/clouth-hanger-01.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-01.jpeg",
+      "webp": "public/images/invisible-grill-01.webp",
+      "fallback": "public/images/invisible-grill-01.jpeg",
+      "width": 1159,
+      "height": 1001,
+      "bytes": {
+        "webp": 90280,
+        "fallback": 141468
+      },
+      "publicWebp": "/images/invisible-grill-01.webp",
+      "publicFallback": "/images/invisible-grill-01.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-02.jpeg",
+      "webp": "public/images/invisible-grill-02.webp",
+      "fallback": "public/images/invisible-grill-02.jpeg",
+      "width": 1280,
+      "height": 1059,
+      "bytes": {
+        "webp": 120142,
+        "fallback": 182801
+      },
+      "publicWebp": "/images/invisible-grill-02.webp",
+      "publicFallback": "/images/invisible-grill-02.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-03.jpeg",
+      "webp": "public/images/invisible-grill-03.webp",
+      "fallback": "public/images/invisible-grill-03.jpeg",
+      "width": 1280,
+      "height": 1069,
+      "bytes": {
+        "webp": 81006,
+        "fallback": 137352
+      },
+      "publicWebp": "/images/invisible-grill-03.webp",
+      "publicFallback": "/images/invisible-grill-03.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-04.jpeg",
+      "webp": "public/images/invisible-grill-04.webp",
+      "fallback": "public/images/invisible-grill-04.jpeg",
+      "width": 1280,
+      "height": 1061,
+      "bytes": {
+        "webp": 92324,
+        "fallback": 151427
+      },
+      "publicWebp": "/images/invisible-grill-04.webp",
+      "publicFallback": "/images/invisible-grill-04.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-05.jpeg",
+      "webp": "public/images/invisible-grill-05.webp",
+      "fallback": "public/images/invisible-grill-05.jpeg",
+      "width": 1270,
+      "height": 1073,
+      "bytes": {
+        "webp": 107424,
+        "fallback": 170136
+      },
+      "publicWebp": "/images/invisible-grill-05.webp",
+      "publicFallback": "/images/invisible-grill-05.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-06.jpeg",
+      "webp": "public/images/invisible-grill-06.webp",
+      "fallback": "public/images/invisible-grill-06.jpeg",
+      "width": 1280,
+      "height": 1085,
+      "bytes": {
+        "webp": 71928,
+        "fallback": 124793
+      },
+      "publicWebp": "/images/invisible-grill-06.webp",
+      "publicFallback": "/images/invisible-grill-06.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-07.jpeg",
+      "webp": "public/images/invisible-grill-07.webp",
+      "fallback": "public/images/invisible-grill-07.jpeg",
+      "width": 1280,
+      "height": 1052,
+      "bytes": {
+        "webp": 85400,
+        "fallback": 142271
+      },
+      "publicWebp": "/images/invisible-grill-07.webp",
+      "publicFallback": "/images/invisible-grill-07.jpeg"
+    },
+    {
+      "source": "public/images/invisible-grill-08.jpeg",
+      "webp": "public/images/invisible-grill-08.webp",
+      "fallback": "public/images/invisible-grill-08.jpeg",
+      "width": 1280,
+      "height": 1077,
+      "bytes": {
+        "webp": 68964,
+        "fallback": 123408
+      },
+      "publicWebp": "/images/invisible-grill-08.webp",
+      "publicFallback": "/images/invisible-grill-08.jpeg"
+    },
+    {
+      "source": "public/images/pigeon-spikes-01.jpeg",
+      "webp": "public/images/pigeon-spikes-01.webp",
+      "fallback": "public/images/pigeon-spikes-01.jpeg",
+      "width": 472,
+      "height": 649,
+      "bytes": {
+        "webp": 17690,
+        "fallback": 22681
+      },
+      "publicWebp": "/images/pigeon-spikes-01.webp",
+      "publicFallback": "/images/pigeon-spikes-01.jpeg"
+    },
+    {
+      "source": "public/images/pigeon-spikes-02.jpeg",
+      "webp": "public/images/pigeon-spikes-02.webp",
+      "fallback": "public/images/pigeon-spikes-02.jpeg",
+      "width": 472,
+      "height": 649,
+      "bytes": {
+        "webp": 18810,
+        "fallback": 23268
+      },
+      "publicWebp": "/images/pigeon-spikes-02.webp",
+      "publicFallback": "/images/pigeon-spikes-02.jpeg"
+    },
+    {
+      "source": "public/images/pigeon-spikes-03.jpeg",
+      "webp": "public/images/pigeon-spikes-03.webp",
+      "fallback": "public/images/pigeon-spikes-03.jpeg",
+      "width": 1500,
+      "height": 1500,
+      "bytes": {
+        "webp": 89840,
+        "fallback": 149138
+      },
+      "publicWebp": "/images/pigeon-spikes-03.webp",
+      "publicFallback": "/images/pigeon-spikes-03.jpeg"
+    }
+  ]
+}

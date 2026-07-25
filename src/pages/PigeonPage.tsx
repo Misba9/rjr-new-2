@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import { Shield, CheckCircle, Bird, Home, Sparkles, Clock } from 'lucide-react';
-import { updatePageMeta, addSchemaMarkup, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
-import { canonicalUrl, PAGE_TO_PATH } from '../constants/routes';
-import { SITE_URL } from '../constants/nap';
+import { buildServicePageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import LongFormArticle from '../components/LongFormArticle';
 import { pigeonLongFormParagraphs } from '../content/serviceLongFormArticles';
 import LeadQuoteForm from '../components/LeadQuoteForm';
 import SectionLeadCTA from '../components/SectionLeadCTA';
 import FAQSection from '../components/FAQSection';
 import ServiceContentBlock from '../components/ServiceContentBlock';
-import { services as serviceImages } from '../assets/images';
+import { preloadHeroImage, services as serviceImages } from '../assets/images';
 import HeroCarousel from '../components/HeroCarousel';
-import Breadcrumbs from '../components/Breadcrumbs';
+import OptimizedImage from '../components/OptimizedImage';
+import ServiceBreadcrumbBar from '../components/ServiceBreadcrumbBar';
+import ServiceInternalLinks from '../components/ServiceInternalLinks';
 
 interface PigeonPageProps {
   onNavigate?: (page: string) => void;
@@ -46,57 +49,10 @@ const PIGEON_FAQS = [
 ];
 
 export default function PigeonPage({ onNavigate }: PigeonPageProps) {
-  const serviceUrl = canonicalUrl('pigeon');
-
   useEffect(() => {
-    updatePageMeta({
-      title: 'Pigeon Safety Nets Bangalore | RJR Safety Nets',
-      description:
-        'Professional pigeon safety net and anti bird net installation in Bangalore by RJR Safety Nets. Humane exclusion, neat finishing, free inspection.',
-      keywords:
-        'pigeon safety nets Bangalore, bird net Bangalore, anti bird net Bangalore, pigeon safety nets in Bangalore, safety nets in Bangalore, safety nets installation Bangalore',
-      canonical: serviceUrl,
-      ogTitle: 'Pigeon Safety Nets Bangalore | RJR Safety Nets',
-      ogDescription:
-        'Protect balconies and windows with pigeon safety nets in Bangalore. High quality anti bird nets and expert installation.',
-      ogType: 'website',
-      author: 'RJR Safety Nets',
-    });
-
-    const serviceSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      '@id': `${serviceUrl}#service`,
-      serviceType: 'Pigeon Safety Nets Installation',
-      url: serviceUrl,
-      provider: {
-        '@type': 'LocalBusiness',
-        '@id': 'https://www.rjrsafetynets.in/#organization',
-        name: 'RJR Safety Nets',
-        telephone: '+917075051812',
-        areaServed: { '@type': 'City', name: 'Bangalore' },
-      },
-      description: 'Professional pigeon and bird protection net installation services in Bangalore',
-    };
-
-    addSchemaMarkup([
-      serviceSchema,
-      generateFAQSchema(PIGEON_FAQS),
-      generateBreadcrumbSchema([
-        { name: 'Home', url: `${SITE_URL}/` },
-        { name: 'Services', url: `${SITE_URL}/services` },
-        { name: 'Pigeon Safety Nets Bangalore', url: serviceUrl },
-      ]),
-    ]);
-
-    // Preload LCP hero image for faster first paint
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = serviceImages.pigeon.main;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    document.head.appendChild(preloadLink);
-  }, [serviceUrl]);
+    const link = preloadHeroImage(serviceImages.pigeon.main);
+    return () => link.remove();
+  }, []);
 
   const benefits = [
     {
@@ -184,13 +140,25 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
 
   return (
     <div className="min-h-screen">
+      <SEOHead {...getPageSeo('pigeon')} />
+      <JsonLd
+        data={buildServicePageSchemas({
+          pageKey: 'pigeon',
+          name: 'Pigeon Safety Nets Installation in Bangalore',
+          description:
+            'Professional pigeon and anti-bird net installation in Bangalore. Humane bird exclusion for balconies, windows, and ducts.',
+          serviceType: 'Pigeon Safety Nets Installation',
+          breadcrumbName: 'Pigeon Safety Nets Bangalore',
+          faqs: PIGEON_FAQS,
+        })}
+      />
       <section className="relative text-white overflow-hidden bg-gray-100">
         {/* Hero Carousel */}
         <HeroCarousel
           images={[serviceImages.pigeon.main, ...serviceImages.pigeon.gallery]}
           altText="pigeon safety nets installation"
           autoPlayInterval={5000}
-          overlayOpacity={0.8}
+          overlayOpacity={0.55}
         />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -198,7 +166,7 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Pigeon Safety Nets Bangalore
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-green-100 leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-white/95 leading-relaxed">
               Keep your balconies clean and bird-free with our premium pigeon protection nets
             </p>
             <p className="text-lg mb-8 leading-relaxed">
@@ -215,7 +183,7 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
                 href="https://wa.me/917075051812"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-400 transition-colors text-center"
+                className="bg-[#075E54] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#064e46] transition-colors text-center"
               >
                 WhatsApp Us
               </a>
@@ -224,25 +192,16 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
         </div>
       </section>
 
-      <section className="bg-white border-b border-gray-100 py-3">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            onNavigate={onNavigate}
-            items={[
-              { name: 'Home', href: '/', page: 'home' },
-              { name: 'Services', href: '/services', page: 'services' },
-              { name: 'Pigeon Safety Nets', href: PAGE_TO_PATH.pigeon },
-            ]}
-          />
-        </div>
-      </section>
+      <ServiceBreadcrumbBar pageKey="pigeon" onNavigate={onNavigate} />
 
       <section className="border-b border-gray-100 bg-white py-12">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
           <div className="lg:col-span-2">
             <SectionLeadCTA />
           </div>
-          <LeadQuoteForm id="pigeon-lead-top" heading="WhatsApp — free quote" />
+          <aside>
+            <LeadQuoteForm id="pigeon-lead-top" heading="WhatsApp — free quote" headingLevel="h2" />
+          </aside>
         </div>
       </section>
 
@@ -412,13 +371,12 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
             {serviceImages.pigeon.gallery && serviceImages.pigeon.gallery.length > 0 ? (
               serviceImages.pigeon.gallery.map((image, index) => (
                 <div key={index} className="relative overflow-hidden rounded-xl shadow-lg group">
-                  <img 
-                    src={image} 
-                    alt={`Pigeon Safety Net Installation in Bangalore - Project ${index + 1}`} 
+                  <OptimizedImage
+                    src={image}
+                    alt={`Pigeon Safety Net Installation in Bangalore - Project ${index + 1}`}
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                     loading="lazy"
-                    decoding="async"
-                    style={{ aspectRatio: '4/3' }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <p className="text-white font-semibold p-4">Bird-Free Installation #{index + 1}</p>
@@ -427,13 +385,12 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
               ))
             ) : (
               <div className="col-span-full">
-                <img 
-                  src={serviceImages.pigeon.main} 
-                  alt="Professional Pigeon Safety Net Installation in Bangalore" 
+                <OptimizedImage
+                  src={serviceImages.pigeon.main}
+                  alt="Professional Pigeon Safety Net Installation in Bangalore"
                   className="w-full h-96 object-cover rounded-xl shadow-lg"
                   loading="lazy"
-                  decoding="async"
-                  style={{ aspectRatio: '16/9' }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
             )}
@@ -465,7 +422,7 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Bird net installation for apartments near Yeshwanthpur Junction and Railway Station. Pigeons are common in this area—our durable anti-bird nets provide long-lasting protection with 5+ years warranty.
               </p>
-              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-600 transition-colors">WhatsApp for Quote</a>
+              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#075E54] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#064e46] transition-colors">WhatsApp for Quote</a>
             </div>
             <div className="bg-gray-50 rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-green-600">Pigeon Safety Nets in Gokula Extension</h3>
@@ -479,7 +436,7 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Bird net installation near Hebbal Flyover, Manyata Tech Park, and residential layouts. Keep AC units, solar panels, and balconies clean from pigeon droppings. Expert fitting with no gaps.
               </p>
-              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-600 transition-colors">WhatsApp for Quote</a>
+              <a href="https://wa.me/917075051812" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#075E54] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[#064e46] transition-colors">WhatsApp for Quote</a>
             </div>
             <div className="bg-gray-50 rounded-xl p-6 sm:p-8 shadow-md">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-green-600">Pigeon Safety Nets in Yelahanka</h3>
@@ -506,12 +463,14 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
 
       <FAQSection faqs={PIGEON_FAQS} />
 
+      <ServiceInternalLinks pageKey="pigeon" onNavigate={onNavigate} />
+
       <section className="py-16 bg-green-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Get Pigeon-Free Balconies Today
           </h2>
-          <p className="text-xl mb-8 text-green-100">
+          <p className="text-xl mb-8 text-white/95">
             Free inspection • Expert installation • Long-lasting protection
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -523,7 +482,7 @@ export default function PigeonPage({ onNavigate }: PigeonPageProps) {
             </a>
             <a
               href="tel:+918074514411"
-              className="bg-green-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-400 transition-colors"
+              className="bg-[#075E54] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#064e46] transition-colors"
             >
               Call: +91 8074514411
             </a>

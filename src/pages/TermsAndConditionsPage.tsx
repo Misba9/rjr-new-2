@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
-import { updatePageMeta, addSchemaMarkup } from '../utils/seo';
-import { canonicalUrl } from '../constants/routes';
+import { buildHubPageSchemas } from '../utils/seo';
+import { getPageSeo } from '../constants/pageSeo';
+import SEOHead from '../components/SEOHead';
+import JsonLd from '../components/JsonLd';
 import { BUSINESS_NAME, EMAIL, PHONE_PRIMARY_DISPLAY, SITE_URL, WARRANTY_YEARS } from '../constants/nap';
 
 interface TermsAndConditionsPageProps {
@@ -77,33 +78,19 @@ const sections: Array<{ title: string; paragraphs: string[] }> = [
 ];
 
 export default function TermsAndConditionsPage({ onNavigate }: TermsAndConditionsPageProps) {
-  const pageUrl = canonicalUrl('terms-and-conditions');
-
-  useEffect(() => {
-    updatePageMeta({
-      title: 'Terms & Conditions | RJR Safety Nets Bangalore',
-      description:
-        'Terms and Conditions for using RJR Safety Nets website and installation services — quotations, warranty, liability, and governing law.',
-      keywords: 'RJR Safety Nets terms, conditions of service, Bangalore safety nets',
-      canonical: pageUrl,
-      ogTitle: 'Terms & Conditions | RJR Safety Nets',
-      ogDescription: 'Terms governing our website and installation services.',
-      ogType: 'website',
-      author: BUSINESS_NAME,
-    });
-
-    addSchemaMarkup({
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      '@id': `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: 'Terms and Conditions',
-      isPartOf: { '@type': 'WebSite', name: BUSINESS_NAME, url: SITE_URL },
-    });
-  }, [pageUrl]);
+  const termsSeo = getPageSeo('terms-and-conditions');
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEOHead {...termsSeo} />
+      <JsonLd
+        data={buildHubPageSchemas({
+          pageKey: 'terms-and-conditions',
+          name: 'Terms and Conditions',
+          description: termsSeo.description,
+          breadcrumbName: 'Terms & Conditions',
+        })}
+      />
       <section className="border-b border-gray-200 bg-white py-12">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">Terms &amp; Conditions</h1>
