@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import {
@@ -8,6 +8,7 @@ import {
   type AppRouteKey,
   type PageKey,
 } from './constants/routes';
+import { trackPageView } from './utils/analytics';
 import { injectGlobalSchemasOnce } from './utils/seo';
 import { lazyPages, prefetchLikelyPages, prefetchPage } from './routes/lazyPages';
 import { prefetchDocument } from './utils/resourceHints';
@@ -57,6 +58,7 @@ function App() {
     getPageKeyFromPath(window.location.pathname)
   );
   const [shellReady, setShellReady] = useState(false);
+  const isFirstPageView = useRef(true);
 
   const handleNavigate = useCallback((page: string) => {
     prefetchPage(page);
@@ -126,6 +128,16 @@ function App() {
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }, [currentPage]);
+
+  useEffect(() => {
+    // Initial hit is already sent by gtag('config') in index.html
+    if (isFirstPageView.current) {
+      isFirstPageView.current = false;
+      return;
+    }
+    const path = window.location.pathname + window.location.search;
+    trackPageView(path);
   }, [currentPage]);
 
   useEffect(() => {
