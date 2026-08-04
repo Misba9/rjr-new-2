@@ -47,11 +47,16 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return;
-          if (id.includes('react-dom') || id.includes('/react/') || id.includes('\\react\\')) {
+          // Keep react, react-dom, and react-helmet-async in one chunk.
+          // Splitting helmet out creates a circular chunk (react-vendor <-> helmet)
+          // that crashes at runtime: "Cannot access 'f' before initialization".
+          if (
+            id.includes('react-dom') ||
+            id.includes('react-helmet-async') ||
+            id.includes('/react/') ||
+            id.includes('\\react\\')
+          ) {
             return 'react-vendor';
-          }
-          if (id.includes('react-helmet-async')) {
-            return 'helmet';
           }
           if (id.includes('lucide-react')) {
             return 'icons';
